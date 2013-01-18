@@ -1,0 +1,82 @@
+<div id="main_body">
+
+<h1>Customer Info</h1>
+
+<p>
+  <b>名称:</b>
+  <%= @customer.name %>
+</p>
+<p>
+  <b>简称:</b>
+  <%= @customer.short_name %>
+</p>
+<p>
+  <b>联系信息:</b>
+  <%= @customer.contact_info %>
+</p>
+<p>
+  <b>电话:</b>
+  <%= @customer.phone %>
+</p>
+<p>
+  <b>电邮</b>
+  <%= @customer.email %>
+</p>
+<p>
+  <b>传真:</b>
+  <%= @customer.fax %>
+</p>
+<p>
+  <b>地址:</b>
+  <%= @customer.address %>
+</p>
+<p>
+  <b>Shipping Address:</b>
+  <%= @customer.shipping_address %>
+</p>
+<p>
+  <b>Zone:</b>
+  <%= @customer.zone.zone_name %>
+</p>
+<p>
+  <b>业务状态分类:</b>
+  <%= @customer.customer_status_category.cate_name %>
+</p>
+<p>
+  <b>主营业务:</b>
+  <%= @customer.main_biz %>
+</p>
+<p>
+  <b>质量认证:</b>
+  <%= @customer.quality_system.name if @customer.quality_system_id.present? %>
+</p>
+<p>
+  <b>营业额(RMB):</b>
+  <%= @customer.revenue %>
+</p>
+<p>
+  <b>员工人数:</b>
+  <%= @customer.employee_num %>
+</p>
+<p>
+  <b>CustomerTaste:</b>
+  <%= @customer.customer_taste %>
+</p>
+<p>
+  <b>CustomerEval:</b>
+  <%= @customer.customer_eval %>
+</p>
+<p>
+  <b>注释:</b>
+  <%= @customer.note %>
+</p>
+<p>
+  <b>输入/更改:</b>
+  <%= @customer.last_updated_by.name %>
+</p>
+
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+
+
+
+</div>

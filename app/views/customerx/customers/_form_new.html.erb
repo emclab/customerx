@@ -1,0 +1,28 @@
+<%= simple_form_for @customer do |f| %>    
+ 
+  <%= f.input :name, :label => 'Name:' %>  
+  <%= f.input :short_name, :label => 'ShortName', :placeholder => '4-8字' %>
+  <%= f.input :since_date, :label => 'Since:', :as => :string %>
+  <%= f.input :contact_info, :label => 'ContactInfo:', :hint => '联系人及电话', :input_html => { :rows => 6} %>  
+  <%= f.input :email, :label => 'Email:' %> 
+  <%= f.input :phone, :label => 'Phone:' %> 
+  <%= f.input :fax, :label => 'Fax:' %>      
+  <%= f.input :address, :label => 'Address:' %>
+  <%= f.input :zone_id, :label => 'Zone:', :collection => return_zone, :label_method => :zone_name, :value_method => :id, 
+                        :include_blank => true  %> 
+  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :zone_name, :value_method => :id %>     
+  <%= f.input :quality_system_id, :collection => return_quality_system, :label => 'QualitySystem:',
+                                  :label_method => :name, :value_method => :id, :include_blank => true %>  
+  <%= f.input :web, :label => 'Web:' %>
+  <%= f.input :employee_num, :label => 'EmployeeNum:' %> 
+  <%= f.input :revenue, :label => 'Revenue:', :hint => '注明单位' %> 
+  <%= f.input :main_biz, :label => 'MainBiz：', :input_html => { :rows => 4} %>   
+  <%= f.input :customer_taste, :label => 'CustomerTaste:', :input_html => { :rows => 4} %>   
+  <%= f.input :customer_eval, :label => 'CustomerEval:', :input_html => { :rows => 4} %> 
+  <%= f.input :sales_id, :label => 'Sales:', :collection => return_users('create', 'customerx_customers') %>        
+  <%= f.input :note, :label => 'Note:', :input_html => { :rows => 4} %>        
+  
+  <%= f.button :submit, 'Save' %>  
+<% end %>  
+
+
