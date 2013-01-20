@@ -1,3 +1,4 @@
+# encoding: utf-8
 require_dependency "customerx/application_controller"
 
 module Customerx

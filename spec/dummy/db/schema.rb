@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115221442) do
+ActiveRecord::Schema.define(:version => 20130120151919) do
 
   create_table "authentify_sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -148,6 +148,14 @@ ActiveRecord::Schema.define(:version => 20130115221442) do
     t.string   "web"
   end
 
+  create_table "customerx_lead_logs", :force => true do |t|
+    t.integer  "sales_lead_id"
+    t.text     "log"
+    t.integer  "last_updated_by_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "customerx_quality_systems", :force => true do |t|
     t.string   "name"
     t.string   "brief_note"
@@ -156,6 +164,25 @@ ActiveRecord::Schema.define(:version => 20130115221442) do
     t.integer  "ranking_order"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+  end
+
+  create_table "customerx_sales_leads", :force => true do |t|
+    t.integer  "customer_id"
+    t.integer  "last_updated_by_id"
+    t.integer  "provider_id"
+    t.text     "lead_info"
+    t.text     "contact_instruction"
+    t.string   "lead_status"
+    t.boolean  "sale_success"
+    t.boolean  "close_lead"
+    t.datetime "close_lead_date"
+    t.integer  "close_lead_by_id"
+    t.string   "lead_source"
+    t.integer  "lead_quality"
+    t.integer  "lead_accuracy"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.text     "lead_eval"
   end
 
 end

@@ -25,6 +25,11 @@ module Customerx
                       
     scope :active_cust, where(:active => true)
     scope :inactive_cust, where(:active => false)
+    
+    def find_customers
+      customers = Customerx::Customer.active_cust
+      customers
+    end
                     
   end
 end
