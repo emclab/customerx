@@ -1,0 +1,20 @@
+<%= simple_form_for([@customer, @sales_lead]) do |f| %>    
+ 
+  <%= f.input :lead_date, :label => "Date:", :as => :string%>
+  <%= f.input :customer_name, :label => 'CustomerName:', :readonly => true, :required => false, :input_html => {:value => @customer.name} %>  
+  <%= f.input :subject, :label => 'Subject', :hint => '一句话说明线索是什么' %>
+  <%= f.input :lead_info, :label => 'LeadInfo:', :input_html => {:rows => 4} %>
+  <%= f.input :contact_instruction, :label => 'ContactInstruction:', :hint => '联系人及电话等联系方式', :input_html => { :rows => 6} %>  
+  <%= f.input :lead_source, :label => 'LeadSource：', :collection => lead_sources() %>     
+  <%= f.input :lead_eval, :label => 'LeadEval:', :input_html => { :rows => 4} %>
+  <%= f.input :sale_success, :label => 'SaleSuccess:', :collection => [['Yes', true], ['No', false]], :include_blank => true %> 
+  <%= f.input :close_lead, :label => 'CloseLead:', :collection => [['Yes', true], ['No', false]], :include_blank => true %>
+  <%= f.input :lead_accuracy, :label => 'Accuracy', :collection => 1..10, :include_blank => true %>
+  <%= f.input :lead_quality, :label => 'QualityScale', :collection => 1..10, :include_blank => true %>
+  <%= f.input :provider_id, :label => 'Provider:', :collection => Authentify::UsersHelper::return_users('create', 'customerx_sales_leads') %>        
+     
+  
+  <%= f.button :submit, 'Save' %>  
+<% end %>  
+
+

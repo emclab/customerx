@@ -12,7 +12,9 @@ module Customerx
     describe "GET 'index'" do
       it "returns active customers list for user with index right" do
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -28,7 +30,9 @@ module Customerx
       
       it "returns active/inactive customers list for user with index/activate right" do
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index')
         ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'activate')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
@@ -45,7 +49,9 @@ module Customerx
       end  
       
       it "should reject users without proper right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'unknown_right')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -63,7 +69,9 @@ module Customerx
     
     describe "GET new" do
       it "should reject users without proper right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'unknown_right')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -76,7 +84,9 @@ module Customerx
       end
       
       it "should new for user with proper right" do       
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -91,7 +101,9 @@ module Customerx
     
     describe "GET Create" do
       it "should create new customer for user right proper right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -104,7 +116,9 @@ module Customerx
       end
       
       it "should render new if data error" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -120,7 +134,9 @@ module Customerx
     
     describe "GET Edit" do
       it "should reject users without right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'unknown_right')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -133,7 +149,9 @@ module Customerx
       end
       
       it "should edit for user with right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -148,7 +166,9 @@ module Customerx
     
     describe "GET Update" do
       it "should update for user with right" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -161,7 +181,9 @@ module Customerx
       end
       
       it "should render edit if data error" do
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -178,8 +200,9 @@ module Customerx
       it "should show for user with right" do
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
         qs = FactoryGirl.create(:quality_system)
-        zone = FactoryGirl.create(:zone)
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+        zone = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => zone.id)
         ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'show')
         ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)

@@ -9,7 +9,7 @@
   <%= f.input :fax, :label => 'Fax:' %>      
   <%= f.input :address, :label => 'Address:' %>
   <%= f.input :zone_id, :label => 'Zone:', :collection => return_zone, :label_method => :zone_name, :value_method => :id %> 
-  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :zone_name, :value_method => :id %>     
+  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :cate_name, :value_method => :id %>     
   <%= f.input :quality_system_id, :collection => return_quality_system, :label => 'QualitySystem:',
                                   :label_method => :name, :value_method => :id, :include_blank => true %>  
   <%= f.input :web, :label => 'Web:' %>
@@ -18,12 +18,12 @@
   <%= f.input :main_biz, :label => 'MainBiz：', :input_html => { :rows => 4} %>   
   <%= f.input :customer_taste, :label => 'CustomerTaste:', :input_html => { :rows => 4} %>   
   <%= f.input :customer_eval, :label => 'CustomerEval:', :input_html => { :rows => 4} %> 
-  <% if has_activate_right? %>
+  <% if has_activate_right?('customerx_customers') %>
     <%= f.input :active, :label => 'Active:', :collection => [['Yes', true], ['No', false]] %>
   <% else %>
     <%= f.input :active, :label => 'Active:', :readonly => true %>
   <% end %>
-  <%= f.input :sales_id, :label => 'Sales:', :collection => return_users('create', 'customerx_customers') %>        
+  <%= f.input :sales_id, :label => 'Sales:', :collection => Authentify::UsersHelper::return_users('create', 'customerx_customers') %>        
   <%= f.input :note, :label => 'Note:', :input_html => { :rows => 4} %>        
   
   <%= f.button :submit, 'Save' %>  

@@ -23,10 +23,14 @@ module Customerx
       l.should_not be_valid
     end
     
-    it "should reject nil contact_instructino" do
-      l = FactoryGirl.build(:sales_lead, :contact_instruction => nil)
+    it "should reject nil subject" do
+      l = FactoryGirl.build(:sales_lead, :subject => nil)
       l.should_not be_valid
     end
     
+    it "should reject nil lead date" do
+      i = FactoryGirl.build(:sales_lead, lead_date: nil)
+      i.should_not be_valid
+    end
   end
 end

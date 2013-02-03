@@ -6,8 +6,8 @@ FactoryGirl.define do
     short_name "MyString"
     since_date "2013-01-12"
     contact_info "MyText"
-    address "MyText"
-    shipping_address "MyText"
+    address "Myadd"
+    shipping_address "Myshipping"
     zone_id 1
     customer_status_category_id 1
     phone "1234"

@@ -5,5 +5,6 @@ FactoryGirl.define do
     sales_lead_id 1
     log "check out "
     last_updated_by_id 1
+    void false
   end
 end

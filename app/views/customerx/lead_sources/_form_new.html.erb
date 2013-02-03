@@ -1,0 +1,7 @@
+<%= simple_form_for @lead_source do |f| %>    
+ 
+  <%= f.input :name, :label => "Name:" %>  
+  <%= f.input :brief_note, :label => "Brief Note:" %>  
+  <%= f.input :ranking_order, :label => 'Ranking Index', :placehoder => 'ex, 1, 2, 3 ...'%> 
+  <%= f.button :submit, 'Save' %>  
+<% end %> 

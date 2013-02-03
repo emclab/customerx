@@ -1,12 +1,12 @@
 <div id="main_body">
-<h1>Customer</h1>
+<h1>Customers</h1>
 <div class="pigination"><%= will_paginate @customers %></div>
 <table>
   <tr>
     <th>#</th>
     <th>ShortName</th>
     <th>Since</th>
-    <% if has_create_right? %>
+    <% if has_create_right?('customerx_customers') %>
       <th>ContactInfo</th>
       <th>Phone</th>
       <th>Active?</th>
@@ -15,29 +15,30 @@
     <th>Sales</th>
     <th>LastContactDate</th>
     <th></th>
+    <th></th>
  
   </tr>
 
 <% @customers.each do |cust| %>
   <tr>
-  	<td><%= link_to cust.id.to_s, SUBURI + "/view_handler?index=1&url=#{customer_path(cust)}" if has_show_right? %></td>
+  	<td><%= link_to cust.id.to_s, SUBURI + "/view_handler?index=1&url=#{customer_path(cust)}" if has_show_right?('customerx_customers') %></td>
     <td><%= cust.short_name %></td>
     <td><%= (cust.created_at + 8.hours).strftime("%Y/%m/%d") %></td>
-    <% if has_create_right? %>
+    <% if has_create_right?('customerx_customers') %>
       <td><%= cust.contact_info[0..20] %></td>
       <td><%= cust.phone %></td>
-      <td><%= yes_no_cn(cust.active) %></td>
+      <td><%= cust.active %></td>
     <% end %>
     <td><%= cust.customer_status_category.cate_name %></td>
     <td><%= cust.sales.name %></td>    
     <td><%= cust.created_at %></td> 
-    <td><%= link_to 'Edit', SUBURI + "/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_update_right? %></td>
-
+    <td><%= link_to 'Edit', SUBURI + "/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_update_right?('customerx_customers') %></td>
+    <td>&nbsp;|&nbsp;<%= link_to 'SalesLead', SUBURI + "/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" if has_lead_right? %></td>
   </tr>
 <% end %>
 </table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;| &nbsp;<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}" if has_create_right? %>
+  &nbsp;| &nbsp;<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}" if has_create_right?('customerx_customers') %>
 
 </div>
 

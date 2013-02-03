@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  get "user_menus/index"
-  get "quality_systems/index"
-
   mount Authentify::Engine => "/authentify/", :as => :authentify
   mount Customerx::Engine => "/customerx", :as => :customerx
   

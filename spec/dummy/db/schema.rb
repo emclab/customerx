@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130120151919) do
+ActiveRecord::Schema.define(:version => 20130203202758) do
+
+  create_table "authentify_group_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "authentify_sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -58,11 +64,11 @@ ActiveRecord::Schema.define(:version => 20130120151919) do
   create_table "authentify_sys_user_groups", :force => true do |t|
     t.string   "user_group_name"
     t.string   "short_note"
-    t.integer  "user_type_code"
-    t.string   "user_type_desp"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.integer  "zone_id"
+    t.integer  "group_type_id"
+    t.integer  "manager_group_id"
   end
 
   create_table "authentify_sys_user_rights", :force => true do |t|
@@ -81,7 +87,6 @@ ActiveRecord::Schema.define(:version => 20130120151919) do
   create_table "authentify_user_levels", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sys_user_group_id"
-    t.integer  "manager_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
@@ -109,6 +114,40 @@ ActiveRecord::Schema.define(:version => 20130120151919) do
     t.integer  "ranking_order"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "customerx_comm_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "brief_note"
+    t.boolean  "active",             :default => true
+    t.integer  "ranking_order"
+    t.integer  "last_updated_by_id"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
+
+  create_table "customerx_comm_record_logs", :force => true do |t|
+    t.integer  "customer_comm_record_id"
+    t.text     "log"
+    t.integer  "last_updated_by_id"
+    t.boolean  "void",                    :default => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "customerx_customer_comm_records", :force => true do |t|
+    t.integer  "customer_id"
+    t.string   "via"
+    t.string   "subject"
+    t.text     "contact_info"
+    t.text     "content"
+    t.integer  "last_updated_by_id"
+    t.integer  "comm_category_id"
+    t.integer  "reported_by_id"
+    t.date     "comm_date"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "void",               :default => false
   end
 
   create_table "customerx_customer_status_categories", :force => true do |t|
@@ -152,8 +191,19 @@ ActiveRecord::Schema.define(:version => 20130120151919) do
     t.integer  "sales_lead_id"
     t.text     "log"
     t.integer  "last_updated_by_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "void",               :default => false
+  end
+
+  create_table "customerx_lead_sources", :force => true do |t|
+    t.string   "name"
+    t.boolean  "active",             :default => true
+    t.integer  "ranking_order"
+    t.integer  "last_updated_by_id"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.string   "brief_note"
   end
 
   create_table "customerx_quality_systems", :force => true do |t|
@@ -177,12 +227,14 @@ ActiveRecord::Schema.define(:version => 20130120151919) do
     t.boolean  "close_lead"
     t.datetime "close_lead_date"
     t.integer  "close_lead_by_id"
-    t.string   "lead_source"
     t.integer  "lead_quality"
     t.integer  "lead_accuracy"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "lead_eval"
+    t.string   "subject"
+    t.integer  "lead_source_id"
+    t.date     "lead_date"
   end
 
 end

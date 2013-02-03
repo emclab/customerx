@@ -1,0 +1,10 @@
+<div id='main_body'>
+<h1>新客户联系记录</h1>
+<% if @customer %>
+  <%= render 'form_new' %>
+<% else %>
+  <%= render 'form_new_without_customer' %>
+<% end %>
+
+<%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+</div>

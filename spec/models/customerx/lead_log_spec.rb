@@ -17,5 +17,11 @@ module Customerx
       l = FactoryGirl.build(:lead_log, :sales_lead_id => nil)
       l.should_not be_valid
     end
+    
+    it "should reject duplicate log" do
+      l1 = FactoryGirl.create(:lead_log, :log => 'this is a new log')
+      l2 = FactoryGirl.build(:lead_log, :log => 'This Is A New Log')
+      l2.should_not be_valid
+    end    
   end
 end

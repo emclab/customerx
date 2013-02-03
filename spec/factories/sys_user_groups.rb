@@ -3,8 +3,9 @@
 FactoryGirl.define do
   factory :sys_user_group, class: 'Authentify::SysUserGroup'  do
     user_group_name "MyString"
-    user_type_code 1
-    user_type_desp 'employee'
+    group_type 1
+    manager_group_id  30
+    zone_id 1
     short_note "MyString"
   end
 end

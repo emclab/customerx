@@ -12,6 +12,8 @@ module Customerx
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
     belongs_to :zone, :class_name => 'Authentify::Zone'
     belongs_to :sales, :class_name => 'Authentify::User'
+    has_many :sales_leads, :class_name => 'Customerx::SalesLead'
+    has_many :customer_comm_records, :class_name => 'Customerx::CustomerCommRecord'
     
     email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     

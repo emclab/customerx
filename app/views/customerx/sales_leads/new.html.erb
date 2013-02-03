@@ -1,2 +1,10 @@
-<h1>SalesLeads#new</h1>
-<p>Find me in app/views/customerx/sales_leads/new.html.erb</p>
+<div id="main_body">
+<h1>New Sales Lead</h1>
+<% if @customer %>
+  <%= render 'form_new' %>
+<% else %>
+  <%= render 'form_new_without_customer' %>
+<% end %>
+
+<%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+</div>

@@ -3,42 +3,126 @@ require 'spec_helper'
 describe "TestPaths" do
   describe "GET /customerx_test_paths" do
     before(:each) do
-      ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo')
+      z = FactoryGirl.create(:zone, :zone_name => 'hq')
+      type = FactoryGirl.create(:group_type, :name => 'employee')
+      lsource = FactoryGirl.create(:lead_source)
+      ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
       ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_status_categories', :action => 'create')
       ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_status_categories', :action => 'update')
+      ua2 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index')
+      ua3 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
+      ua4 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
+      ua5 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'index')
+      ua6 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'create')
+      ua7 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'update')
+      ua8 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'show')
+      ua9 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_categories', :action => 'update')
+      ua10 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_categories', :action => 'create')
       ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
       ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
+      ur2 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua2.id)
+      ur2 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua3.id)
+      ur4 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua4.id)
+      ur5 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua5.id)
+      ur6 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua6.id)
+      ur7 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua7.id)
+      ur8 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua8.id)
+      ur9 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua9.id)
+      ur10 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua10.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-      u = FactoryGirl.create(:user, :user_levels => [ul])
+      u = FactoryGirl.create(:user, :user_levels => [ul], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
       #session[:user_id] = u.id
       #session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
       @cate1 = FactoryGirl.create(:customer_status_category)
       @cate2 = FactoryGirl.create(:customer_status_category, :cate_name => 'newnew cate')
+      @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => u.id, :last_updated_by_id => u.id)
+      @slead = FactoryGirl.create(:sales_lead, :provider_id => u.id, :last_updated_by_id => u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
+      @ccate = FactoryGirl.create(:comm_category, :last_updated_by_id => u.id)
       visit 'authentify/'
       fill_in "login", :with => u.login
       fill_in "password", :with => 'password'
       click_button   
     end
     
+    #customer status category
     it "should display customer status category index page" do
       visit customer_status_categories_path
       response.should have_selector("title", :content => "Customerx")
     end
+
+    it "should display edit page for the customer status category record" do
+      visit edit_customer_status_category_path(@cate2)
+      response.should have_selector("input", :type => "text", :name => "customer_status_category[cate_name]", :value => @cate2.cate_name)
+    end
     
+    it "should display new page for customer status category" do
+      visit new_customer_status_category_path
+      response.should have_selector("h1", :content => "New Customer Status Category")
+    end
+    
+    #quality system    
     it "should display quality system index page" do
       visit quality_systems_path
       response.should have_selector("title", :content => "Customerx")
     end
     
-    it "should display edit page for the record" do
-      visit edit_customer_status_category_path(@cate2)
-      response.should have_selector("content", 'newnew cate')
+    #customers
+    it "should display customer index page" do
+      visit customers_path
+      response.should have_selector('h1', :content => 'Customers')
     end
     
-    it "should display new page" do
-      visit new_customer_status_category_path
-      response.should have_selector("title", "New Customer Status Category")
+    it "should display new customer page" do
+      visit new_customer_path
+      response.should have_selector('h1', :content => 'New Customer')
     end
     
+    it "should display edit customer page" do
+      visit edit_customer_path(@cust)
+      response.should have_selector('h1', :content => 'Edit Customer Info')
+      
+    end
+    
+    #sales lead
+    it "should display index customer's sales leads page" do
+      visit customer_sales_leads_path(@cust)
+      response.should have_selector('h1', :content => 'Sales Leads')
+    end
+    
+    it "should display index for sales lead without customer" do
+      visit sales_leads_path
+      response.should have_selector('h1', :content => 'Sales Leads')
+    end
+    
+    it "should display new sales leads page" do
+      visit new_customer_sales_lead_path(@cust)
+      response.should have_selector('h1', :content => 'New Sales Lead')
+    end
+    
+    it "should display edit sales leads page" do
+      visit edit_customer_sales_lead_path(@cust, @slead)
+      response.should have_selector('h1', :content => 'Edit Sales Lead')    
+    end
+    
+    it "should show sales leads" do
+      visit customer_sales_lead_path(@cust, @slead)
+      response.should have_selector('h1', :content => 'Sales Lead Info')
+    end
+    
+    #comm category
+    it "should display index page for comm category" do
+      visit comm_categories_path
+      response.should have_selector('h1', :content => 'Comm Categories')
+    end
+    
+    it "should display edit page for comm category" do
+      visit edit_comm_category_path(@ccate)
+      response.should have_selector('h1', :content => 'Edit Comm Category')
+    end
+    
+    it "should display new comm_category" do
+      visit new_comm_category_path
+      response.should have_selector('h1', :content => 'New Comm Category')
+    end
   end
 end

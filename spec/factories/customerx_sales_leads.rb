@@ -6,11 +6,13 @@ FactoryGirl.define do
     last_updated_by_id 1
     lead_info "plan to buy a CT within a year"
     contact_instruction "contact a guy with phone xxxx"
-    lead_source "meeting"
+    lead_source_id 1
     lead_quality 1
     provider_id 1
     lead_accuracy 1
     lead_eval 'a good eval'
     lead_status 'in working'
+    subject 'this is a lead'
+    lead_date '2013-01-21'
   end
 end

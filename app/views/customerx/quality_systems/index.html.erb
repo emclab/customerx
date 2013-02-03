@@ -19,13 +19,13 @@
           <td><%= qs.brief_note %></td>
           <td><%= qs.ranking_order %></td>
           <td><%= qs.last_updated_by.name %></td>
-          <td><%= link_to 'Edit', edit_quality_system_path(cate, :format => :js), :remote => true if has_update_right? %></td>
+          <td><%= link_to 'Edit', edit_quality_system_path(cate, :format => :js), :remote => true if has_update_right?('customerx_quality_systems') %></td>
         </tr>
     <% end %>
 
   </table>
 
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
-  <%= link_to "New Quality System", new_quality_system_path(:format => :js), :remote => true, :id => 'new_log_link' if has_create_right? %>
+  <%= link_to "New Quality System", new_quality_system_path(:format => :js), :remote => true, :id => 'new_log_link' if has_create_right?('customerx_quality_systems') %>
 
 </div>

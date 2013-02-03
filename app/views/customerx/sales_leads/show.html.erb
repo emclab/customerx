@@ -1,2 +1,70 @@
-<h1>SalesLeads#show</h1>
-<p>Find me in app/views/customerx/sales_leads/show.html.erb</p>
+<div id="main_body">
+
+<h1>Sales Lead Info</h1>
+
+<p>
+  <b>Customer:</b>
+  <%= @customer.name %>
+</p>
+<p>
+  <b>Zone:</b>
+  <%= @customer.zone.zone_name %>
+</p>
+<p>
+  <b>Subject:</b>
+  <%= @sales_lead.subject %>
+</p>
+<p>
+  <b>EnterDate:</b>
+  <%= (@sales_lead.created_at + 8.hours).strftime("%Y/%m/%d") %>
+</p>
+<p>
+  <b>Provider:</b>
+  <%= @sales_lead.provider.name %>
+</p>
+<p>
+  <b>LeadInfo:</b>
+  <%= @sales_lead.lead_info %>
+</p>
+<p>
+  <b>ContactInstruction:</b>
+  <%= @sales_lead.contact_instruction %>
+</p>
+<p>
+  <b>LeadQuality(1..10)</b>
+  <%= @sales_lead.lead_quality %>
+</p>
+<p>
+  <b>LeadAccuracy(1..10):</b>
+  <%= @sales_lead.lead_accuracy %>
+</p>
+
+<p>
+  <b>SaleSuccess:</b>
+  <%= @sales_lead.sale_success %>
+</p>
+<p>
+  <b>LeadStatus:</b>
+  <%= @sales_lead.lead_status %>
+</p>
+<p>
+  <b>LeadSource:</b>
+  <%= @sales_lead.lead_source.name if @sales_lead.lead_source_id.present? %>
+</p>
+<p>
+  <b>输入/更改:</b>
+  <%= @sales_lead.last_updated_by.name %>
+</p>
+<p>
+  <b>Lead Logs:</b>
+  <ul>
+<% @sales_lead.lead_logs.order("id DESC").each do |f| %>
+  <li>
+  <%= (f.created_at + 8.hours).strftime("%Y-%m-%d").to_s + ', ' + f.input_by.name + ', '+ f.log %>
+  </li>
+<% end %>
+</ul>
+</p>
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+
+</div>
