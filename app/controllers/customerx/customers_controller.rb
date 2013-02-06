@@ -7,7 +7,7 @@ module Customerx
     before_filter :require_signin
     before_filter :require_employee
 
-    helper_method :has_comm_log_right?, :has_lead_right? #, :return_last_contact_date
+    helper_method :has_comm_record_index_right?, :has_lead_index_right?, :return_last_contact_date
     
     def index
       @title = 'Customers'
@@ -80,39 +80,19 @@ module Customerx
     protected
     
     #allow to create communication log with the customer
-    def has_comm_log_right?
-      grant_access?('comm_log', 'customerx_customers') 
+    def has_comm_record_index_right?
+      grant_access?('index', 'customerx_customer_comm_records') 
     end
     
     #allow to create marketing lead
-    def has_lead_right?
-      grant_access?('lead', 'customerx_customers') 
+    def has_lead_index_right?
+      grant_access?('index', 'customerx_sales_leads') 
     end
-  
-    #def return_users(actions, table_names, status = nil, utype = nil)
-      # status is active by default. status =>'active', 'inactive', 'blocked' 
-      #utype is employee by default, utype => 'emplyee', 'customer',...
-    #  return [] if actions.nil? or table_names.nil?
-      # actions & table_names, status & utype are string or array (more than one value)
-   #   group_ids = Authentify::SysUserRight.where(:sys_action_on_table_id => Authentify::SysActionOnTable.where(:action => actions).
-   #                                          where(:table_name => table_names).select("id")).select("sys_user_group_id")
-    #  if utype.present?
-    #    group_ids = Authentify::SysUserGroup.where(:user_type_desp => utype).where(:id => group_ids)
-    #  end
 
-    #  if status.nil? && utype.nil?
-     #   Authentify::User.joins(:user_levels).where(:status => 'active').
-     #                                        where(:authentify_user_levels => {:sys_user_group_id => group_ids})
-     # elsif status.present? 
-      #  Authentify::User.joins(:user_levels).where(:status => status).
-     #                                        where(:authentify_user_levels => {:sys_user_group_id => group_ids})
-      #end
-   # end    
-
-   #def return_last_contact_date(customer_id)
-   #   log = Customerx::CommLog.where("customer_id = ?", customer_id).last
-    #  return log.created_at unless log.nil?
-   # end
+    def return_last_contact_date(customer_id)
+      log = Customerx::CustomerCommRecord.where("customer_id = ?", customer_id).order("created_at DESC").first
+      return log.created_at unless log.nil?
+    end
     
   end
 end

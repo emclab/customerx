@@ -5,7 +5,7 @@ module Customerx
     attr_accessible :comm_category_id, :comm_date, :contact_info, :content, :customer_id, :last_updated_by_id, :reported_by_id, 
                     :subject, :via, :customer_name_autocomplete, :as => :role_new
     attr_accessible :comm_category_id, :comm_date, :contact_info, :content, :customer_id, :last_updated_by_id, :reported_by_id, 
-                    :subject, :via, :as => :role_update  
+                    :subject, :via, :void, :as => :role_update  
     belongs_to :customer, :class_name => 'Customerx::Customer'
     belongs_to :last_updated_by, :class_name => 'Authentify::User'    
     belongs_to :comm_category, :class_name => 'Customerx::CommCategory' 

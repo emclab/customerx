@@ -12,6 +12,7 @@ module Customerx
     describe "GET 'index'" do
       it "returns http success for users with right" do
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        c_cate = FactoryGirl.create(:comm_category)
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -22,7 +23,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
-        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id, :comm_category_id => c_cate.id)
         get 'index', {:use_route => :customerx, :customer_id => cust.id}
         #response.should be_success
         assigns(:customer_comm_records).should eq([rec])
@@ -30,6 +31,7 @@ module Customerx
       
       it "should return without customer for users with right" do
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        c_cate = FactoryGirl.create(:comm_category)
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -40,7 +42,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
-        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id, :comm_category_id => c_cate.id)
         get 'index', {:use_route => :customerx}
         #response.should be_success
         assigns(:customer_comm_records).should eq([rec])

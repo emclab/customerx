@@ -38,7 +38,7 @@ module Customerx
     def new
       if has_create_right?("customerx_comm_record_logs")
         #@customer_comm_record load with before filter
-        @comm_record_log = @customer_comm_record.comm_record_log.new()
+        @comm_record_log = @customer_comm_record.comm_record_logs.new()
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
       end
@@ -46,10 +46,10 @@ module Customerx
   
     def create
       if has_create_right?("customerx_comm_record_logs")
-        @comm_record_log = @customer_comm_record.comm_record_log.new(params[:comm_record_log], :as => :role_new)
+        @comm_record_log = @customer_comm_record.comm_record_logs.new(params[:comm_record_log], :as => :role_new)
         @comm_record_log.last_updated_by_id = session[:user_id]
         if @comm_record_log.save
-          redirect_to comm_record_log_path(@customer_comm_record), :notice => "Comm Record Log Saved!"
+          redirect_to customer_customer_comm_record_path(@customer_comm_record.customer, @customer_comm_record), :notice => "Comm Record Log Saved!"
         else
           flash.now[:error] = 'Data Error. Not Saved!'
           render 'new'

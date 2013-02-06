@@ -1,2 +1,7 @@
-<h1>LeadLogs#new</h1>
-<p>Find me in app/views/customerx/lead_logs/new.html.erb</p>
+<div id='main_body'>
+<h1>新Log</h1>
+
+<%= render 'form_new' %>
+
+<%= link_to 'Back', customer_sales_lead_path(@lead_log.sales_lead.customer, @lead_log.sales_lead) %>
+</div>

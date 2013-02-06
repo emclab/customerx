@@ -1,3 +1,40 @@
-<h1>CustomerCommRecords#index</h1>
-<p>Find me in app/views/customerx/customer_comm_records/index.html.erb</p>
-<li><%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}" %></li>	
+<div id="main_body">
+<h1>Customer Comm Records</h1>
+<div class="pigination"><%= will_paginate @customer_comm_records %></div>
+<table>
+  <tr>
+    <th>#</th>
+    <th>CommDate</th>
+    <th>CustomerShortName</th>
+    <th>Subject</th>
+    <th>Content</th>
+    <th>Via</th>
+    <th>CommCategory</th>
+    <th>Reporter</th>
+    <th></th>
+ 
+  </tr>
+
+<% @customer_comm_records.each do |r| %>
+  <tr>
+  	<% if has_show_right?('customerx_customer_comm_records') %>
+  	  <td><%= link_to r.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customerx.customer_customer_comm_record_path(r.customer,r)}" %></td>
+  	<% else %>
+  	  <td><%= r.id %></td>
+  	<% end %>
+  	<td><%= r.comm_date.strftime("%Y/%m/%d") %></td>
+    <td><%= r.customer.short_name %></td>   
+    <td><%= r.subject %></td>
+    <td><%= r.content[0..40] %></td>
+    <td><%= r.via %></td>
+    <td><%= r.comm_category.name %></td>
+    <td><%= r.reported_by.name %></td>    
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.edit_customer_customer_comm_record_path(r.customer, r)}" if has_update_right?('customerx_customer_comm_records') %></td>
+
+  </tr>
+<% end %>
+</table>
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+  &nbsp;| &nbsp;<%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}" if has_create_right?('customerx_customer_comm_records') %>
+
+</div>

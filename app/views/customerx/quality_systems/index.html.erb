@@ -19,7 +19,7 @@
           <td><%= qs.brief_note %></td>
           <td><%= qs.ranking_order %></td>
           <td><%= qs.last_updated_by.name %></td>
-          <td><%= link_to 'Edit', edit_quality_system_path(cate, :format => :js), :remote => true if has_update_right?('customerx_quality_systems') %></td>
+          <td><%= link_to 'Edit', edit_quality_system_path(qs, :format => :js), :remote => true if has_update_right?('customerx_quality_systems') %></td>
         </tr>
     <% end %>
 

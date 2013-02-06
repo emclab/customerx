@@ -159,16 +159,82 @@ module Customerx
     end
   
     describe "GET 'new'" do
-      it "returns http success" do
-        get 'new'
+      it "success for users with right" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ug1 = FactoryGirl.create(:sys_user_group, :user_group_name => 'sales', :manager_group_id => ug.id, :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_record_logs', :action => 'create')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id, :matching_column_name => 'sales_id')
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        log = FactoryGirl.attributes_for(:comm_record_log, :customer_comm_record_id => rec.id)
+        get 'new', {:use_route => :customerx, :customer_comm_record_id => rec.id}
         response.should be_success
+      end
+      
+      it "should reject for users without right" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ug1 = FactoryGirl.create(:sys_user_group, :user_group_name => 'sales', :manager_group_id => ug.id, :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_record_logs', :action => 'unknowncreate')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id, :matching_column_name => 'sales_id')
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        log = FactoryGirl.attributes_for(:comm_record_log, :customer_comm_record_id => rec.id)
+        get 'new', {:use_route => :customerx, :customer_comm_record_id => rec.id}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
       end
     end
   
     describe "GET 'create'" do
-      it "returns http success" do
-        get 'create'
-        response.should be_success
+      it "create for users with right" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ug1 = FactoryGirl.create(:sys_user_group, :user_group_name => 'sales', :manager_group_id => ug.id, :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_record_logs', :action => 'create')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id, :matching_column_name => 'sales_id')
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        log = FactoryGirl.attributes_for(:comm_record_log, :customer_comm_record_id => rec.id)
+        get 'create', {use_route: :customerx, customer_comm_record_id: rec.id, comm_record_log: log}
+        response.should redirect_to customer_customer_comm_record_path(rec.customer, rec)
+      end
+      
+      it "should render template new with data erro" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ug1 = FactoryGirl.create(:sys_user_group, :user_group_name => 'sales', :manager_group_id => ug.id, :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_record_logs', :action => 'create')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id, :matching_column_name => 'sales_id')
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
+        log = FactoryGirl.attributes_for(:comm_record_log, :customer_comm_record_id => rec.id, :log => nil)
+        get 'create', {use_route: :customerx, customer_comm_record_id: rec.id, comm_record_log: log}
+        response.should render_template('new')
       end
     end
   

@@ -52,12 +52,12 @@
     <ul>
   <% @customer_comm_record.comm_record_logs.order("created_at DESC").each do |p| %>
     <li>
-    <%= p.created_at.strftime("%Y-%m-%d").to_s + ', ' + p.last_updated_by.name + '， ' + p.log %>
+    <%= (p.created_at + 8.hours).strftime("%Y-%m-%d").to_s + ', ' + p.last_updated_by.name + '， ' + p.log %>
     </li>
   <% end %>
   </ul>
 </p>
 
-<%= link_to '新Log', new_customer_comm_record_comm_record_log_path(@customer_comm_record), :id => 'new_log_link' %>
 <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+ &nbsp;|&nbsp; <%= link_to '新Log', new_customer_comm_record_comm_record_log_path(@customer_comm_record), :id => 'new_log_link' %>
 </div>

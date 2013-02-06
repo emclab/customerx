@@ -15,3 +15,14 @@ $(function() {
         },
     });
 });
+
+$(function() {
+    return $('#sales_lead_provider_name_autocomplete').autocomplete({
+        minLength: 1,
+        source: $('#sales_lead_provider_name_autocomplete').data('autocomplete-source'),  //'#..' can NOT be replaced with this
+        select: function(event, ui) {
+            //alert('fired!');
+            $('#sales_lead_provider_name_autocomplete').val(ui.item.value);
+        },
+    });
+});

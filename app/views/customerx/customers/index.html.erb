@@ -5,7 +5,7 @@
   <tr>
     <th>#</th>
     <th>ShortName</th>
-    <th>Since</th>
+    <th>SinceDate</th>
     <% if has_create_right?('customerx_customers') %>
       <th>ContactInfo</th>
       <th>Phone</th>
@@ -16,14 +16,19 @@
     <th>LastContactDate</th>
     <th></th>
     <th></th>
+    <th></th>
  
   </tr>
 
 <% @customers.each do |cust| %>
   <tr>
-  	<td><%= link_to cust.id.to_s, SUBURI + "/view_handler?index=1&url=#{customer_path(cust)}" if has_show_right?('customerx_customers') %></td>
+  	<% if has_show_right?('customerx_customers') %>
+  	  <td><%= link_to cust.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customer_path(cust)}"  %></td>
+  	<% else %>
+  	  <td><%= cust.id %></td>
+  	<% end %>
     <td><%= cust.short_name %></td>
-    <td><%= (cust.created_at + 8.hours).strftime("%Y/%m/%d") %></td>
+    <td><%= cust.since_date.strftime("%Y/%m/%d") %></td>
     <% if has_create_right?('customerx_customers') %>
       <td><%= cust.contact_info[0..20] %></td>
       <td><%= cust.phone %></td>
@@ -31,9 +36,10 @@
     <% end %>
     <td><%= cust.customer_status_category.cate_name %></td>
     <td><%= cust.sales.name %></td>    
-    <td><%= cust.created_at %></td> 
-    <td><%= link_to 'Edit', SUBURI + "/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_update_right?('customerx_customers') %></td>
-    <td>&nbsp;|&nbsp;<%= link_to 'SalesLead', SUBURI + "/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" if has_lead_right? %></td>
+    <td><%= return_last_contact_date(cust.id).strftime("%Y/%m/%d") if return_last_contact_date(cust.id).present? %></td> 
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_update_right?('customerx_customers') %></td>
+    <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}" if has_comm_record_index_right? %></td>
+    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" if has_lead_index_right? %></td>
   </tr>
 <% end %>
 </table>

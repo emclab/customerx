@@ -32,5 +32,16 @@ module Customerx
       i = FactoryGirl.build(:sales_lead, lead_date: nil)
       i.should_not be_valid
     end
+    
+    it "should reject nil lead_source_id" do
+      i = FactoryGirl.build(:sales_lead, lead_source_id: nil)
+      i.should_not be_valid
+    end
+    
+    it "should reject duplicate lead_info" do
+      i1 = FactoryGirl.create(:sales_lead, lead_info: 'this is a lead info')
+      i2 = FactoryGirl.build(:sales_lead, lead_info: 'This Is A lEad INfo')
+      i2.should_not be_valid
+    end
   end
 end
