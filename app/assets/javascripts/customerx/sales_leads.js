@@ -5,6 +5,28 @@ $(function() {
    $("#sales_lead_lead_date").datepicker({dateFormat: 'yy-mm-dd'});
 });
 
+//hide sales_lead_initial_order_total if sale success is false
+$(function(){
+	var rpt = $('#sales_lead_sale_success').val();
+    if (rpt == 'true') {
+      $("#sales_lead_order_total").show(); 
+    } else {
+      $("#sales_lead_order_total").hide(); 
+   }
+});
+
+$(function(){
+   $("#sales_lead_sale_success").change(function() {
+   	 var rpt = $('#sales_lead_sale_success').val();
+   	 if ( rpt == 'true') {
+   	    $("#sales_lead_order_total").show(); 
+   	 } else {
+   	 	$("#sales_lead_order_total").hide(); 
+   	 }
+   }); 
+});
+
+//autocomplete for customers
 $(function() {
     return $('#sales_lead_customer_name_autocomplete').autocomplete({
         minLength: 1,
@@ -16,6 +38,8 @@ $(function() {
     });
 });
 
+
+//autocomplete for users
 $(function() {
     return $('#sales_lead_provider_name_autocomplete').autocomplete({
         minLength: 1,

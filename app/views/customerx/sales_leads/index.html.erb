@@ -10,6 +10,7 @@
     <th>LeadDetail</th>
     <th>LeadQuality</th>
     <th>MakeSale</th>
+    <th>成单额（￥）</th>
     <th>Provider</th>
     <th></th>
  
@@ -28,6 +29,7 @@
     <td><%= r.lead_info[0..40] %></td>
     <td><%= r.lead_quality %></td>
     <td><%= r.sale_success %></td>
+    <td><%= number_with_delimiter(r.initial_order_total) %></td>
     <td><%= r.provider.name %></td>    
     <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_update_right?('customerx_sales_leads') %></td>
 

@@ -1,11 +1,5 @@
 Customerx::Engine.routes.draw do
 
-  get "comm_record_logs/index"
-
-  get "comm_record_logs/new"
-
-  get "comm_record_logs/create"
-
   resources :customer_status_categories
   resources :comm_categories
   resources :quality_systems

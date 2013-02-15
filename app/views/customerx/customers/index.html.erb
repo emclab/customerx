@@ -7,7 +7,7 @@
     <th>ShortName</th>
     <th>SinceDate</th>
     <% if has_create_right?('customerx_customers') %>
-      <th>ContactInfo</th>
+      
       <th>Phone</th>
       <th>Active?</th>
     <% end %>
@@ -30,7 +30,7 @@
     <td><%= cust.short_name %></td>
     <td><%= cust.since_date.strftime("%Y/%m/%d") %></td>
     <% if has_create_right?('customerx_customers') %>
-      <td><%= cust.contact_info[0..20] %></td>
+      
       <td><%= cust.phone %></td>
       <td><%= cust.active %></td>
     <% end %>

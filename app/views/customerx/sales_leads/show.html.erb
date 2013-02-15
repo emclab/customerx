@@ -43,6 +43,12 @@
   <b>SaleSuccess:</b>
   <%= @sales_lead.sale_success %>
 </p>
+<% if @sales_lead.sale_success %>
+<p>
+  <b>成单金额￥:</b>
+  <%= number_with_delimiter(@sales_lead.initial_order_total) %>
+</p>
+<% end %>
 <p>
   <b>LeadStatus:</b>
   <%= @sales_lead.lead_status %>

@@ -25,6 +25,8 @@ module Customerx
     def new
       @title = 'New Customer'
       @customer = Customerx::Customer.new
+      @customer.build_address
+      @customer.contacts.build
       if !has_create_right?('customerx_customers')
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end

@@ -29,7 +29,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
         cust1 = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u1.id, :customer_status_category_id => cate.id, :name => "newname",
-                                   :short_name => 'dontdup', :email => 'new@email.com', :sales_id => u1.id)
+                                   :short_name => 'dontdup', :sales_id => u1.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
         rec1 = FactoryGirl.create(:customer_comm_record, :customer_id => cust1.id, :content => 'something different')
         log = FactoryGirl.create(:comm_record_log, :customer_comm_record_id => rec.id)
@@ -83,7 +83,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
         cust1 = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u1.id, :customer_status_category_id => cate.id, :name => "newname",
-                                   :short_name => 'dontdup', :email => 'new@email.com', :sales_id => u1.id)
+                                   :short_name => 'dontdup', :sales_id => u1.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
         rec1 = FactoryGirl.create(:customer_comm_record, :customer_id => cust1.id, :content => 'something different')
         log = FactoryGirl.create(:comm_record_log, :customer_comm_record_id => rec.id)
@@ -110,7 +110,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
         cust1 = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u1.id, :customer_status_category_id => cate.id, :name => "newname",
-                                   :short_name => 'dontdup', :email => 'new@email.com', :sales_id => u1.id)
+                                   :short_name => 'dontdup', :sales_id => u1.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
         rec1 = FactoryGirl.create(:customer_comm_record, :customer_id => cust1.id, :content => 'something different')
         log = FactoryGirl.create(:comm_record_log, :customer_comm_record_id => rec.id)

@@ -5,14 +5,11 @@ FactoryGirl.define do
     name "MyString"
     short_name "MyString"
     since_date "2013-01-12"
-    contact_info "MyText"
-    address "Myadd"
-    shipping_address "Myshipping"
+    shipping_instruction "Myshipping"
     zone_id 1
     customer_status_category_id 1
     phone "1234"
     fax "fax2344"
-    email "MyString@example.sina.com"
     sales_id 1
     active true
     last_updated_by_id 1

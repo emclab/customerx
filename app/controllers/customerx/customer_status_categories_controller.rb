@@ -14,7 +14,7 @@ module Customerx
       if has_create_right?('customerx_customer_status_categories') || has_update_right?('customerx_customer_status_categories')
         @customer_status_categories = Customerx::CustomerStatusCategory.order("ranking_order")
       else
-        @customer_status_categories = Customerx::CustomerStatusCategory.where('active = ?', true).order("ranking_order")
+        @customer_status_categories = Customerx::CustomerStatusCategory.where('active = ?', true).order("active DESC, ranking_order")
       end
     end
 

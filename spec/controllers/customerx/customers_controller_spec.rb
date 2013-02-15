@@ -23,7 +23,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
-                                   :email => 'email@example.com', :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         get 'index' , {:use_route => :customerx}
         assigns(:customers).should eq([cust])
       end 
@@ -43,7 +43,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
-                                   :email => 'email@example.com', :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         get 'index' , {:use_route => :customerx}
         assigns(:customers).should eq([cust, cust1])
       end  
@@ -60,7 +60,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id)
         cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
-                                   :email => 'email@example.com', :last_updated_by_id => u.id)
+                                   :last_updated_by_id => u.id)
         get 'index' , {:use_route => :customerx}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")        
       end
@@ -198,6 +198,7 @@ module Customerx
     
     describe "GET show" do
       it "should show for user with right" do
+        add = FactoryGirl.create(:address)
         cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
         qs = FactoryGirl.create(:quality_system)
         zone = FactoryGirl.create(:zone, :zone_name => 'hq')
@@ -210,7 +211,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :quality_system_id => qs.id,
-                                             :zone_id => zone.id)
+                                             :zone_id => zone.id, :address => add)
         get 'show' , {:use_route => :customerx, :id => cust.id}
       end
     end

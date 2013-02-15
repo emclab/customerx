@@ -41,7 +41,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
-                                   :email => 'email@example.com', :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)
         lead1 = FactoryGirl.create(:sales_lead, :customer_id => cust1.id, :lead_info => 'a new lead')
         get 'index' , {:use_route => :customerx, :customer_id => cust1.id}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203202758) do
+ActiveRecord::Schema.define(:version => 20130207203748) do
 
   create_table "authentify_group_types", :force => true do |t|
     t.string   "name"
@@ -116,6 +116,15 @@ ActiveRecord::Schema.define(:version => 20130203202758) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "customerx_addresses", :force => true do |t|
+    t.string   "province"
+    t.string   "city_county_district"
+    t.string   "add_line"
+    t.integer  "customer_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
   create_table "customerx_comm_categories", :force => true do |t|
     t.string   "name"
     t.string   "brief_note"
@@ -133,6 +142,18 @@ ActiveRecord::Schema.define(:version => 20130203202758) do
     t.boolean  "void",                    :default => false
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "customerx_contacts", :force => true do |t|
+    t.integer  "customer_id"
+    t.string   "name"
+    t.string   "position"
+    t.string   "phone"
+    t.string   "cell_phone"
+    t.string   "email"
+    t.text     "brief_note"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "customerx_customer_comm_records", :force => true do |t|
@@ -164,14 +185,10 @@ ActiveRecord::Schema.define(:version => 20130203202758) do
     t.string   "name"
     t.string   "short_name"
     t.date     "since_date"
-    t.text     "contact_info"
-    t.text     "address"
-    t.text     "shipping_address"
     t.integer  "zone_id"
     t.integer  "customer_status_category_id"
     t.string   "phone"
     t.string   "fax"
-    t.string   "email"
     t.integer  "sales_id"
     t.boolean  "active",                      :default => true
     t.integer  "last_updated_by_id"
@@ -185,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20130203202758) do
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
     t.string   "web"
+    t.text     "shipping_instruction"
   end
 
   create_table "customerx_lead_logs", :force => true do |t|
@@ -235,6 +253,7 @@ ActiveRecord::Schema.define(:version => 20130203202758) do
     t.string   "subject"
     t.integer  "lead_source_id"
     t.date     "lead_date"
+    t.integer  "initial_order_total"
   end
 
 end

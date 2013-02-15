@@ -5,11 +5,11 @@ module Customerx
     
     attr_accessible :lead_eval, :contact_instruction, :customer_id, :last_updated_by_id, :lead_accuracy, :lead_quality, 
                     :lead_info, :sale_success, :lead_source_id, :lead_status, :provider_id, :subject, :lead_date, :provider_name_autocomplete,
-                    :customer_name_autocomplete,
+                    :customer_name_autocomplete, :initial_order_total,
                     :as => :role_new
     attr_accessible :lead_eval, :contact_instruction, :last_updated_by_id, :lead_accuracy, :lead_quality, :close_lead, :lead_date,
                     :close_lead_date, :close_lead_by_id, :lead_info, :sale_success, :lead_source_id, :provider_id, :subject,
-                    :provider_name_autocomplete, :customer_name_autocomplete, :customer_name,
+                    :provider_name_autocomplete, :customer_name_autocomplete, :customer_name, :initial_order_total,
                     :as => :role_update 
                     
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
@@ -23,7 +23,7 @@ module Customerx
     validates :lead_info, :uniqueness => {:case_sensitive => false}
     
     def find_sales_leads
-      sales_leads = Customerx::SalesLead.where("created_at < ?", 6.years.ago)
+      sales_leads = Customerx::SalesLead.where("customerx_sales_leads.created_at > ?", 6.years.ago)
       sales_leads
     end
     

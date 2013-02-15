@@ -12,15 +12,16 @@
 </p>
 <p>
   <b>联系信息:</b>
-  <%= @customer.contact_info %>
+  <ul>
+  <% @customer.contacts.order("created_at DESC").each do |c| %>
+   <li><%= (c.created_at + 8.hours).strftime("%Y/%m/%d")%>&nbsp;<%= c.name %>&nbsp;<%=c.position if c.position.present? %>&nbsp;<%=c.cell_phone if c.cell_phone.present? %>&nbsp;
+   	        <%=c.phone if c.phone.present? %>&nbsp;<%=c.email if c.email.present? %>&nbsp; <%=c.brief_note if c.brief_note.present? %></li>
+  <% end %>
+  </ul>
 </p>
 <p>
   <b>电话:</b>
   <%= @customer.phone %>
-</p>
-<p>
-  <b>电邮</b>
-  <%= @customer.email %>
 </p>
 <p>
   <b>传真:</b>
@@ -28,11 +29,11 @@
 </p>
 <p>
   <b>地址:</b>
-  <%= @customer.address %>
+  <%= @customer.address.province %><%= @customer.address.city_county_district%>,<%=@customer.address.add_line%>
 </p>
 <p>
-  <b>Shipping Address:</b>
-  <%= @customer.shipping_address %>
+  <b>Shipping Instruction:</b>
+  <%= @customer.shipping_instruction %>
 </p>
 <p>
   <b>Zone:</b>
@@ -51,7 +52,7 @@
   <%= @customer.quality_system.name if @customer.quality_system_id.present? %>
 </p>
 <p>
-  <b>营业额(RMB):</b>
+  <b>营业额:</b>
   <%= @customer.revenue %>
 </p>
 <p>

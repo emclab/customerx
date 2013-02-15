@@ -75,6 +75,7 @@ module Customerx
         provider = Authentify::User.find_by_name(@sales_lead.provider_name_autocomplete) if @sales_lead.provider_name_autocomplete.present?
         @sales_lead.provider_id = provider.id if provider.present?        
         @sales_lead.last_updated_by_id = session[:user_id]
+        params[:sales_lead][:initial_order_total] = '' if params[:sales_lead][:sale_success] == 'false'
         if @sales_lead.update_attributes(params[:sales_lead], :as => :role_update)
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Sales Lead Updated!")
         else
