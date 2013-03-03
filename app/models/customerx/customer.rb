@@ -9,6 +9,10 @@ module Customerx
                     :quality_system_id, :revenue, :sales_id, :short_name, :since_date, :address_attributes,:contacts_attributes,
                     :as => :role_update
                     
+    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s
+    attr_accessible :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s, 
+                    :as => :role_search_stats
+                    
     belongs_to :quality_system, :class_name => 'Customerx::QualitySystem'
     belongs_to :customer_status_category, :class_name => 'Customerx::CustomerStatusCategory'
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
@@ -37,7 +41,16 @@ module Customerx
     scope :inactive_cust, where(:active => false)
     
     def find_customers
-      customers = Customerx::Customer.active_cust
+      #return all qualified customers
+      customers = Customerx::Customer.scoped  #In Rails < 4 .all makes database call immediately, loads records and returns array. 
+      #Instead use "lazy" scoped method which returns chainable ActiveRecord::Relation object
+      customers = customers.where('created_at > ?', start_date_s) if start_date_s.present?
+      customers = customers.where('created_at < ?', end_date_s) if end_date_s.present?
+      customers = customers.where("name like ? OR short_name like ?", "%#{keyword}%", "%#{keyword}%") if keyword.present?
+      customers = customers.where(:zone_id => zone_id_s) if zone_id_s.present?
+      customers = customers.where("sales_id = ?", sales_id_s) if sales_id_s.present?
+      customers = customers.where(:status_category_s => status_category_s) if status_category_s.present?
+      customers = customers.where("id = ?", customer_id_s) if customer_id_s.present?
       customers
     end
                     

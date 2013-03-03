@@ -47,47 +47,48 @@ describe "TestPaths" do
       ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua15.id)
       ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua16.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-      u = FactoryGirl.create(:user, :user_levels => [ul], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
+      @u = FactoryGirl.create(:user, :user_levels => [ul], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
       #session[:user_id] = u.id
       #session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
       @cate1 = FactoryGirl.create(:customer_status_category)
       @cate2 = FactoryGirl.create(:customer_status_category, :cate_name => 'newnew cate')
-      @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => u.id, :last_updated_by_id => u.id, :quality_system_id => qs.id, :address => add)
-      @slead = FactoryGirl.create(:sales_lead, :provider_id => u.id, :last_updated_by_id => u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
-      @ccate = FactoryGirl.create(:comm_category, :last_updated_by_id => u.id)
+      @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => @u.id, :last_updated_by_id => @u.id, :quality_system_id => qs.id, :address => add)
+      @slead = FactoryGirl.create(:sales_lead, :provider_id => @u.id, :last_updated_by_id => @u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
+      @ccate = FactoryGirl.create(:comm_category, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
-      visit 'authentify/'
-      fill_in "login", :with => u.login
+      visit '/'
+      fill_in "login", :with => @u.login
       fill_in "password", :with => 'password'
-      click_button   
+      click_button 'login'
     end
     
     #customer status category
-    it "should display customer status category index page" do
+    it "should display customer status category index page" do     
       visit customer_status_categories_path
-      response.should have_selector("title", :content => "Customerx")
+      page.body.should have_content("Customerx")
     end
 
     it "should display edit page for the customer status category record" do
       visit edit_customer_status_category_path(@cate2)
-      response.should have_selector("input", :type => "text", :name => "customer_status_category[cate_name]", :value => @cate2.cate_name)
+      #response.should have_selector("input", :type => "text", :name => "customer_status_category[cate_name]", :value => @cate2.cate_name)
+      page.body.should include(@cate2.cate_name)
     end
     
     it "should display new page for customer status category" do
       visit new_customer_status_category_path
-      response.should have_selector("h1", :content => "New Customer Status Category")
+      page.body.should have_content("New Customer Status Category")
     end
     
     #quality system    
     it "should display quality system index page" do
       visit quality_systems_path
-      response.should have_selector("title", :content => "Customerx")
+      page.body.should have_content("Customerx")
     end
     
     #customers
     it "should display customer index page" do
       visit customers_path
-      response.should have_selector('h1', :content => 'Customers')
+      page.body.should have_content('Customers')
     end
     
     it "should work with links on index page" do
@@ -107,19 +108,19 @@ describe "TestPaths" do
     
     it "should display new customer page" do
       visit new_customer_path
-      response.should have_selector('h1', :content => 'New Customer')
+      page.body.should have_content('New Customer')
     end
     
     it "should display edit customer page" do
       visit edit_customer_path(@cust)
-      response.should have_selector('h1', :content => 'Edit Customer Info')
+      page.body.should have_content('Edit Customer Info')
       
     end
     
     #sales lead
     it "should display index customer's sales leads page" do
       visit customer_sales_leads_path(@cust)
-      response.should have_selector('h1', :content => 'Sales Leads')
+      page.body.should have_content('Sales Leads')
     end
     
     it "should work with all links in sales leads index page" do
@@ -135,22 +136,22 @@ describe "TestPaths" do
     
     it "should display index for sales lead without customer" do
       visit sales_leads_path
-      response.should have_selector('h1', :content => 'Sales Leads')
+      page.body.should have_content('Sales Leads')
     end
     
     it "should display new sales leads page" do
       visit new_customer_sales_lead_path(@cust)
-      response.should have_selector('h1', :content => 'New Sales Lead')
+      page.body.should have_content('New Sales Lead')
     end
     
     it "should display edit sales leads page" do
       visit edit_customer_sales_lead_path(@cust, @slead)
-      response.should have_selector('h1', :content => 'Edit Sales Lead')    
+      page.body.should have_content('Edit Sales Lead')    
     end
     
     it "should show sales leads" do
       visit customer_sales_lead_path(@cust, @slead)
-      response.should have_selector('h1', :content => 'Sales Lead Info')
+      page.body.should have_content('Sales Lead Info')
     end
     
     it "should work with link on show sales lead page" do
@@ -161,7 +162,7 @@ describe "TestPaths" do
     #comm category
     it "should display index page for comm category" do
       visit comm_categories_path
-      response.should have_selector('h1', :content => 'Comm Categories')
+      page.body.should have_content('Comm Categories')
     end
     
     it "should work with links on comm category index page" do
@@ -175,18 +176,18 @@ describe "TestPaths" do
     
     it "should display edit page for comm category" do
       visit edit_comm_category_path(@ccate)
-      response.should have_selector('h1', :content => 'Edit Comm Category')
+      page.body.should have_content('Edit Comm Category')
     end
     
     it "should display new comm_category" do
       visit new_comm_category_path
-      response.should have_selector('h1', :content => 'New Comm Category')
+      page.body.should have_content('New Comm Category')
     end
     
     #customer_comm_record
     it "should display customer_comm_record index page" do
       visit customer_comm_records_path
-      response.should have_selector('h1', :content => 'Customer Comm Records')
+      page.body.should have_content('Customer Comm Records')
     end
     
     it "should work with links on customer comm record index page" do
@@ -202,12 +203,12 @@ describe "TestPaths" do
     
     it "should display comm record edit page" do
       visit edit_customer_customer_comm_record_path(@cust, @crecord)
-      response.should have_selector('h1', :content => '修改客户联系记录')
+      page.body.should have_content('修改客户联系记录')
     end
     
     it "should show customer_comm_record page" do
       visit customer_customer_comm_record_path(@cust, @crecord)
-      response.should have_selector('h1', :content => '客户交流记录内容')
+      page.body.should have_content('客户交流记录内容')
     end
     
     it "should work with link on show customer_comm_record page" do

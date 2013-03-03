@@ -1,6 +1,17 @@
 # encoding: utf-8
 module Customerx
   module CustomersHelper
+    
+    def sales()
+      sales = ''
+      if has_search_right?("customerx_customers")
+        sales = Authentify::UsersHelper.return_users('create', 'customerx_customers')
+      elsif has_search_zone_right?("customerx_customers")
+        sales = Authentify::UsersHelper.return_users('create', 'customerx_customers', session[:user_priviledge].user_zones)
+      end
+      sales
+    end
+    
     def return_quality_system
       Customerx::QualitySystem.where("active = ?", true).order("ranking_order")
     end

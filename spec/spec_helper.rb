@@ -1,11 +1,14 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../dummy/config/environment", __FILE__)
+
 require 'rspec/rails'
+require 'capybara/rails'
 require 'rspec/autorun'
 require "factory_girl_rails"
-#require 'factory_girl'
-#require File.dirname(__FILE__) + "/factories/" 
+
+
+#require 'capybara/rspec'
 
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 
@@ -24,6 +27,7 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+  #config.include Capybara::DSL
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{ENGINE_RAILS_ROOT}/spec/fixtures"

@@ -44,6 +44,8 @@ module Customerx
         else
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Sales Lead selected!")
         end
+      else
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")     
       end
     end
     

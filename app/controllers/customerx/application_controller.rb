@@ -6,7 +6,8 @@ module Customerx
     include Authentify::UserPrivilegeHelper
     include Authentify::UsersHelper
     
-    helper_method :has_index_right?, :has_create_right?, :has_update_right?, :has_show_right?, :has_destroy_right?, :has_activate_right?, :return_yes_no_cn
+    helper_method :has_index_right?, :has_create_right?, :has_update_right?, :has_show_right?, :has_destroy_right?, :has_activate_right?, :return_yes_no_cn,
+                  :has_search_right?, :has_search_individual_right?, :has_search_zone_right?, :has_index_individual_right?, :has_index_zone_right?
     
     def return_yes_no_cn
       [['是',true ],['否', false]]
@@ -14,6 +15,14 @@ module Customerx
   
     def has_index_right?(table_name)
       grant_access?('index', table_name)  
+    end
+    
+    def has_index_individual_right?(table_name)
+      grant_access?('index_individual', table_name)
+    end
+    
+    def has_index_zone_right?(table_name)
+      grant_access?('index_zone', table_name)
     end
     
     def has_show_right?(table_name)
@@ -30,6 +39,18 @@ module Customerx
     
     def has_destroy_right?(table_name)
       grant_access?('destroy', table_name)
+    end
+    
+    def has_search_right?(table_name)
+      grant_access?('search', table_name)
+    end
+    
+    def has_search_individual_right?(table_name)
+      grant_access?('search_individual', table_name)
+    end
+    
+    def has_search_zone_right?(table_name)
+      grant_access?('search_zone', table_name)
     end
     
     #allow to activate/deactivate a customer

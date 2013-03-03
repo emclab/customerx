@@ -11,14 +11,23 @@ module Customerx
     
     def index
       @title = 'Customers'
+      has_right = true
+      params[:customer] = {}  #instanciate the params object
       if has_index_right?('customerx_customers')
-        if has_activate_right?('customerx_customers')
-          @customers = Customerx::Customer.page(params[:page]).per_page(30).order("active DESC, zone_id, id DESC, since_date DESC")
-        else
-          @customers = Customerx::Customer.active_cust.order("zone_id, id DESC, since_date DESC").page(params[:page]).per_page(30) #.paginate(:per_page => 30, :page => params[:page])
-        end
+        params[:customer] = {}        
+      elsif has_index_individual_right?('customerx_customers')
+        params[:customer][:sales_id_s] = session[:user_id]
+      elsif has_index_zone_right?('customerx_customers')
+        params[:customer][:zone_id_s] = session[:user_privilege].user_zone_ids
+        
       else
+        has_right = false
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")    
+      end
+      #return @customers if has right     
+      if has_right
+        customer = Customerx::Customer.new(params[:customer], :as => :role_search_stats)
+        @customers = sort_by_activate_right(customer)
       end
     end
 
@@ -42,6 +51,8 @@ module Customerx
           flash[:notice] = 'Data error. NOT Saved!'
           render 'new'
         end
+      else
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")     
       end
     end
 
@@ -63,6 +74,8 @@ module Customerx
           flash[:notice] = 'Data error. NOT Saved!'
           render 'edit'
         end
+      else  # else needed. Otherwise having Missing Template IF false.
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")     
       end
     end
 
@@ -78,8 +91,68 @@ module Customerx
       @customers = Customerx::Customer.where("active = ?", true).order(:name).where("name like ?", "%#{params[:term]}%")
       render json: @customers.map(&:name)    
     end  
+    
+    def search
+      #here are search right:
+      #search_individual - only for customers who belongs to individual sales
+      #search_zone - allow to search customer which belongs to a zone
+      #search - allow to search all customers
+      if has_search_individual_right?("customerx_customers") || has_search_zone_right?("customerx_customers") || has_search_right?("customerx_customers")
+        @customer = Customerx::Customer.new()
+      else
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
+      end
+    end
 
+    def search_results
+      @customer = Customerx::Customer.new(params[:customer], :as => :role_search_stats)
+      @customers = @customer.find_customers()
+      if has_search_individual_right?("customerx_customers") || has_search_zone_right?("customerx_customers") || has_search_right?("customerx_customers")
+        @customers = sort_customers(@customers)
+        #seach params
+        @search_params = search_params()
+      else
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
+      end
+    end
+    
     protected
+    
+    #sort customer based on search right
+    def sort_customers(customers)
+      if has_search_individual_right?("customerx_customers") 
+        customers = customers.where("customerx_customers.sales_id = ?", session[:user_id])
+      elsif has_search_zone_right?("customerx_customers")
+        user_zone_ids = session[:user_priviledge].user_zones
+        customers = customers.where(:customer => {:zone_id => user_zone_ids})
+      elsif has_search_right?("customerx_customers")
+        customers
+      else
+        customers = []
+      end
+      customers.page(params[:page]).per_page(30)
+    end
+    
+    def search_params
+      search_params = "参数："
+      search_params += ' 开始日期：' + params[:customer][:start_date_s] if params[:customer][:start_date_s].present?
+      search_params += ', 结束日期：' + params[:customer][:end_date_s] if params[:customer][:end_date_s].present?
+      search_params += ', 关键词 ：' + params[:customer][:keyword] if params[:customer][:keyword].present?
+      search_params += ', 片区 ：' + Authentify::Zone.find_by_id(params[:customer][:zone_id_s].to_i).zone_name if params[:customer][:zone_id_s].present?
+      search_params += ', 业务员 ：' + Authentify::User.find_by_id(params[:customer][:sales_id_s].to_i).name if params[:customer][:sales_id_s].present?
+      search_params += ', 客户 状态：' + Customerx::CustomerStatusCategory.find_by_id(params[:customer][:status_category_s].to_i).cate_name if params[:customer][:status_category_s].present?
+      search_params
+    end
+    
+    def sort_by_activate_right(customer)
+      customers = customer.find_customers.page(params[:page]).per_page(30).order("active DESC, zone_id, id DESC, since_date DESC")
+      return customers if customers.blank?   #customers.blank? return true and customers.nil? return false for empty customers
+      if !has_activate_right?('customerx_customers')
+        customers = customers.where(:active => true)
+      end
+      #customers = customers.order("active DESC, zone_id, id DESC, since_date DESC").page(params[:page]).per_page(30)
+      customers
+    end
     
     #allow to create communication log with the customer
     def has_comm_record_index_right?

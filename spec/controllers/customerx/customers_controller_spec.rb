@@ -48,6 +48,66 @@ module Customerx
         assigns(:customers).should eq([cust, cust1])
       end  
       
+      it "only return sales' customer for index_individual right" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index_individual')
+        ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'activate')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        get 'index' , {:use_route => :customerx}
+        assigns(:customers).should eq([cust, cust1])
+      end
+      
+      it "only return sales' active customer for index_individual right without activate right" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index_individual')
+        ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'not_activate')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        get 'index' , {:use_route => :customerx}
+        assigns(:customers).should eq([cust])
+      end
+      
+      it "only return active customer which belongs to zone for index_zone" do
+        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index_zone')
+        ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'not_activate')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
+                                   :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :sales_id => u.id)
+        get 'index' , {:use_route => :customerx}
+        assigns(:customers).should eq([cust])
+      end
+      
       it "should reject users without proper right" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
@@ -214,6 +274,31 @@ module Customerx
                                              :zone_id => zone.id, :address => add)
         get 'show' , {:use_route => :customerx, :id => cust.id}
       end
+    end
+    
+    describe "GET search" do
+      it "should redirect for uses without right" do
+        get 'search', {:use_route => :customerx}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
+      end
+      
+      it "should search for users with right" do
+        z = FactoryGirl.create(:zone, :zone_name => 'hq')
+        type = FactoryGirl.create(:group_type, :name => 'employee')
+        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'search')
+        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
+        u = FactoryGirl.create(:user, :user_levels => [ul])
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        get 'search', {:use_route => :customerx}
+        response.should be_success
+      end
+    end
+    
+    describe "GET search_results" do
+      
     end
   end
 end

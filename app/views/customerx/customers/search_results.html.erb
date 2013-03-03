@@ -1,6 +1,7 @@
 <div id="main_body">
 <h1>Customers</h1>
-<div class="pagination"><%= will_paginate @customers %></div>
+<%=@search_params%>
+<div class="pigination"><%= will_paginate @customers %></div>
 <table>
   <tr>
     <th>#</th>
