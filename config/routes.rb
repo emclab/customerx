@@ -18,10 +18,9 @@ Customerx::Engine.routes.draw do
     end
   end
   
-  resources :lead_logs, :only => [:index]  
-  resources :comm_record_logs, :only => [:index]
+  resources :logs, :only => [:index]  
   resources :sales_leads do
-    resources :lead_logs
+    resources :logs
     collection do
       get :search
       put :search_results      
@@ -30,7 +29,7 @@ Customerx::Engine.routes.draw do
     end      
   end
   resources :customer_comm_records do
-    resources :comm_record_logs
+    resources :logs
     collection do
       get :search
       put :search_results      

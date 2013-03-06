@@ -1,0 +1,10 @@
+<div id='main_body'>
+<h1>新Log</h1>
+<% if @which_table == 'sales_lead' %>
+  <%= render 'form_sales_lead_new' %>
+  <%= link_to 'Back', customer_sales_lead_path(@sales_lead.customer, @sales_lead) %>
+<% elsif @which_table == 'customer_comm_record' %>
+  <%= render 'form_customer_comm_record_new' %>
+  <%= link_to 'Back', customer_comm_record_path(@customer_comm_record.customer, @customer_comm_record) %>
+<% end %>
+</div>

@@ -10,7 +10,7 @@ module Customerx
     belongs_to :last_updated_by, :class_name => 'Authentify::User'    
     belongs_to :comm_category, :class_name => 'Customerx::CommCategory' 
     belongs_to :reported_by, :class_name => 'Authentify::User'   
-    has_many :comm_record_logs, :class_name => "Customerx::CommRecordLog" 
+    has_many :logs, :class_name => "Customerx::Log" 
     
     validates_presence_of :subject, :contact_info, :content, :reported_by_id, :via, :comm_category_id, :comm_date, :customer_id
     validates :content, :uniqueness => {:case_sensitive => false}  

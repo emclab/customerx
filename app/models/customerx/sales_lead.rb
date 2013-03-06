@@ -15,7 +15,7 @@ module Customerx
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
     belongs_to :provider, :class_name => 'Authentify::User'
     belongs_to :close_lead_by, :class_name => 'Authentify::User'
-    has_many :lead_logs, :class_name => "Customerx::LeadLog"
+    has_many :logs, :class_name => "Customerx::Log"
     belongs_to :customer, :class_name => 'Customerx::Customer'
     belongs_to :lead_source, :class_name => 'Customerx::LeadSource'
     

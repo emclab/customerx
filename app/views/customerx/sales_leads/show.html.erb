@@ -64,7 +64,7 @@
 <p>
   <b>Lead Logs:</b>
   <ul>
-<% @sales_lead.lead_logs.order("id DESC").each do |f| %>
+<% @sales_lead.logs.order("id DESC").each do |f| %>
   <li>
   <%= (f.created_at + 8.hours).strftime("%Y-%m-%d").to_s + ', ' + f.input_by.name + ', '+ f.log %>
   </li>
@@ -72,5 +72,5 @@
 </ul>
 </p>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
-  &nbsp;|&nbsp; <%= link_to '新Log', new_sales_lead_lead_log_path(@sales_lead), :id => 'new_log_link' %>
+  &nbsp;|&nbsp; <%= link_to '新Log', new_sales_lead_log_path(:sales_lead_id => @sales_lead.id, :which_table => 'sales_lead'), :id => 'new_log_link' %>
 </div>

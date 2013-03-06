@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207203748) do
+ActiveRecord::Schema.define(:version => 20130305161346) do
 
   create_table "authentify_group_types", :force => true do |t|
     t.string   "name"
@@ -135,15 +135,6 @@ ActiveRecord::Schema.define(:version => 20130207203748) do
     t.datetime "updated_at",                           :null => false
   end
 
-  create_table "customerx_comm_record_logs", :force => true do |t|
-    t.integer  "customer_comm_record_id"
-    t.text     "log"
-    t.integer  "last_updated_by_id"
-    t.boolean  "void",                    :default => false
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
-  end
-
   create_table "customerx_contacts", :force => true do |t|
     t.integer  "customer_id"
     t.string   "name"
@@ -205,15 +196,6 @@ ActiveRecord::Schema.define(:version => 20130207203748) do
     t.text     "shipping_instruction"
   end
 
-  create_table "customerx_lead_logs", :force => true do |t|
-    t.integer  "sales_lead_id"
-    t.text     "log"
-    t.integer  "last_updated_by_id"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.boolean  "void",               :default => false
-  end
-
   create_table "customerx_lead_sources", :force => true do |t|
     t.string   "name"
     t.boolean  "active",             :default => true
@@ -222,6 +204,16 @@ ActiveRecord::Schema.define(:version => 20130207203748) do
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
     t.string   "brief_note"
+  end
+
+  create_table "customerx_logs", :force => true do |t|
+    t.integer  "sales_lead_id"
+    t.integer  "customer_comm_record_id"
+    t.integer  "last_updated_by_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.string   "which_table"
+    t.text     "log"
   end
 
   create_table "customerx_quality_systems", :force => true do |t|

@@ -1,4 +1,4 @@
 module Customerx
-  module LeadLogsHelper
+  module LogsHelper
   end
 end

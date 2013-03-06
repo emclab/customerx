@@ -1,6 +1,6 @@
 <div id="main_body">
   <h1>Log for Customer Comm Records</h1>
-  <div class="pigination"><%= will_paginate @comm_record_logs %></div>
+  <div class="pigination"><%= will_paginate @logs %></div>
   <table>
     <tr>
       <th>#</th>
@@ -11,7 +11,7 @@
       <th>Entered By</th>
     </tr>
 
-    <% @comm_record_logs.each do |r| %>
+    <% @logs.each do |r| %>
         <tr>
           <td><%= r.id %></td>
           <td><%= Customerx::Customer.find_by_id(r.customer_comm_record.customer_id).short_name %></td>
