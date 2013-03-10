@@ -14,12 +14,11 @@ module Customerx
       has_right = true
       params[:customer] = {}  #instanciate the params object
       if has_index_right?('customerx_customers')
-        params[:customer] = {}        
+        params[:customer] = {} 
+      elsif has_index_zone_right?('customerx_customers')
+        params[:customer][:zone_id_s] = session[:user_privilege].user_zone_ids         
       elsif has_index_individual_right?('customerx_customers')
         params[:customer][:sales_id_s] = session[:user_id]
-      elsif has_index_zone_right?('customerx_customers')
-        params[:customer][:zone_id_s] = session[:user_privilege].user_zone_ids
-        
       else
         has_right = false
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")    

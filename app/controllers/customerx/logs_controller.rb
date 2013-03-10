@@ -72,24 +72,24 @@ module Customerx
     protected
     
     def sales_lead_logs
-      if grant_access?('index_individual_sales_lead', 'customerx_logs')  #only display current user's log
-        logs_for_index_individual_right(@sales_lead)
+      if grant_access?('index_sales_lead', 'customerx_logs')
+        logs_for_index_right(@sales_lead)
       elsif grant_access?('index_zone_sales_lead', 'customerx_logs')
         logs_for_index_zone_right(@sales_lead)
-      elsif grant_access?('index_sales_lead', 'customerx_logs')
-        logs_for_index_right(@sales_lead)
+      elsif grant_access?('index_individual_sales_lead', 'customerx_logs')  #only display current user's log
+        logs_for_index_individual_right(@sales_lead)
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")  
       end
     end
     
     def customer_comm_record_logs
-      if grant_access?('index_individual_customer_comm_record', 'customerx_logs')  #only display current user's
-        logs_for_index_individual_right(@customer_comm_record)
+      if grant_access?('index_customer_comm_record', 'customerx_logs')  #all logs
+        logs_for_index_right(@customer_comm_record)
       elsif grant_access?('index_zone_customer_comm_record', 'customerx_logs')
         logs_for_index_zone_right(@customer_comm_record)
-      elsif grant_access?('index_customer_comm_record', 'customerx_logs')  #all logs
-        logs_for_index_right(@customer_comm_record)
+      elsif grant_access?('index_individual_customer_comm_record', 'customerx_logs')  #only display current user's
+        logs_for_index_individual_right(@customer_comm_record)
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
       end      
