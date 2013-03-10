@@ -11,7 +11,7 @@ module Customerx
     
     describe "GET 'index'" do
       it "returns sales lead logs for users with index right with @sales_lead passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -30,7 +30,7 @@ module Customerx
       end
       
       it "should return logs for sales_lead for user with index right without @sales_lead passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -50,7 +50,7 @@ module Customerx
       end
       
       it "should return logs for sales lead for current user with index_individual right with @sales_lead passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -69,7 +69,7 @@ module Customerx
       end
       
       it "should return lead logs for current user with index_individual_sales_lead right without @sales_lead" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -89,7 +89,7 @@ module Customerx
       end
       
       it "should return lead logs for zone right with @sales_lead passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -109,7 +109,7 @@ module Customerx
       end
       
       it "should return lead logs for current user with index_zone_sales_lead right without @sales_lead" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -129,8 +129,8 @@ module Customerx
       end
       
       it "returns customer comm record logs for users with index right with @customer_comm_record passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -149,8 +149,8 @@ module Customerx
       end
       
       it "should return logs for customer comm record for users with index right without @customer_comm_record passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -170,8 +170,8 @@ module Customerx
       end
       
       it "should return comm logs for current user with index individual_customer_comm_record with @customer_comm_record passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -190,8 +190,8 @@ module Customerx
       end
       
       it "should return comm logs for current user with index_individual_customer_comm_record without @customer_comm_record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -211,8 +211,8 @@ module Customerx
       end
       
       it "should return comm logs for zone right with @customer_comm_record passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -232,8 +232,8 @@ module Customerx
       end
       
       it "should return comm logs for current user with index_zone_customer_comm_record right without @customer_comm_record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -253,8 +253,8 @@ module Customerx
       end
       
       it "should reject no right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -275,7 +275,7 @@ module Customerx
   
     describe "GET 'new'" do
       it "should create log for users with @sale_lead" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -293,7 +293,7 @@ module Customerx
       end
       
       it "should create log for users with @customer_comm_record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -312,7 +312,7 @@ module Customerx
       end
       
       it "should redirect if no @customer_comm_record passes in" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -331,7 +331,7 @@ module Customerx
       end
       
       it "should redirect user without right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -351,7 +351,7 @@ module Customerx
   
     describe "GET 'create'" do
       it "should create for user with @sales_lead" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -369,7 +369,7 @@ module Customerx
       end
       
       it "should create for user with @customer_comm_record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -388,7 +388,7 @@ module Customerx
       end
       
       it "should redirect without both @sales_lead and @customer_comm_record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -407,7 +407,7 @@ module Customerx
       end
       
       it "should redirect for user without right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -425,7 +425,7 @@ module Customerx
       end
       
       it "should render new with data error" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)

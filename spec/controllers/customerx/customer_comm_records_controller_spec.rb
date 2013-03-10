@@ -11,8 +11,8 @@ module Customerx
     
     describe "GET 'index'" do
       it "returns http success for users with right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -30,8 +30,8 @@ module Customerx
       end
       
       it "should return without customer for users with right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        c_cate = FactoryGirl.create(:comm_category)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -51,7 +51,7 @@ module Customerx
   
     describe "GET 'new'" do
       it "returns http success for users without customer id" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -68,7 +68,7 @@ module Customerx
       end
       
       it "should http success for users with customer_id" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -85,7 +85,7 @@ module Customerx
       end
       
       it "should reject users withour rights" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -104,7 +104,7 @@ module Customerx
   
     describe "GET 'create'" do
       it "should redirect to new page for user without customer_id when customer name not selected" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -122,7 +122,7 @@ module Customerx
       end
       
       it "should create new record for user without customer id but selecting the customer name" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -139,7 +139,7 @@ module Customerx
       end
       
       it "should create record for user w/ customer_id" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -158,7 +158,7 @@ module Customerx
   
     describe "GET 'edit'" do
       it "returns http success for users with right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -175,7 +175,7 @@ module Customerx
       end
       
       it "should redirect for users without right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -194,7 +194,7 @@ module Customerx
   
     describe "GET 'update'" do
       it "should update for users with right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -211,7 +211,7 @@ module Customerx
       end
       
       it "should render edit for data error" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -230,7 +230,7 @@ module Customerx
   
     describe "GET 'show'" do
       it "should show customer comm record" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -241,14 +241,14 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
-        c_cate = FactoryGirl.create(:comm_category)
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id, :comm_category_id => c_cate.id)
         get 'show', {:use_route => :customerx, :customer_id => cust.id, :id => rec.id}
         response.should be_success
       end
       
       it "should reject for users without right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -259,7 +259,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
-        c_cate = FactoryGirl.create(:comm_category)
+        c_cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_record')
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id, :comm_category_id => c_cate.id)
         get 'show', {:use_route => :customerx, :customer_id => cust.id, :id => rec.id}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")

@@ -9,7 +9,7 @@
               :label_method => :zone_name, :value_method => :id if has_search_right?("customerx_customers") %>
   <%= f.input :sales_id_s, :collection => sales(), :label_method => :name, :value_method => :id, :prompt => "选业务员", 
               :label => "业务员:" if has_search_right?("customerx_customers") || has_search_zone_right?("customerx_customers") %> 
-  <%= f.input :status_category_s, :collection => Customerx::CustomerStatusCategory.where(:active => true).order("ranking_order"), :label => "客户状态：", :prompt => "选客户状态", :include_blank => true,
+  <%= f.input :status_category_s, :collection => Customerx::MiscDefinition.where(:for_which => 'customer_status').where(:active => true).order("ranking_order"), :label => "客户状态：", :prompt => "选客户状态", :include_blank => true,
               :label_method => :cate_name, :value_method => :id  %>  
  
   <%= f.button :submit, "搜索" %>  

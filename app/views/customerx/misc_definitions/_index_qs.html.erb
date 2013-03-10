@@ -1,0 +1,33 @@
+
+  <h1>Quality System</h1>
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Create Date</th>
+      <th>Quality System</th>
+      <th>Brief Note</th>
+      <th>Ranking Order</th>
+      <th>Entered By</th>
+      <th></th>
+    </tr>
+
+    <% @misc_definitions.each do |qs| %>
+        <tr>
+          <td><%= qs.id %></td>
+          <td><%= (qs.created_at + 8.hours).strftime("%Y/%m/%d")%></td>
+          <td><%= qs.name %></td>
+          <td><%= qs.brief_note %></td>
+          <td><%= qs.ranking_order %></td>
+          <td><%= qs.last_updated_by.name %></td>
+          <td><%= link_to 'Edit', edit_misc_definition_path(qs, :format => :js), 
+                  :remote => true if grant_access?('update_customer_quality_system', 'customerx_misc_definitions') %></td>
+        </tr>
+    <% end %>
+
+  </table>
+
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to "New Quality System", new_misc_definition_path(:for_which => 'customer_qs', :format => :js), :remote => true, 
+             :id => 'new_log_link' if grant_access?('create_customer_quality_system', 'customerx_misc_definitions') %>
+
+

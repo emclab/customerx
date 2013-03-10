@@ -34,7 +34,7 @@
       <td><%= cust.phone %></td>
       <td><%= cust.active %></td>
     <% end %>
-    <td><%= cust.customer_status_category.cate_name %></td>
+    <td><%= cust.customer_status_category.name %></td>
     <td><%= cust.sales.name %></td>    
     <td><%= return_last_contact_date(cust.id).strftime("%Y/%m/%d") if return_last_contact_date(cust.id).present? %></td> 
     <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_update_right?('customerx_customers') %></td>

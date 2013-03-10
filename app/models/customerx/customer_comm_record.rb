@@ -8,7 +8,7 @@ module Customerx
                     :subject, :via, :void, :as => :role_update  
     belongs_to :customer, :class_name => 'Customerx::Customer'
     belongs_to :last_updated_by, :class_name => 'Authentify::User'    
-    belongs_to :comm_category, :class_name => 'Customerx::CommCategory' 
+    belongs_to :comm_category, :class_name => 'Customerx::MiscDefinition' 
     belongs_to :reported_by, :class_name => 'Authentify::User'   
     has_many :logs, :class_name => "Customerx::Log" 
     

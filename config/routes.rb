@@ -1,9 +1,6 @@
 Customerx::Engine.routes.draw do
 
-  resources :customer_status_categories
-  resources :comm_categories
-  resources :quality_systems
-  resources :lead_sources
+  resources :misc_definitions
   resources :sales_leads, :only => [:index, :new, :create]
   resources :customer_comm_records, :only => [:index, :new, :create]
   resources :customers do

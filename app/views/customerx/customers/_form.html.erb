@@ -18,7 +18,7 @@
   <% end %>
   <%= f.input :shipping_instruction, :label => '发运要求：', :input_html => {:rows => 4}%>
   <%= f.input :zone_id, :label => 'Zone:', :collection => return_zone, :label_method => :zone_name, :value_method => :id %> 
-  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :cate_name, :value_method => :id %>     
+  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :name, :value_method => :id %>     
   <%= f.input :quality_system_id, :collection => return_quality_system, :label => 'QualitySystem:',
                                   :label_method => :name, :value_method => :id, :include_blank => true %>  
   <%= f.input :web, :label => 'Web:' %>

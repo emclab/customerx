@@ -1,0 +1,33 @@
+
+  <h1>Comm Categories</h1>
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Create Date</th>
+      <th>Comm Category</th>
+      <th>Brief Note</th>
+      <th>Ranking Order</th>
+      <th>Entered By</th>
+      <th></th>
+    </tr>
+
+    <% @misc_definitions.each do |r| %>
+        <tr>
+          <td><%= r.id %></td>
+          <td><%= (r.created_at + 8.hours).strftime("%Y/%m/%d")%></td>
+          <td><%= r.name %></td>
+          <td><%= r.brief_note %></td>
+          <td><%= r.ranking_order %></td>
+          <td><%= r.last_updated_by.name %></td>
+          <td><%= link_to 'Edit', edit_misc_definition_path(r, :format => :js), 
+                   :remote => true if grant_access?('update_customer_comm_category', 'customerx_misc_definitions') %></td>
+        </tr>
+    <% end %>
+
+  </table>
+
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to "New Comm Category", new_misc_definition_path(:for_which => 'customer_comm_category', :format => :js), :remote => true, 
+              :id => 'new_log_link' if grant_access?('create_customer_comm_category', 'customerx_misc_definitions') %>
+
+

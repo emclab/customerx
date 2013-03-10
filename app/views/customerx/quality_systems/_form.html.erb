@@ -1,9 +1,0 @@
-<%= simple_form_for @quality_system do |f| %>    
- 
-  <%= f.input :id, :label => '#:', :readonly => true, :required => false %>
-  <%= f.input :name, :label => "Quality System:" %>  
-  <%= f.input :brief_note, :label => "Brief Note:" %> 
-  <%= f.input :active, :label => 'Active?:', :collection => [['Yes', true], ['No', false]]%>
-  <%= f.input :ranking_order, :label => 'Ranking Index', :placehoder => 'ex, 1, 2, 3 ...'%> 
-  <%= f.button :submit, 'Save' %>  
-<% end %> 

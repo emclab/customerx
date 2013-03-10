@@ -11,7 +11,7 @@ module Customerx
     before_filter :require_employee
     before_filter :load_sales_lead
     before_filter :load_customer_comm_record
-    before_filter :require_which_table  #which_table holds the table name which the log belongs to
+    before_filter :require_which_table, :only => [:index, :new]  #which_table holds the table name which the log belongs to
     def index
       if @which_table == 'sales_lead' 
         sales_lead_logs()
@@ -24,13 +24,13 @@ module Customerx
     end
   
     def new
-      if @which_table == 'sales_lead' && has_create_sales_lead_log_right?
+      if @which_table == 'sales_lead' && grant_access?('create_sales_lead', 'customerx_logs')
         if  @sales_lead
           @log = @sales_lead.logs.new()
         else
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO sales lead selected for log!")
         end
-      elsif @which_table == 'customer_comm_record' && has_create_customer_comm_record_log_right?
+      elsif @which_table == 'customer_comm_record' && grant_access?('create_customer_comm_record', 'customerx_logs')
         if @customer_comm_record
           @log = @customer_comm_record.logs.new()
         else
@@ -42,12 +42,11 @@ module Customerx
     end
   
     def create
-      if has_create_sales_lead_log_right? || has_create_customer_comm_record_log_right?
-        params[:log].delete :which_table  #attr_accessible error. Otherwise has to declare which_table in attr_accessible. Seems engine bug
-        if @which_table == 'sales_lead' && @sales_lead
+      if grant_access?('create_sales_lead', 'customerx_logs') || grant_access?('create_customer_comm_record', 'customerx_logs')
+        if params[:log][:which_table] == 'sales_lead' && @sales_lead
           @log = @sales_lead.logs.new(params[:log], :as => :role_new)
           data_save = true
-        elsif @which_table == 'customer_comm_record' && @customer_comm_record
+        elsif params[:log][:which_table] == 'customer_comm_record' && @customer_comm_record
           @log = @customer_comm_record.logs.new(params[:log], :as => :role_new)
           data_save = true
         else
@@ -55,7 +54,6 @@ module Customerx
         end
         if data_save  #otherwise @log.save will be executed no matter what.
           @log.last_updated_by_id = session[:user_id]
-          @log.which_table = params[:which_table]
           if @log.save
             redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Log Saved!")
           else
@@ -74,11 +72,11 @@ module Customerx
     protected
     
     def sales_lead_logs
-      if has_index_individual_log_right?('sales_lead')  #only display current user's log
+      if grant_access?('index_individual_sales_lead', 'customerx_logs')  #only display current user's log
         logs_for_index_individual_right(@sales_lead)
-      elsif has_index_zone_log_right?("sales_lead")
+      elsif grant_access?('index_zone_sales_lead', 'customerx_logs')
         logs_for_index_zone_right(@sales_lead)
-      elsif has_index_log_right?("sales_lead")
+      elsif grant_access?('index_sales_lead', 'customerx_logs')
         logs_for_index_right(@sales_lead)
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")  
@@ -86,37 +84,17 @@ module Customerx
     end
     
     def customer_comm_record_logs
-      if has_index_individual_log_right?("customer_comm_record")  #only display current user's
+      if grant_access?('index_individual_customer_comm_record', 'customerx_logs')  #only display current user's
         logs_for_index_individual_right(@customer_comm_record)
-      elsif has_index_zone_log_right?("customer_comm_record")
+      elsif grant_access?('index_zone_customer_comm_record', 'customerx_logs')
         logs_for_index_zone_right(@customer_comm_record)
-      elsif has_index_log_right?("customer_comm_record")  #all logs
+      elsif grant_access?('index_customer_comm_record', 'customerx_logs')  #all logs
         logs_for_index_right(@customer_comm_record)
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
       end      
     end
-    
-    def has_index_log_right?(which_table)
-      grant_access?('index_' + which_table, 'customerx_logs') #ex, index_sales_lead
-    end
-    
-    def has_index_zone_log_right?(which_table)
-      grant_access?('index_zone_' + which_table, 'customerx_logs') #ex, index_zone_sales_lead
-    end
-    
-    def has_index_individual_log_right?(which_table)
-      grant_access?('index_individual_' + which_table, 'customerx_logs') #ex, index_individual_sales_lead
-    end
-    
-    def has_create_sales_lead_log_right?
-      grant_access?('create_sales_lead', 'customerx_logs')  #ex, create_sales_lead
-    end
-    
-    def has_create_customer_comm_record_log_right?
-      grant_access?('create_customer_comm_record', 'customerx_logs')  #ex, create_sales_lead
-    end
-    
+        
     def logs_for_index_right(parent_obj)
       if parent_obj
         @logs = parent_obj.logs.page(params[:page]).per_page(30).order("id DESC")
@@ -177,8 +155,8 @@ module Customerx
     
     def require_which_table
       @which_table = params[:which_table]
-      unless @which_table.present?
-        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Missing Data!") 
+      unless @which_table == 'sales_lead' || @which_table == 'customer_comm_record'
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Initial Params Error!") 
       end
     end
     

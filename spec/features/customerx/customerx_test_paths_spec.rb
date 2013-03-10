@@ -6,12 +6,11 @@ describe "TestPaths" do
     before(:each) do
       z = FactoryGirl.create(:zone, :zone_name => 'hq')
       type = FactoryGirl.create(:group_type, :name => 'employee')
-      lsource = FactoryGirl.create(:lead_source)
-      qs = FactoryGirl.create(:quality_system)
+      qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
       add = FactoryGirl.create(:address)
       ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-      ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_status_categories', :action => 'create')
-      ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_status_categories', :action => 'update')
+      ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
+      ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
       ua2 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index')
       ua3 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
       ua4 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
@@ -20,14 +19,20 @@ describe "TestPaths" do
       ua6 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'create')
       ua7 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'update')
       ua8 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'show')
-      ua9 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_categories', :action => 'update')
-      ua10 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_comm_categories', :action => 'create')
+      ua9 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_comm_category')
+      ua10 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_comm_category')
       ua11 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'index' )
       ua12 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'show' )
       ua13 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'create' )
       ua14 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'update' )
       ua15 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_logs', :action => 'create_customer_comm_record' )
       ua16 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_logs', :action => 'create_sales_lead' )
+      ua17 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
+      ua18 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
+      ua19 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_quality_system')
+      ua20 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_quality_system')
+      ua21 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_sales_lead_source')
+      ua22 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_sales_lead_source')
       ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
       ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
       ur2 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua2.id)
@@ -46,15 +51,25 @@ describe "TestPaths" do
       ur14 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua14.id)
       ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua15.id)
       ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua16.id)
+      ur17 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua17.id)
+      ur18 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua18.id)
+      ur18 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua19.id)
+      ur20 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua20.id)
+      ur21 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua21.id)
+      ur22 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua22.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
       #session[:user_id] = u.id
       #session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-      @cate1 = FactoryGirl.create(:customer_status_category)
-      @cate2 = FactoryGirl.create(:customer_status_category, :cate_name => 'newnew cate')
+      #@cate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :last_updated_by_id => @u.id)
+      lsource = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
+      @cate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'newnew cate', :last_updated_by_id => @u.id)
       @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => @u.id, :last_updated_by_id => @u.id, :quality_system_id => qs.id, :address => add)
       @slead = FactoryGirl.create(:sales_lead, :provider_id => @u.id, :last_updated_by_id => @u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
-      @ccate = FactoryGirl.create(:comm_category, :last_updated_by_id => @u.id)
+      @ccate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category', :active => true, :last_updated_by_id => @u.id)
+      #@ccate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
+      #@ccate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
+      #@ccate3 = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
       visit '/'
       fill_in "login", :with => @u.login
@@ -64,24 +79,24 @@ describe "TestPaths" do
     
     #customer status category
     it "should display customer status category index page" do     
-      visit customer_status_categories_path
+      visit misc_definitions_path(:for_which => 'customer_status')
       page.body.should have_content("Customerx")
     end
 
     it "should display edit page for the customer status category record" do
-      visit edit_customer_status_category_path(@cate2)
+      visit edit_misc_definition_path(@cate2, :for_which => 'customer_status')
       #response.should have_selector("input", :type => "text", :name => "customer_status_category[cate_name]", :value => @cate2.cate_name)
-      page.body.should include(@cate2.cate_name)
+      page.body.should include(@cate2.name)
     end
     
     it "should display new page for customer status category" do
-      visit new_customer_status_category_path
+      visit new_misc_definition_path(:for_which => 'customer_status')
       page.body.should have_content("New Customer Status Category")
     end
     
     #quality system    
     it "should display quality system index page" do
-      visit quality_systems_path
+      visit misc_definitions_path(:for_which => 'customer_qs')
       page.body.should have_content("Customerx")
     end
     
@@ -155,33 +170,46 @@ describe "TestPaths" do
     end
     
     it "should work with link on show sales lead page" do
-      visit customer_sales_lead_path(@cust, @slead)
+      visit customer_sales_leads_path(@cust)
+      #visit customer_sales_lead_path(@cust, @slead)
+      click_link @cust.sales_leads.first.id.to_s      
       click_link '新Log'
     end
     
     #comm category
     it "should display index page for comm category" do
-      visit comm_categories_path
+      visit misc_definitions_path(:for_which => 'customer_comm_category')
       page.body.should have_content('Comm Categories')
     end
     
     it "should work with links on comm category index page" do
-      visit comm_categories_path
+      visit misc_definitions_path(:for_which => 'customer_comm_category')
       click_link 'Edit'
-      #visit comm_categories_path
-      #click_link 'Back'
-      visit comm_categories_path
+      page.body.should have_content('Update Customer Comm Category')
+      visit misc_definitions_path(:for_which => 'customer_comm_category')
       click_link "New Comm Category"
+      page.body.should have_content('New Customer Comm Category')
     end
     
-    it "should display edit page for comm category" do
-      visit edit_comm_category_path(@ccate)
-      page.body.should have_content('Edit Comm Category')
+    it "should work with links on status category index page" do
+      visit misc_definitions_path(:for_which => 'customer_status')
+      click_link 'Edit'
+      visit misc_definitions_path(:for_which => 'customer_status')
+      click_link "New Customer Status Category"
     end
     
-    it "should display new comm_category" do
-      visit new_comm_category_path
-      page.body.should have_content('New Comm Category')
+    it "should work with links on quality system index page" do
+      visit misc_definitions_path(:for_which => 'customer_qs')
+      click_link 'Edit'
+      visit misc_definitions_path(:for_which => 'customer_qs')
+      click_link "New Quality System"
+    end
+    
+    it "should work with links on sales lead source index page" do
+      visit misc_definitions_path(:for_which => 'sales_lead_source')
+      click_link 'Edit'
+      visit misc_definitions_path(:for_which => 'sales_lead_source')
+      click_link "New Lead Source"
     end
     
     #customer_comm_record
@@ -211,9 +239,27 @@ describe "TestPaths" do
       page.body.should have_content('客户交流记录内容')
     end
     
+    #describe "something needs js", :js => true do
     it "should work with link on show customer_comm_record page" do
-      visit customer_customer_comm_record_path(@cust, @crecord)
+      visit customer_customer_comm_records_path(@cust)
+      #visit customer_customer_comm_record_path(@cust, @crecord)
+      click_link @crecord.id.to_s     
       click_link '新Log'
+      #save_and_open_page
+      #sleep 1
+      #fill_in "log", :with => 'some logs'
+      #click_button '保存'
+      #page.body.should have_content('Log Saved!')
+    end
+    #end
+    
+    it "should work with links on show sales lead page" do
+      visit customer_sales_leads_path(@cust)
+      click_link @slead.id.to_s
+      click_link '新Log'
+      visit customer_sales_leads_path(@cust)
+      click_link 'Edit'
+      page.body.should have_content('Edit Sales Lead')
     end
   end
 end

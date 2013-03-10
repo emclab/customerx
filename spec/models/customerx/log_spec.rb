@@ -27,10 +27,16 @@ module Customerx
       l.should_not be_valid
     end
     
-    it "should reject duplicate log" do
+    it "should reject duplicate log for the same which table" do
       l1 = FactoryGirl.create(:log, :log => 'this is a new log')
       l2 = FactoryGirl.build(:log, :log => 'This Is A New Log')
       l2.should_not be_valid
-    end    
+    end 
+
+    it "should be OK for duplicate log for different which_table" do
+      l1 = FactoryGirl.create(:log, :log => 'this is a new log', :which_table => 'a guy')
+      l2 = FactoryGirl.build(:log, :log => 'This Is A New Log')
+      l2.should be_valid
+    end  
   end
 end

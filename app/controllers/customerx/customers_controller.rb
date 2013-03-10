@@ -140,7 +140,7 @@ module Customerx
       search_params += ', 关键词 ：' + params[:customer][:keyword] if params[:customer][:keyword].present?
       search_params += ', 片区 ：' + Authentify::Zone.find_by_id(params[:customer][:zone_id_s].to_i).zone_name if params[:customer][:zone_id_s].present?
       search_params += ', 业务员 ：' + Authentify::User.find_by_id(params[:customer][:sales_id_s].to_i).name if params[:customer][:sales_id_s].present?
-      search_params += ', 客户 状态：' + Customerx::CustomerStatusCategory.find_by_id(params[:customer][:status_category_s].to_i).cate_name if params[:customer][:status_category_s].present?
+      search_params += ', 客户 状态：' + Customerx::MiscDefinition.where(:for_which => 'customer_status').find_by_id(params[:customer][:status_category_s].to_i).cate_name if params[:customer][:status_category_s].present?
       search_params
     end
     

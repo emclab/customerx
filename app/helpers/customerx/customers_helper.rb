@@ -13,11 +13,11 @@ module Customerx
     end
     
     def return_quality_system
-      Customerx::QualitySystem.where("active = ?", true).order("ranking_order")
+      Customerx::MiscDefinition.where(:for_which => 'customer_qs').where("active = ?", true).order("ranking_order")
     end
     
     def return_customer_status_category
-      Customerx::CustomerStatusCategory.where("active = ?", true).order("ranking_order")  
+      Customerx::MiscDefinition.where(:for_which => 'customer_status').where("active = ?", true).order("ranking_order")  
     end 
     
     def list_provinces

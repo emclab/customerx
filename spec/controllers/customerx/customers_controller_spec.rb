@@ -11,7 +11,7 @@ module Customerx
     
     describe "GET 'index'" do
       it "returns active customers list for user with index right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -29,7 +29,7 @@ module Customerx
       end 
       
       it "returns active/inactive customers list for user with index/activate right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -49,7 +49,7 @@ module Customerx
       end  
       
       it "only return sales' customer for index_individual right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -69,7 +69,7 @@ module Customerx
       end
       
       it "only return sales' active customer for index_individual right without activate right" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -89,7 +89,7 @@ module Customerx
       end
       
       it "only return active customer which belongs to zone for index_zone" do
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -259,8 +259,8 @@ module Customerx
     describe "GET show" do
       it "should show for user with right" do
         add = FactoryGirl.create(:address)
-        cate = FactoryGirl.create(:customer_status_category, :cate_name => 'order category')
-        qs = FactoryGirl.create(:quality_system)
+        cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
         zone = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => zone.id)

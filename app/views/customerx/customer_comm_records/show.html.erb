@@ -59,5 +59,6 @@
 </p>
 
 <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
- &nbsp;|&nbsp; <%= link_to '新Log', new_customer_comm_record_log_path(:customer_comm_record_id => @customer_comm_record.id, :which_table => 'customer_comm_record'), :id => 'new_log_link' %>
+ &nbsp;&nbsp; <%= link_to '新Log', new_customer_comm_record_log_path(@customer_comm_record, :which_table => 'customer_comm_record', :format => :js), 
+                                 :remote => true, :id => 'new_log_link' %>
 </div>

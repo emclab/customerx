@@ -102,7 +102,7 @@ module Customerx
     protected
         
     def lead_sources
-      Customerx::LeadSource.active.order("ranking_order")
+      Customerx::MiscDefinition.where(:for_which => 'sales_lead_source').where(:active => true).order("ranking_order")
     end
     
     def load_customer

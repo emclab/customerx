@@ -17,7 +17,7 @@ module Customerx
     belongs_to :close_lead_by, :class_name => 'Authentify::User'
     has_many :logs, :class_name => "Customerx::Log"
     belongs_to :customer, :class_name => 'Customerx::Customer'
-    belongs_to :lead_source, :class_name => 'Customerx::LeadSource'
+    belongs_to :lead_source, :class_name => 'Customerx::MiscDefinition'
     
     validates_presence_of :customer_id, :provider_id, :lead_info, :subject, :lead_date, :lead_source_id
     validates :lead_info, :uniqueness => {:case_sensitive => false}

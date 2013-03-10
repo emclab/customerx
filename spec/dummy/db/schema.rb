@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305161346) do
+ActiveRecord::Schema.define(:version => 20130307035212) do
 
   create_table "authentify_group_types", :force => true do |t|
     t.string   "name"
@@ -125,16 +125,6 @@ ActiveRecord::Schema.define(:version => 20130305161346) do
     t.datetime "updated_at",           :null => false
   end
 
-  create_table "customerx_comm_categories", :force => true do |t|
-    t.string   "name"
-    t.string   "brief_note"
-    t.boolean  "active",             :default => true
-    t.integer  "ranking_order"
-    t.integer  "last_updated_by_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-  end
-
   create_table "customerx_contacts", :force => true do |t|
     t.integer  "customer_id"
     t.string   "name"
@@ -162,16 +152,6 @@ ActiveRecord::Schema.define(:version => 20130305161346) do
     t.boolean  "void",               :default => false
   end
 
-  create_table "customerx_customer_status_categories", :force => true do |t|
-    t.string   "cate_name"
-    t.string   "brief_note"
-    t.boolean  "active",             :default => true
-    t.integer  "ranking_order"
-    t.integer  "last_updated_by_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-  end
-
   create_table "customerx_customers", :force => true do |t|
     t.string   "name"
     t.string   "short_name"
@@ -196,16 +176,6 @@ ActiveRecord::Schema.define(:version => 20130305161346) do
     t.text     "shipping_instruction"
   end
 
-  create_table "customerx_lead_sources", :force => true do |t|
-    t.string   "name"
-    t.boolean  "active",             :default => true
-    t.integer  "ranking_order"
-    t.integer  "last_updated_by_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.string   "brief_note"
-  end
-
   create_table "customerx_logs", :force => true do |t|
     t.integer  "sales_lead_id"
     t.integer  "customer_comm_record_id"
@@ -216,14 +186,15 @@ ActiveRecord::Schema.define(:version => 20130305161346) do
     t.text     "log"
   end
 
-  create_table "customerx_quality_systems", :force => true do |t|
+  create_table "customerx_misc_definitions", :force => true do |t|
     t.string   "name"
-    t.string   "brief_note"
-    t.boolean  "active"
-    t.integer  "last_updated_by_id"
+    t.text     "brief_note"
+    t.boolean  "active",             :default => true
     t.integer  "ranking_order"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.integer  "last_updated_by_id"
+    t.string   "for_which"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "customerx_sales_leads", :force => true do |t|
