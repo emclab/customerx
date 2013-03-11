@@ -6,56 +6,34 @@ module Customerx
     include Authentify::UserPrivilegeHelper
     include Authentify::UsersHelper
     
-    helper_method :has_index_right?, :has_create_right?, :has_update_right?, :has_show_right?, :has_destroy_right?, :has_activate_right?, :return_yes_no_cn,
-                  :has_search_right?, :has_search_individual_right?, :has_search_zone_right?, :has_index_individual_right?, :has_index_zone_right?
+    helper_method :has_action_on_customer_comm_record?, :has_action_on_sales_lead?
     
     def return_yes_no_cn
       [['是',true ],['否', false]]
     end
-  
-    def has_index_right?(table_name)
-      grant_access?('index', table_name)  
+    
+    #allow to create communication log with the customer
+    def has_action_on_customer_comm_record?(action, customer = nil) 
+      #right: update, show
+      return false if action.nil? 
+      return true if grant_access?(action, 'customerx_customer_comm_records')
+      if customer.present?
+        return true if grant_access?(action + '_zone', 'customerx_customer_comm_records', nil, nil, customer.zone_id) #&& 
+                       #session[:user_privilege].user_zone_ids.include?(customer.zone_id)
+        return true if grant_access?(action + '_individual', 'customerx_customer_comm_records', customer) #&& session[:user_id] == customer.sales_id
+      end 
     end
     
-    def has_index_individual_right?(table_name)
-      grant_access?('index_individual', table_name)
-    end
-    
-    def has_index_zone_right?(table_name)
-      grant_access?('index_zone', table_name)
-    end
-    
-    def has_show_right?(table_name)
-      grant_access?('show', table_name)  
-    end
-    
-    def has_create_right?(table_name)
-      grant_access?('create', table_name)  
-    end
-    
-    def has_update_right?(table_name)
-      grant_access?('update', table_name)  
-    end
-    
-    def has_destroy_right?(table_name)
-      grant_access?('destroy', table_name)
-    end
-    
-    def has_search_right?(table_name)
-      grant_access?('search', table_name)
-    end
-    
-    def has_search_individual_right?(table_name)
-      grant_access?('search_individual', table_name)
-    end
-    
-    def has_search_zone_right?(table_name)
-      grant_access?('search_zone', table_name)
-    end
-    
-    #allow to activate/deactivate a customer
-    def has_activate_right?(table_name)
-      grant_access?('activate', table_name)
+    #allow to create marketing lead
+    def has_action_on_sales_lead?(action, customer = nil)
+      #right: update, show
+      return false if action.nil? 
+      return true if grant_access?(action, 'customerx_sales_leads')
+      if customer.present?
+        return true if grant_access?(action + '_zone', 'customerx_sales_leads', nil, nil, customer.zone_id) #&& 
+                      # session[:user_privilege].user_zone_ids.include?(customer.zone_id)
+        return true if grant_access?(action + '_individual', 'customerx_sales_leads', customer) #&& session[:user_id] == customer.sales_id
+      end
     end
     
     def link_to_remove_fields(name, f)

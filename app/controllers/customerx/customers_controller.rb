@@ -3,21 +3,28 @@ require_dependency "customerx/application_controller"
 
 module Customerx
   class CustomersController < ApplicationController
+    #right - customerx_customers
+    #index, index_zone, index_individual
+    #create
+    #update, update_zone, update_individual, activate
+    #show, show_zone, show_individual
+    #search, search_zone, search_individual
+    
         
     before_filter :require_signin
     before_filter :require_employee
 
-    helper_method :has_comm_record_index_right?, :has_lead_index_right?, :return_last_contact_date
+    helper_method :has_comm_record_index_right?, :has_lead_index_right?, :return_last_contact_date, :has_action_on_customer?
     
     def index
       @title = 'Customers'
       has_right = true
       params[:customer] = {}  #instanciate the params object
-      if has_index_right?('customerx_customers')
+      if grant_access?('index', 'customerx_customers')
         params[:customer] = {} 
-      elsif has_index_zone_right?('customerx_customers')
+      elsif grant_access?('index_zone', 'customerx_customers')
         params[:customer][:zone_id_s] = session[:user_privilege].user_zone_ids         
-      elsif has_index_individual_right?('customerx_customers')
+      elsif grant_access?('index_individual', 'customerx_customers')
         params[:customer][:sales_id_s] = session[:user_id]
       else
         has_right = false
@@ -35,13 +42,13 @@ module Customerx
       @customer = Customerx::Customer.new
       @customer.build_address
       @customer.contacts.build
-      if !has_create_right?('customerx_customers')
+      if !grant_access?('create', 'customerx_customers')
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end
     end
 
     def create
-      if has_create_right?('customerx_customers')
+      if grant_access?('create', 'customerx_customers')
         @customer = Customerx::Customer.new(params[:customer], :as => :role_new)
         @customer.last_updated_by_id = session[:user_id]
         if @customer.save
@@ -58,14 +65,14 @@ module Customerx
     def edit
       @title = 'Edit Customer'
       @customer = Customerx::Customer.find(params[:id])
-      if !has_update_right?('customerx_customers')
+      if !has_action_on_customer?('update', @customer)
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end
     end
 
     def update
-      if has_update_right?('customerx_customers')
-        @customer = Customerx::Customer.find(params[:id])
+      @customer = Customerx::Customer.find(params[:id])
+      if has_action_on_customer?('update', @customer)       
         @customer.last_updated_by_id = session[:user_id]
         if @customer.update_attributes(params[:customer], :as => :role_update)
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Update Saved!")
@@ -81,7 +88,7 @@ module Customerx
     def show
       @title = 'Customer Info'
       @customer = Customerx::Customer.find(params[:id])
-      if !has_show_right?('customerx_customers')
+      if !has_action_on_customer?('show', @customer)
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end
     end
@@ -96,7 +103,9 @@ module Customerx
       #search_individual - only for customers who belongs to individual sales
       #search_zone - allow to search customer which belongs to a zone
       #search - allow to search all customers
-      if has_search_individual_right?("customerx_customers") || has_search_zone_right?("customerx_customers") || has_search_right?("customerx_customers")
+      if grant_access?('search', 'customerx_customers') || 
+         grant_access?('search_zone', 'customerx_customers') ||
+         grant_access?('search_individual', 'customerx_customers') 
         @customer = Customerx::Customer.new()
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
@@ -106,7 +115,9 @@ module Customerx
     def search_results
       @customer = Customerx::Customer.new(params[:customer], :as => :role_search_stats)
       @customers = @customer.find_customers()
-      if has_search_individual_right?("customerx_customers") || has_search_zone_right?("customerx_customers") || has_search_right?("customerx_customers")
+      if grant_access?('search', 'customerx_customers') || 
+         grant_access?('search_zone', 'customerx_customers') ||
+         grant_access?('search_individual', 'customerx_customers') 
         @customers = sort_customers(@customers)
         #seach params
         @search_params = search_params()
@@ -117,15 +128,24 @@ module Customerx
     
     protected
     
+    def has_action_on_customer?(action, customer)
+      #action: update, show
+      return false if action.nil? || customer.blank?
+      return true if grant_access?(action, 'customerx_customers')
+      return true if grant_access?(action + '_zone', 'customerx_customers') && 
+                     session[:user_privilege].user_zone_ids.include?(customer.zone_id)
+      return true if grant_access?(action + '_individual', 'customerx_customers') && session[:user_id] == customer.sales_id
+    end
+    
     #sort customer based on search right
     def sort_customers(customers)
-      if has_search_individual_right?("customerx_customers") 
-        customers = customers.where("customerx_customers.sales_id = ?", session[:user_id])
-      elsif has_search_zone_right?("customerx_customers")
+      if grant_access?('search', 'customerx_customers')
+        customers
+      elsif grant_access?('search_zone', 'customerx_customers')
         user_zone_ids = session[:user_priviledge].user_zones
         customers = customers.where(:customer => {:zone_id => user_zone_ids})
-      elsif has_search_right?("customerx_customers")
-        customers
+      elsif grant_access?('search_individual', 'customerx_customers') 
+        customers = customers.where("customerx_customers.sales_id = ?", session[:user_id])
       else
         customers = []
       end
@@ -146,21 +166,11 @@ module Customerx
     def sort_by_activate_right(customer)
       customers = customer.find_customers.page(params[:page]).per_page(30).order("active DESC, zone_id, id DESC, since_date DESC")
       return customers if customers.blank?   #customers.blank? return true and customers.nil? return false for empty customers
-      if !has_activate_right?('customerx_customers')
+      if !grant_access?('activate', 'customerx_customers')
         customers = customers.where(:active => true)
       end
       #customers = customers.order("active DESC, zone_id, id DESC, since_date DESC").page(params[:page]).per_page(30)
       customers
-    end
-    
-    #allow to create communication log with the customer
-    def has_comm_record_index_right?
-      grant_access?('index', 'customerx_customer_comm_records') 
-    end
-    
-    #allow to create marketing lead
-    def has_lead_index_right?
-      grant_access?('index', 'customerx_sales_leads') 
     end
 
     def return_last_contact_date(customer_id)

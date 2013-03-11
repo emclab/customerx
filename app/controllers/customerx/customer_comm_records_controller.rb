@@ -11,11 +11,26 @@ module Customerx
     
     def index
       @title= "客户联系记录"
-      if has_index_right?("customerx_customer_comm_records")
+      if has_action_on_customer_comm_record?('index', @customer)  #if the current user owns @customer
         if @customer
-          @customer_comm_records = @customer.customer_comm_records.where("comm_date > ?", 2.years.ago).order("comm_date DESC").page(params[:page]).per_page(30)
-        else
-          @customer_comm_records = Customerx::CustomerCommRecord.where("comm_date > ?", 2.years.ago).order("comm_date DESC").page(params[:page]).per_page(30)
+          @customer_comm_records = @customer.customer_comm_records.where(:void => false).where("comm_date > ?", 2.years.ago).order("comm_date DESC").page(params[:page]).per_page(30)
+        else  #for index without @customer
+          has_right = true
+          params[:customer_comm_record] = {}
+          if grant_access?('index', 'customerx_customer_comm_records')
+            params[:customer_comm_record] = {} 
+          elsif grant_access?('index_zone', 'customerx_customer_comm_records')
+            params[:customer_comm_record][:zone_id_s] = session[:user_privilege].user_zone_ids         
+          elsif grant_access?('index_individual', 'customerx_customer_comm_records')
+            params[:customer_comm_record][:sales_id_s] = session[:user_id]
+          else
+            has_right = false
+            redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")    
+          end
+          if has_right
+            record = Customerx::CustomerCommRecord.new(params[:customer_comm_record], :as => :role_search_stats)
+            @customer_comm_records = record.find_customer_comm_records.where(:void => false).where("comm_date > ?", 2.years.ago).order("comm_date DESC").page(params[:page]).per_page(30)
+          end
         end
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
@@ -24,7 +39,7 @@ module Customerx
   
     def new
       @title= "新客户联系记录"
-      if has_create_right?("customerx_customer_comm_records")
+      if grant_access?('create', 'customerx_customer_comm_records')
         if @customer
           @customer_comm_record = @customer.customer_comm_records.new()
         else
@@ -36,7 +51,7 @@ module Customerx
     end
   
     def create
-      if has_create_right?("customerx_customer_comm_records")
+      if grant_access?('create', 'customerx_customer_comm_records')
         if @customer
           @customer_comm_record = @customer.customer_comm_records.new(params[:customer_comm_record], :as => :role_new)
         else
@@ -58,7 +73,7 @@ module Customerx
     end
   
     def edit
-      if has_update_right?("customerx_customer_comm_records")
+      if has_action_on_customer_comm_record?('update', @customer)
         #@customer loaded with before_filter
         @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
       else
@@ -67,7 +82,7 @@ module Customerx
     end
   
     def update
-      if has_update_right?("customerx_customer_comm_records")
+      if has_action_on_customer_comm_record?('update', @customer)
         @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
         @customer_comm_record.last_updated_by_id = session[:user_id]
         if @customer_comm_record.update_attributes(params[:customer_comm_record], :as => :role_update)
@@ -82,7 +97,7 @@ module Customerx
     end
   
     def show
-      if has_show_right?("customerx_customer_comm_records")
+      if has_action_on_customer_comm_record?('show', @customer)
         @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
@@ -94,10 +109,6 @@ module Customerx
     def contact_via
       #phone call, meeting, fax, IM, email, letter (writing), online, other
       [['电话'],['会面'],['传真'],['电邮'],['即时信息IM'],['信件'],['互联网。如网络视频'],['其他']]
-    end
-    
-    def has_void_right?
-      grant_access?('void', 'customerx_customer_comm_records') 
     end
     
     def load_customer

@@ -12,6 +12,7 @@ module Customerx
     before_filter :load_sales_lead
     before_filter :load_customer_comm_record
     before_filter :require_which_table, :only => [:index, :new]  #which_table holds the table name which the log belongs to
+    
     def index
       if @which_table == 'sales_lead' 
         sales_lead_logs()
@@ -159,11 +160,7 @@ module Customerx
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Initial Params Error!") 
       end
     end
-    
-    def has_index_individual_right?
-      grant_access?('index_individual', 'customerx_logs')
-    end
-    
+  
     def load_sales_lead
       @sales_lead = Customerx::SalesLead.find_by_id(params[:sales_lead_id]) if params[:sales_lead_id].present?
     end

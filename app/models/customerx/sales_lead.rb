@@ -12,6 +12,10 @@ module Customerx
                     :provider_name_autocomplete, :customer_name_autocomplete, :customer_name, :initial_order_total,
                     :as => :role_update 
                     
+    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :zone_id_s, :sales_id_s, :lead_source_id_s
+    attr_accessible :customer_id_s, :start_date_s, :end_date_s,:zone_id_s, :sales_id_s, :lead_source_id_s, 
+                    :as => :role_search_stats                
+                    
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
     belongs_to :provider, :class_name => 'Authentify::User'
     belongs_to :close_lead_by, :class_name => 'Authentify::User'
@@ -41,6 +45,22 @@ module Customerx
 
     def provider_name_autocomplete=(name)
       self.provider = Authentify::User.find_by_name(name) if name.present?
+    end
+    
+    def find_sales_leads
+      #return 6 years qualified records
+      records = Customerx::SalesLead.where("lead_date > ?", 6.years.ago)
+      records = records.where('lead_date > ?', start_date_s) if start_date_s.present?
+      records = records.where('lead_date < ?', end_date_s) if end_date_s.present?
+      if zone_id_s.present?
+        records = records.where(:customer_id => Customerx::Customer.where(:zone_id => zone_id_s).select("customer_id")) 
+      end
+      if sales_id_s.present?
+        records = records.where(:customer_id => Customerx::Customer.where(:sales_id => sales_id_s).select("customer_id")) 
+      end
+      records = records.where(:lead_source_id => lead_source_id_s) if lead_source_id_s.present?
+      records = records.where("customer_id = ?", customer_id_s) if customer_id_s.present?
+      records
     end
                    
   end

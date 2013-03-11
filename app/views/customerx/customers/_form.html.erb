@@ -27,7 +27,7 @@
   <%= f.input :main_biz, :label => 'MainBiz：', :input_html => { :rows => 4} %>   
   <%= f.input :customer_taste, :label => 'CustomerTaste:', :input_html => { :rows => 4} %>   
   <%= f.input :customer_eval, :label => 'CustomerEval:', :input_html => { :rows => 4} %> 
-  <% if has_activate_right?('customerx_customers') %>
+  <% if grant_access?('activate', 'customerx_customers') %>
     <%= f.input :active, :label => 'Active:', :collection => [['Yes', true], ['No', false]] %>
   <% else %>
     <%= f.input :active, :label => 'Active:', :readonly => true, :as => :string %>

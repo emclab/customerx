@@ -17,7 +17,7 @@
 
 <% @customer_comm_records.each do |r| %>
   <tr>
-  	<% if has_show_right?('customerx_customer_comm_records') %>
+  	<% if has_action_on_customer_comm_record?('show', r.customer) %>
   	  <td><%= link_to r.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customerx.customer_customer_comm_record_path(r.customer,r)}" %></td>
   	<% else %>
   	  <td><%= r.id %></td>
@@ -29,12 +29,12 @@
     <td><%= r.via %></td>
     <td><%= r.comm_category.name %></td>
     <td><%= r.reported_by.name %></td>    
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.edit_customer_customer_comm_record_path(r.customer, r)}" if has_update_right?('customerx_customer_comm_records') %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.edit_customer_customer_comm_record_path(r.customer, r)}" if has_action_on_customer_comm_record?('update', r.customer) %></td>
 
   </tr>
 <% end %>
 </table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;| &nbsp;<%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}" if has_create_right?('customerx_customer_comm_records') %>
+  &nbsp;&nbsp;<%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}" if grant_access?('create', 'customerx_customer_comm_records') %>
 
 </div>

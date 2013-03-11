@@ -10,11 +10,26 @@ module Customerx
     helper_method :lead_sources
     
     def index
-      if has_index_right?('customerx_sales_leads')
+      if has_action_on_sales_lead?('index', @customer)
         if @customer
-          @sales_leads = @customer.sales_leads.where("created_at > ?", 2.year.ago).order("created_at DESC").page(params[:page]).per_page(30)
+          @sales_leads = @customer.sales_leads.where("lead_date > ?", 2.year.ago).order("lead_date DESC").page(params[:page]).per_page(30)
         else
-          @sales_leads = Customerx::SalesLead.where("created_at > ?", 2.year.ago).order("created_at DESC").page(params[:page]).per_page(30)
+          has_right = true
+          params[:sales_lead] = {}
+          if grant_access?('index', 'customerx_sales_leads')
+            params[:sales_lead] = {} 
+          elsif grant_access?('index_zone', 'customerx_sales_leads')
+            params[:sales_lead][:zone_id_s] = session[:user_privilege].user_zone_ids         
+          elsif grant_access?('index_individual', 'customerx_sales_leads')
+            params[:sales_lead][:sales_id_s] = session[:user_id]
+          else
+            has_right = false
+            redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")    
+          end
+          if has_right
+            record = Customerx::SalesLead.new(params[:sales_lead], :as => :role_search_stats)
+            @sales_leads = record.find_sales_leads.where("lead_date > ?", 2.years.ago).order("lead_date DESC").page(params[:page]).per_page(30)
+          end
         end 
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")   
@@ -22,7 +37,7 @@ module Customerx
     end
   
     def new
-      if has_create_right?('customerx_sales_leads')
+      if grant_access?('create', 'customerx_sales_leads')
         if @customer
           @sales_lead = @customer.sales_leads.new()
         else
@@ -34,7 +49,7 @@ module Customerx
     end
   
     def create
-      if has_create_right?('customerx_sales_leads')
+      if grant_access?('create', 'customerx_sales_leads')
         if @customer
           @sales_lead = @customer.sales_leads.new(params[:sales_lead], :as => :role_new)
           @sales_lead.last_updated_by_id = session[:user_id]
@@ -59,19 +74,18 @@ module Customerx
     end
   
     def edit
-      if has_update_right?('customerx_sales_leads')
-        if @customer
-          @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
-        else
-          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO customer selected!")
-        end
+      #nested with customer
+      if has_action_on_sales_lead?('update', @customer) && @customer
+        @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
+      elsif @customer.blank?
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Missing Customer!")
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end
     end
   
     def update
-      if has_update_right?('customerx_sales_leads')
+      if has_action_on_sales_lead?('update', @customer) && @customer
         @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
         #provider id from autocomplete
         provider = Authentify::User.find_by_name(@sales_lead.provider_name_autocomplete) if @sales_lead.provider_name_autocomplete.present?
@@ -84,16 +98,17 @@ module Customerx
           flash.now[:error] = 'Data Error. Not Updated!'
           render 'edit'
         end
+      elsif @customer.blank?
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Missing Customer!")  
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")     
       end
     end
   
     def show
-      if has_show_right?('customerx_sales_leads')
-        if @customer
-          @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
-        end
+      #nested with customer
+      if has_action_on_sales_lead?('show', @customer)
+        @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
       else
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       end

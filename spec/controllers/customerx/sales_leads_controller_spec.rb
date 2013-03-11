@@ -205,7 +205,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)  
         get 'edit', {:use_route => :customerx, :id => lead.id}
-        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO customer selected!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Missing Customer!")
       end
     end
   

@@ -18,7 +18,7 @@
 
 <% @sales_leads.each do |r| %>
   <tr>
-  	<% if has_show_right?('customerx_sales_leads') %>
+  	<% if has_action_on_sales_lead?('show', r.customer) %>
   	  <td><%= link_to r.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_lead_path(r.customer,r)}" %></td>
   	<% else %>
   	  <td><%= r.id %></td>
@@ -31,12 +31,12 @@
     <td><%= r.sale_success %></td>
     <td><%= number_with_delimiter(r.initial_order_total) %></td>
     <td><%= r.provider.name %></td>    
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_update_right?('customerx_sales_leads') %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_action_on_sales_lead?('update', r.customer) %></td>
 
   </tr>
 <% end %>
 </table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;| &nbsp;<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}" if has_create_right?('customerx_sales_leads') %>
+  &nbsp;&nbsp;<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}" if grant_access?('create', 'customerx_sales_leads') %>
 
 </div>
