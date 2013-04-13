@@ -19,14 +19,14 @@
           <td><%= cate.brief_note %></td>
           <td><%= cate.ranking_order %></td>
           <td><%= cate.last_updated_by.name %></td>
-          <td><%= link_to 'Edit', edit_misc_definition_path(cate, :format => :js), 
-                           :remote => true if grant_access?('update_customer_status', 'customerx_misc_definitions') %></td>
+          <td><%= link_to 'Edit', edit_misc_definition_path(cate, :subaction => 'customer_status', :format => :js), 
+                           :remote => true  %></td>
         </tr>
     <% end %>
 
   </table>
 
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>&nbsp;&nbsp;
-  <%= link_to "New Customer Status Category", new_misc_definition_path(:for_which => 'customer_status', :format => :js), :remote => true, 
-               :id => 'new_log_link' if grant_access?('create_customer_status', 'customerx_misc_definitions') %>
+  <%= link_to "New Customer Status Category", new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status', :format => :js), :remote => true, 
+               :id => 'new_log_link'  %>
 

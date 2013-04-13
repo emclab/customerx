@@ -17,9 +17,9 @@
           <td><%= r.id %></td>
           <td><%= (r.created_at + 8.hours).strftime("%Y/%m/%d")%></td>
           <td><%= Customerx::Customer.find_by_id(r.sales_lead.customer_id).short_name %></td>
-          <td><%= r.sales_lead.subject %></td>
-          <td><%= r.log %></td>
-          <td><%= r.last_updated_by.name %></td>
+          <td><%= prt(r, 'sales_lead.subject') %></td>
+          <td><%= prt(r, :log) %></td>
+          <td><%= prt(r, 'last_updated_by.name') %></td>
           
         </tr>
     <% end %>

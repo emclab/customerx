@@ -1,5 +1,6 @@
 module Customerx
   class MiscDefinition < ActiveRecord::Base
+    attr_accessor :active_noupdate
     attr_accessible :brief_note, :last_updated_by_id, :name, :ranking_order, :for_which, :as => :role_new   
     attr_accessible :active, :brief_note, :name, :ranking_order, :for_which, :as => :role_update
     

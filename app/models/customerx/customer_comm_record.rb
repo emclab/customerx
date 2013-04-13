@@ -1,14 +1,14 @@
 module Customerx
   class CustomerCommRecord < ActiveRecord::Base
     
-    attr_accessor :customer_name, :void_name     #for readonly field
+    attr_accessor :customer_name, :void_name, :reported_by_name, :via_noupdate     #for readonly field
     attr_accessible :comm_category_id, :comm_date, :contact_info, :content, :customer_id, :last_updated_by_id, :reported_by_id, 
                     :subject, :via, :customer_name_autocomplete, :as => :role_new
     attr_accessible :comm_category_id, :comm_date, :contact_info, :content, :customer_id, :last_updated_by_id, :reported_by_id, 
                     :subject, :via, :void, :as => :role_update  
                     
-    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :zone_id_s, :sales_id_s, :comm_category_id_s
-    attr_accessible :customer_id_s, :start_date_s, :end_date_s,:zone_id_s, :sales_id_s, :comm_category_id_s, 
+    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :zone_id_s, :sales_id_s, :comm_category_id_s, :via_s
+    attr_accessible :customer_id_s, :start_date_s, :end_date_s,:zone_id_s, :sales_id_s, :comm_category_id_s, :via_s,
                     :as => :role_search_stats
                     
     belongs_to :customer, :class_name => 'Customerx::Customer'

@@ -8,7 +8,8 @@ module Customerx
                     :last_updated_by_id, :main_biz, :name, :note, :phone, :zone_id, :shipping_instruction, :web,
                     :quality_system_id, :revenue, :sales_id, :short_name, :since_date, :address_attributes,:contacts_attributes,
                     :as => :role_update
-                    
+    
+    attr_accessor :zone_name, :customer_status_category_name, :quality_system_name, :active_noupdate, :sales_name
     attr_accessor :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s
     attr_accessible :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s, 
                     :as => :role_search_stats
@@ -52,7 +53,6 @@ module Customerx
       customers = customers.where(:status_category_s => status_category_s) if status_category_s.present?
       customers = customers.where("id = ?", customer_id_s) if customer_id_s.present?
       customers
-    end
-                    
+    end                   
   end
 end

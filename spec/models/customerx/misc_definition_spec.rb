@@ -7,7 +7,7 @@ module Customerx
       c.should be_valid
     end
     
-    it "should reject nil cate name" do
+    it "should reject nil name" do
       c = FactoryGirl.build(:misc_definition, :name => nil)
       c.should_not be_valid
     end
@@ -18,13 +18,13 @@ module Customerx
       c2.should_not be_valid
     end
     
-    it "should be OK for duplicate name for different which_table" do
+    it "should be OK for duplicate name for different for which" do
       c1 = FactoryGirl.create(:misc_definition, :for_which => 'a strange')
       c2 = FactoryGirl.build(:misc_definition, :brief_note => 'a dup cate name')
       c2.should be_valid
     end
     
-    it "should reject nil which_table" do
+    it "should reject nil for_which" do
       c = FactoryGirl.build(:misc_definition, :for_which => nil)
       c.should_not be_valid
     end

@@ -5,7 +5,7 @@
 <% elsif @for_which == 'customer_comm_category' %>
   <h1>Update Customer Comm Category</h1>
   <% name_label = 'CommRecordCategory' %>  
-<% elsif @for_which == 'customer_qs '%>
+<% elsif @for_which == 'customer_quality_system '%>
   <h1>Update Quality System</h1>
   <% name_label = 'QualitySystem' %> 
 <% elsif @for_which == 'sales_lead_source' %>
@@ -13,11 +13,15 @@
   <% name_label = 'SalesLeadSource' %>  
 <% end %>
 <%= simple_form_for @misc_definition do |f| %>     
-  <%= f.input :name, :label => name_label %>
-  <%= f.input :brief_note, :label => "Brief Note:" %> 
-  <%= f.input :active, :label => 'Active:', :collection => [['是', true], ['否', false]]%>
+  <%= f.input :name, :label => name_label, :readonly => readonly?(@misc_definition, 'name') %>
+  <%= f.input :brief_note, :label => "Brief Note:", :readonly => readonly?(@misc_definition, 'brief_note') %> 
+  <% if readonly?(@misc_definition, 'active')%>
+    <%= f.input :active_noupdate, :label => 'Active:', :readonly => true, :required => false, :input_html => {:value => @misc_definition.active} %>
+  <% else %>
+    <%= f.input :active, :label => 'Active:', :collection => [['是', true], ['否', false]]%>
+  <% end %>
   <%= f.input :for_which, :as => :hidden %>
-  <%= f.input :ranking_order, :label => 'Ranking Index', :placehoder => '1, 2, 3 ...'%> 
+  <%= f.input :ranking_order, :label => 'Ranking Index', :placehoder => '1, 2, 3 ...', :readonly => readonly?(@misc_definition, 'ranking_order') %> 
   <%= f.button :submit, 'Save' %>  
 <% end %> 
 

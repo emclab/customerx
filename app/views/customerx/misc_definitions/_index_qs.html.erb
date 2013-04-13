@@ -19,15 +19,15 @@
           <td><%= qs.brief_note %></td>
           <td><%= qs.ranking_order %></td>
           <td><%= qs.last_updated_by.name %></td>
-          <td><%= link_to 'Edit', edit_misc_definition_path(qs, :format => :js), 
-                  :remote => true if grant_access?('update_customer_quality_system', 'customerx_misc_definitions') %></td>
+          <td><%= link_to 'Edit', edit_misc_definition_path(qs, :subaction => 'customer_quality_system', :format => :js), 
+                  :remote => true %></td>
         </tr>
     <% end %>
 
   </table>
 
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
-  <%= link_to "New Quality System", new_misc_definition_path(:for_which => 'customer_qs', :format => :js), :remote => true, 
-             :id => 'new_log_link' if grant_access?('create_customer_quality_system', 'customerx_misc_definitions') %>
+  <%= link_to "New Quality System", new_misc_definition_path(:for_which => 'customer_qs', :subaction => 'customer_quality_system', :format => :js), :remote => true, 
+             :id => 'new_log_link'  %>
 
 

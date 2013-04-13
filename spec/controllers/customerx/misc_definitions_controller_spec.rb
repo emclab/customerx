@@ -4,37 +4,47 @@ module Customerx
   describe MiscDefinitionsController do
     before(:each) do
       controller.should_receive(:require_signin)
-      controller.should_receive(:require_employee)
+      #controller.should_receive(:require_employee)
     end
   
     render_views
     
     describe "GET 'index'" do
-      it "returns customer comm categories" do
+      it "returns customer comm categories for user" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'no_name_tables', :action => 'action')   #open to all users.
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_comm_category')
         get 'index' , {:use_route => :customerx, :for_which => 'customer_comm_category'}
         #response.should be_success
         assigns(:misc_definitions).should eq([qs])
       end
       
-      it "should list all customer comm category for users with update/create right" do
+      it "should list all customer qs for users with index right" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_comm_category')   #open to all users.
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
-        qs = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_comm_category')
-        qs1 = FactoryGirl.create(:misc_definition, :name => 'a new', :active => true, :last_updated_by_id => u.id, :for_which => 'customer_comm_category')
-        get 'index' , {:use_route => :customerx, :for_which => 'customer_comm_category'}
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        qs = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_quality_system')
+        qs1 = FactoryGirl.create(:misc_definition, :name => 'a new', :active => true, :last_updated_by_id => u.id, :for_which => 'customer_quality_system')
+        get 'index' , {:use_route => :customerx, :for_which => 'customer_quality_system'}
         #response.should be_success
         assigns(:misc_definitions).should eq([qs,qs1])
       end
@@ -43,72 +53,53 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'no_name_tables', :action => 'action')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cate = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_status')
         get 'index' , {:use_route => :customerx, :for_which => 'customer_status'}
         response.should be_success
         assigns(:misc_definitions).should eq([cate])
       end
       
-      it "should display all customer status categories for users who has create/update right" do
+      it "returns sales lead sources" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        cate1 = FactoryGirl.create(:misc_definition, :last_updated_by_id => u.id, :for_which => 'customer_status')
-        cate2 = FactoryGirl.create(:misc_definition, :last_updated_by_id => u.id, :name => 'newnew cate', :active => false, :for_which => 'customer_status')
-        get 'index', {:use_route => :customerx, :for_which => 'customer_status'}
-        response.should be_success
-        assigns(:misc_definitions).should eq([cate1, cate2])
-      end
-      
-      it "returns active lead sources" do
-        z = FactoryGirl.create(:zone, :zone_name => 'hq')
-        type = FactoryGirl.create(:group_type, :name => 'employee')
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'no_name_tables', :action => 'action')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
-        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
         ls = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'sales_lead_source')
         get 'index' , {:use_route => :customerx, :for_which => 'sales_lead_source'}
         response.should be_success
         assigns(:misc_definitions).should eq([ls])
       end
       
-      it "should displace all lead sources for users who has create/update right" do
-        z = FactoryGirl.create(:zone, :zone_name => 'hq')
-        type = FactoryGirl.create(:group_type, :name => 'employee')
-        ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_sales_lead_source')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
-        ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
-        session[:user_id] = u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        ls1 = FactoryGirl.create(:misc_definition, :last_updated_by_id => u.id, :for_which => 'sales_lead_source')
-        ls2 = FactoryGirl.create(:misc_definition, :name => 'newnew ls', :active => false, :last_updated_by_id => u.id, :for_which => 'sales_lead_source')
-        get 'index', {:use_route => :customerx, :for_which => 'sales_lead_source'}
-        response.should be_success
-        assigns(:misc_definitions).should eq([ls1, ls2])
-      end
-      
       it "should redirect if no for_which passed in" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'no_name_tables', :action => 'action')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
+        session[:user_id] = u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         ls = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'sales_lead_source')
         get 'index' , {:use_route => :customerx, :for_which => 'nil'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Initial Params Error!") 
@@ -120,13 +111,16 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_sales_lead_source')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        get 'new', {:use_route => :customerx, :for_which => 'sales_lead_source'}
+        get 'new', {:use_route => :customerx, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
         response.should be_success
       end
       
@@ -134,13 +128,16 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_comm_category')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        get 'new', {:use_route => :customerx, :for_which => 'customer_comm_category'}
+        get 'new', {:use_route => :customerx, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
         response.should be_success
       end
       
@@ -148,13 +145,16 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        get 'new', {:use_route => :customerx, :for_which => 'customer_status'}
+        get 'new', {:use_route => :customerx, :for_which => 'customer_status', :subaction => 'customer_status'}
         response.should be_success
       end
       
@@ -162,13 +162,16 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        get 'new', {:use_route => :customerx, :for_which => 'customer_qs'}
+        get 'new', {:use_route => :customerx, :for_which => 'customer_quality_system' , :subaction => 'customer_quality_system'}
         response.should be_success
       end
       
@@ -176,14 +179,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'no-create_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'no-create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        get 'new', {:use_route => :customerx, :for_which => 'customer_qs'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
+        get 'new', {:use_route => :customerx, :for_which => 'customer_quality_system'}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=new and resource=customerx/misc_definitions")
       end
     end
   
@@ -192,14 +198,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_sales_lead_source')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'sales_lead_source')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'sales_lead_source'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
         response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source')
       end
       
@@ -207,14 +216,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_comm_category')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_comm_category')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_comm_category'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category')
       end
       
@@ -222,14 +234,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_status')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_status'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_status', :subaction => 'customer_status'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_status')
       end
       
@@ -237,29 +252,35 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_qs')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_qs'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_qs')
+        qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_quality_system')
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system')
       end
       
       it "should render new with data error" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.attributes_for(:misc_definition, :name => nil, :for_which => 'cusomer_qs')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_qs'}
+        qs = FactoryGirl.attributes_for(:misc_definition, :name => nil, :for_which => 'cusomer_quality_system')
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
         response.should render_template('new')
       end
       
@@ -267,15 +288,18 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'no-create_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'no-create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition)
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_qs'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!") 
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=create and resource=customerx/misc_definitions")
       end
     end
   
@@ -284,14 +308,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_sales_lead_source')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
-        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'sales_lead_source'}
+        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
         response.should be_success
       end
       
@@ -299,14 +326,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_comm_category')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category')
-        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_comm_category'}
+        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
         response.should be_success
       end
       
@@ -314,14 +344,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_status')
-        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_status'}
+        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_status', :subaction => 'customer_status'}
         response.should be_success
       end
       
@@ -329,14 +362,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
-        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_qs'}
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
+        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
         response.should be_success
       end
       
@@ -344,15 +380,18 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'no-update_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'no-update_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
-        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_qs'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
+        get 'edit', {:use_route => :customerx, :id => qs.id, :for_which => 'customer_quality_system', :subaction => 'customer_comm_category'}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=edit and resource=customerx/misc_definitions")
       end
     end
   
@@ -361,14 +400,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_sales_lead_source')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'sales_lead_source'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
         response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source')
       end
       
@@ -376,14 +418,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_comm_category')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_comm_category'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category')
       end
       
@@ -391,14 +436,17 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_status')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_status'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_status', :subaction => 'customer_status'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_status')
       end
       
@@ -406,29 +454,35 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_qs'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_qs')
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system')
       end
       
       it "shoudl render edit with data error" do
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'update_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_qs'}
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
         response.should render_template('edit')
       end
       
@@ -436,15 +490,18 @@ module Customerx
         z = FactoryGirl.create(:zone, :zone_name => 'hq')
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-        ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'no-update_customer_quality_system')
-        ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
+        role = FactoryGirl.create(:role_definition)
+        user_access = FactoryGirl.create(:user_access, :action => 'no-update_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        :sql_code => "")
+        ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-        u = FactoryGirl.create(:user, :user_levels => [ul])
+        u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
+        session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_qs'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!") 
+        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=update and resource=customerx/misc_definitions")
       end
     end
   

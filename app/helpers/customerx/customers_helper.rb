@@ -4,9 +4,9 @@ module Customerx
     
     def sales()
       sales = ''
-      if grant_access?('search', 'customerx_customers')
+      if has_action_right?('search', 'customerx_customers')
         sales = Authentify::UsersHelper.return_users('create', 'customerx_customers')
-      elsif grant_access?('search_zone', 'customerx_customers')
+      elsif ghas_action_right?('search_zone', 'customerx_customers')
         sales = Authentify::UsersHelper.return_users('create', 'customerx_customers', session[:user_priviledge].user_zones)
       end
       sales

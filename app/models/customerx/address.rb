@@ -2,6 +2,7 @@
 module Customerx
   class Address < ActiveRecord::Base
     
+    attr_accessor :province_noupdate
     attr_accessible :add_line, :city_county_district, :province, :as => :role_new
     attr_accessible :add_line, :city_county_district, :province, :as => :role_update
     

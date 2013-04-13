@@ -1,10 +1,10 @@
 <div class="fields">
-  <%= f.input :name, :label => '姓名：', :required => true %>
-  <%= f.input :position, :label => '职务：' %>
-  <%= f.input :cell_phone, :label => '手机：' %>
-  <%= f.input :phone, :label => '电话：' %>    	
-  <%= f.input :email, :label => '电邮：' %>
-  <%= f.input :brief_note, :label => '简注：', :input_html => {:rows => 4} %>
+  <%= f.input :name, :label => '姓名：', :required => true, :readonly => readonly?(@customer, 'contact_name') %>
+  <%= f.input :position, :label => '职务：', :readonly => readonly?(@customer, 'contact_position') %>
+  <%= f.input :cell_phone, :label => '手机：', :readonly => readonly?(@customer, 'contact_cell_phone') %>
+  <%= f.input :phone, :label => '电话：', :readonly => readonly?(@customer, 'contact_phone') %>    	
+  <%= f.input :email, :label => '电邮：', :readonly => readonly?(@customer, 'contact_email') %>
+  <%= f.input :brief_note, :label => '简注：', :input_html => {:rows => 4}, :readonly => readonly?(@customer, 'contact_brief_note') %>
   <%= link_to_remove_fields "删除", f %>
 </div>
 

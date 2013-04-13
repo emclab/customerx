@@ -4,11 +4,8 @@
     <th>#</th>
     <th>ShortName</th>
     <th>SinceDate</th>
-    <% if grant_access?('create', 'customerx_customers') %>
-      
-      <th>Phone</th>
-      <th>Active?</th>
-    <% end %>
+    <th>Phone</th>
+    <th>Active?</th>
     <th>CustomerStatusCategory</th>
     <th>Sales</th>
     <th>LastContactDate</th>
@@ -20,27 +17,24 @@
 
 <% @customers.each do |cust| %>
   <tr>
-  	<% if has_action_on_customer?('show', cust) %>
+  	<% if has_action_right?('show', 'customerx_customers', cust) %>
   	  <td><%= link_to cust.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customer_path(cust)}"  %></td>
   	<% else %>
   	  <td><%= cust.id %></td>
   	<% end %>
-    <td><%= cust.short_name %></td>
+    <td><%= prt(cust, :short_name) %></td>
     <td><%= cust.since_date.strftime("%Y/%m/%d") %></td>
-    <% if grant_access?('create', 'customerx_customers') %>
-      
-      <td><%= cust.phone %></td>
-      <td><%= cust.active %></td>
-    <% end %>
-    <td><%= cust.customer_status_category.name %></td>
-    <td><%= cust.sales.name %></td>    
+    <td><%= prt(cust, :phone) %></td>
+    <td><%= prt(cust, :active) %></td>
+    <td><%= prt(cust, 'customer_status_category.name') %></td>
+    <td><%= prt(cust, 'sales.name') %></td>    
     <td><%= return_last_contact_date(cust.id).strftime("%Y/%m/%d") if return_last_contact_date(cust.id).present? %></td> 
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_action_on_customer?('update', cust) %></td>
-    <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}" if has_action_on_customer_comm_record?('index', cust) %></td>
-    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" if has_action_on_sales_lead?('index', cust) %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_action_right?('update', 'customerx_customers', cust) %></td>
+    <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}" %></td>
+    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" %></td>
   </tr>
 <% end %>
 </table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;&nbsp;<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}" if grant_access?('create', 'customerx_customers') %>
+  &nbsp;&nbsp;<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}" if has_action_right?('create', 'customerx_customers') %>
   &nbsp;&nbsp;<%= link_to 'Search', SUBURI + "/authentify/view_handler?index=1&url=#{search_customers_path}" %>
