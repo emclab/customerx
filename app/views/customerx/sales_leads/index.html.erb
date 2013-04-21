@@ -18,25 +18,25 @@
 
 <% @sales_leads.each do |r| %>
   <tr>
-  	<% if has_action_on_sales_lead?('show', r.customer) %>
+  	<% if has_action_right?('show', 'customerx_sales_leads', r) %>
   	  <td><%= link_to r.id.to_s, SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_lead_path(r.customer,r)}" %></td>
   	<% else %>
   	  <td><%= r.id %></td>
   	<% end %>
   	<td><%= r.lead_date.strftime("%Y/%m/%d") %></td>
-    <td><%= r.customer.short_name %></td>   
-    <td><%= r.subject %></td>
-    <td><%= r.lead_info[0..40] %></td>
-    <td><%= r.lead_quality %></td>
-    <td><%= r.sale_success %></td>
-    <td><%= number_with_delimiter(r.initial_order_total) %></td>
-    <td><%= r.provider.name %></td>    
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_action_on_sales_lead?('update', r.customer) %></td>
+    <td><%= prt(r, 'customer.short_name') %></td>   
+    <td><%= prt(r, :subject) %></td>
+    <td><%= prt(r, :lead_info)[0..40] %></td>
+    <td><%= prt(r, :lead_quality) %></td>
+    <td><%= prt(r, :sale_success) ? '是' : '否' %></td>
+    <td><%= number_with_delimiter(prt(r, :initial_order_total)) %></td>
+    <td><%= prt(r, 'provider.name') %></td>    
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_action_right?('update', 'customerx_sales_leads', r) %></td>
 
   </tr>
 <% end %>
 </table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;&nbsp;<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}" if grant_access?('create', 'customerx_sales_leads') %>
+  &nbsp;&nbsp;<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}" if has_action_right?('create', 'customerx_sales_leads') %>
 
 </div>

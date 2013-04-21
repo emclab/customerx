@@ -21,22 +21,9 @@ module Customerx
       if @for_which
         @misc_definitions = params[:customerx_misc_definitions][:model_ar_r].where(:for_which => @for_which).page(params[:page]).per_page(30)
       else
-        #@for_which does not match any
+      #@for_which does not match any
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Table Name Not Match!")
-      end  
-      #if @for_which == 'customer_status' #customer category         
-      #  customer_status_category()
-     # elsif @for_which == 'customer_comm_category'
-      #  customer_comm_category()
-      #elsif @for_which == 'customer_qs'
-      #  quality_system_for_customer()
-      #elsif @for_which == 'sales_lead_source'
-      #  sales_lead_source()
-      #else
-        #@for_which does not match any
-      #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Table Name Not Match!")
-     # end
-      
+      end
     end
 
     def new
@@ -45,30 +32,25 @@ module Customerx
       #   has_action_right?('create_customer_quality_system', 'customerx_misc_definitions') ||
       #   has_action_right?('create_customer_comm_category', 'customerx_misc_definitions') ||
       #   has_action_right?('create_sales_lead_source', 'customerx_misc_definitions')
-        @misc_definition = Customerx::MiscDefinition.new()
-        @misc_definition.for_which = @for_which
+      params[:misc_definition] = {}
+      @misc_definition = Customerx::MiscDefinition.new()
+      params[:misc_definition][:for_which] = @for_which
       #else
       #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       #end
     end
     
     def create
-      #if has_action_right?('create_customer_status', 'customerx_misc_definitions') || 
-       #  has_action_right?('create_customer_comm_category', 'customerx_misc_definitions') || 
-       #  has_action_right?('create_customer_quality_system', 'customerx_misc_definitions') || 
-       #  has_action_right?('create_sales_lead_source', 'customerx_misc_definitions')
-        @misc_definition = Customerx::MiscDefinition.new(params[:misc_definition], :as => :role_new)
-        #@misc_definition.for_which = @for_which
-        @misc_definition.last_updated_by_id = session[:user_id]
-        if @misc_definition.save
-          redirect_to misc_definitions_path(:for_which => @misc_definition.for_which), :notice => "Definition Saved!"
-        else
-          flash.now[:error] = 'Data Error. Not Saved!'
-          render 'new'
-        end
-     # else
-      #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")     
-      #end
+      @misc_definition = Customerx::MiscDefinition.new(params[:misc_definition], :as => :role_new)
+      #@misc_definition.for_which = @for_which
+      @misc_definition.last_updated_by_id = session[:user_id]
+      if @misc_definition.save
+        redirect_to misc_definitions_path(:for_which => @misc_definition.for_which, :subaction => @misc_definition.for_which), :notice => "Definition Saved!"
+      else
+        flash.now[:error] = 'Data Error. Not Saved!'
+        render 'new'
+      end
+
     end
     
     def edit      
@@ -91,7 +73,7 @@ module Customerx
         @misc_definition = Customerx::MiscDefinition.find(params[:id])
         @misc_definition.last_updated_by_id = session[:user_id]
         if @misc_definition.update_attributes(params[:misc_definition], :as => :role_update)
-          redirect_to misc_definitions_path(:for_which => @misc_definition.for_which), :notice => "Definition Updated!"
+          redirect_to misc_definitions_path(:for_which => @misc_definition.for_which, :subaction => @misc_definition.for_which), :notice => "Definition Updated!"
         else
           flash.now[:error] = 'Data Error. Not Updated!'
           render 'edit'
@@ -102,42 +84,6 @@ module Customerx
     end
 
     protected
-    
-    #def customer_status_category
-    #  if has_action_right?('create_customer_status', 'customerx_misc_definitions') || 
-    #     has_action_right?('update_customer_status', 'customerx_misc_definitions')
-    #    @misc_definitions = Customerx::MiscDefinition.where(:for_which => 'customer_status').order("ranking_order")
-    #  else
-    #    @misc_definitions = Customerx::MiscDefinition.where('active = ?', true).where(:for_which => 'customer_status').order("ranking_order")
-     # end
-    #end
-    
-    #def customer_comm_category
-    #  if has_action_right?('create_customer_comm_category', 'customerx_misc_definitions') || 
-    #     has_action_right?('update_customer_comm_category', 'customerx_misc_definitions')
-    #    @misc_definitions = Customerx::MiscDefinition.where(:for_which => 'customer_comm_category').order("ranking_order")
-     # else
-     #   @misc_definitions = Customerx::MiscDefinition.where('active = ?', true).where(:for_which => 'customer_comm_category').order("ranking_order")
-     # end
-    #end
-    
-    #def quality_system_for_customer
-    #  if has_action_right?('create_customer_quality_system', 'customerx_misc_definitions') || 
-    #     has_action_right?('update_customer_quality_system', 'customerx_misc_definitions')
-    #    @misc_definitions = Customerx::MiscDefinition.where(:for_which => 'customer_qs').order("ranking_order")
-    #  else
-     #   @misc_definitions = Customerx::MiscDefinition.where('active = ?', true).where(:for_which => 'customer_qs').order("ranking_order")
-     # end
-    #end
-    
-    #def sales_lead_source
-    #  if has_action_right?('create_sales_lead_source', 'customerx_misc_definitions') || 
-    #     has_action_right?('update_sales_lead_source', 'customerx_misc_definitions')
-     #   @misc_definitions = Customerx::MiscDefinition.where(:for_which => 'sales_lead_source').order("ranking_order")
-    #  else
-     #   @misc_definitions = Customerx::MiscDefinition.where('active = ?', true).where(:for_which => 'sales_lead_source').order("ranking_order")
-     # end
-    #end
     
     def require_for_which     
       @for_which = params[:for_which] if params[:for_which].present?
@@ -156,7 +102,7 @@ module Customerx
       elsif action == 'new'
         return "New Customer Status Category" if for_which == 'customer_status'
         return "New Customer Comm Category" if for_which == 'customer_comm_category'
-        return "New Quality System" if for_which == 'customers_quality_system'
+        return "New Quality System" if for_which == 'customer_quality_system'
         return "New Sales Lead Source" if for_which == 'sales_lead_source'
       elsif action == 'edit'
         return "Update Customer Status Category" if for_which == 'customer_status'

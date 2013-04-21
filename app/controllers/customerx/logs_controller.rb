@@ -171,11 +171,13 @@ module Customerx
     end
   
     def load_sales_lead
-      @sales_lead = Customerx::SalesLead.find_by_id(params[:sales_lead_id]) if params[:sales_lead_id].present?
+      @sales_lead = Customerx::SalesLead.find_by_id(params[:sales_lead_id]) if params[:sales_lead_id].present? && 
+                                                                               params[:sales_lead_id].to_i > 0
     end
     
     def load_customer_comm_record
-      @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:customer_comm_record_id]) if params[:customer_comm_record_id].present?
+      @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:customer_comm_record_id]) if params[:customer_comm_record_id].present? && 
+                               params[:customer_comm_record_id].to_i > 0 
     end
   end
 end

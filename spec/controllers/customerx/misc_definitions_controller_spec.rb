@@ -209,7 +209,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'sales_lead_source')
         get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
-        response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source')
+        response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       end
       
       it "should save for comm record with create right" do
@@ -227,7 +227,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_comm_category')
         get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       end
       
       it "should save for customer status with create right" do
@@ -245,7 +245,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_status')
         get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_status', :subaction => 'customer_status'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_status')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       end
       
       it "should save for quality system with create right" do
@@ -263,7 +263,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_quality_system')
         get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       end
       
       it "should render new with data error" do
@@ -411,7 +411,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
         get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
-        response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source')
+        response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       end
       
       it "should update customer comm record with update right" do
@@ -429,7 +429,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category')
         get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       end
       
       it "should update customer status with update right" do
@@ -447,7 +447,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_status')
         get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_status', :subaction => 'customer_status'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_status')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       end
       
       it "should update quality system with update right" do
@@ -465,7 +465,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
         get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
-        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system')
+        response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       end
       
       it "shoudl render edit with data error" do

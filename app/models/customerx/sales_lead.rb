@@ -1,7 +1,7 @@
 module Customerx
   class SalesLead < ActiveRecord::Base
     
-    attr_accessor :customer_name
+    attr_accessor :customer_name, :lead_source_name, :sale_success_value, :close_lead_value
     
     attr_accessible :lead_eval, :contact_instruction, :customer_id, :last_updated_by_id, :lead_accuracy, :lead_quality, 
                     :lead_info, :sale_success, :lead_source_id, :lead_status, :provider_id, :subject, :lead_date, :provider_name_autocomplete,

@@ -13,9 +13,6 @@
   <%= f.simple_fields_for :address do |builder| %>     
     <%= render('address', :f => builder)%>
   <% end %>      
-  <%= f.simple_fields_for :address do |builder| %>     
-    <%= render('address', :f => builder)%>
-  <% end %>
   <%= f.input :shipping_instruction, :label => '发运要求：', :input_html => {:rows => 4}, :readonly => readonly?(@customer, 'shipping_instruction') %>
   <%= f.input :zone_name, :label => 'Zone:', readonly => true, :required => false, :input_html => {:value => @customer.zone.name} if readonly?(@customer, 'zone_id') %>
   <%= f.input :zone_id, :label => 'Zone:', :collection => return_zone, :label_method => :zone_name, :value_method => :id unless readonly?(@customer, 'zone_id') %>

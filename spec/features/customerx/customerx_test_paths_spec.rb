@@ -4,72 +4,93 @@ require 'spec_helper'
 describe "TestPaths" do
   describe "GET /customerx_test_paths" do
     before(:each) do
-      z = FactoryGirl.create(:zone, :zone_name => 'hq')
-      type = FactoryGirl.create(:group_type, :name => 'employee')
+      #z = FactoryGirl.create(:zone, :zone_name => 'hq')
+      #type = FactoryGirl.create(:group_type, :name => 'employee')
       qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
       add = FactoryGirl.create(:address)
+      #ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
+      cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+      z = FactoryGirl.create(:zone, :zone_name => 'hq')
+      type = FactoryGirl.create(:group_type, :name => 'employee')
       ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-      ua = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
-      ua1 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
-      ua2 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'index')
-      ua3 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'create')
-      ua4 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'update')
-      ua41 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customers', :action => 'show')
-      ua5 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'index')
-      ua6 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'create')
-      ua7 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'update')
-      ua8 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_sales_leads', :action => 'show')
-      ua9 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_comm_category')
-      ua10 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_comm_category')
-      ua11 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'index' )
-      ua12 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'show' )
-      ua13 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'create' )
-      ua14 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_customer_comm_records', :action => 'update' )
-      ua15 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_logs', :action => 'create_customer_comm_record' )
-      ua16 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_logs', :action => 'create_sales_lead' )
-      ua17 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_status')
-      ua18 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_status')
-      ua19 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_customer_quality_system')
-      ua20 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_customer_quality_system')
-      ua21 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'update_sales_lead_source')
-      ua22 = FactoryGirl.create(:sys_action_on_table, :table_name => 'customerx_misc_definitions', :action => 'create_sales_lead_source')
-      ur = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua.id)
-      ur1 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua1.id)
-      ur2 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua2.id)
-      ur2 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua3.id)
-      ur4 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua4.id)
-      ur41 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua41.id)
-      ur5 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua5.id)
-      ur6 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua6.id)
-      ur7 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua7.id)
-      ur8 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua8.id)
-      ur9 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua9.id)
-      ur10 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua10.id)
-      ur11 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua11.id)
-      ur12 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua12.id)
-      ur13 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua13.id)
-      ur14 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua14.id)
-      ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua15.id)
-      ur15 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua16.id)
-      ur17 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua17.id)
-      ur18 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua18.id)
-      ur18 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua19.id)
-      ur20 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua20.id)
-      ur21 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua21.id)
-      ur22 = FactoryGirl.create(:sys_user_right, :sys_user_group_id => ug.id, :sys_action_on_table_id => ua22.id)
+      @role = FactoryGirl.create(:role_definition)
+      ua2 = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::Customer.where(:active => true)")
+      ua3 = FactoryGirl.create(:user_access, :action => 'create', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => nil)
+      ua4 = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua41 = FactoryGirl.create(:user_access, :action => 'show', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua5 = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_sales_leads', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua6 = FactoryGirl.create(:user_access, :action => 'create', :resource => 'customerx_sales_leads', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua7 = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_sales_leads', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua8 = FactoryGirl.create(:user_access, :action => 'show', :resource => 'customerx_sales_leads', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua9 = FactoryGirl.create(:user_access, :action => 'update_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua10 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua11 = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_customer_comm_records', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::CustomerCommRecord.joins(:customer).
+        where(:customerx_customers => {:sales_id => session[:user_id]}).
+        order('comm_date DESC')")
+      ua12 = FactoryGirl.create(:user_access, :action => 'show', :resource => 'customerx_customer_comm_records', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua13 = FactoryGirl.create(:user_access, :action => 'create', :resource => 'customerx_customer_comm_records', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua14 = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_customer_comm_records', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua15 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua151 = FactoryGirl.create(:user_access, :action => 'index_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.
+                     where(:active => true).order('ranking_order')") 
+      ua16 = FactoryGirl.create(:user_access, :action => 'index_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.
+                     where(:active => true).order('ranking_order')")
+      ua = FactoryGirl.create(:user_access, :action => 'index_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.
+                     where(:active => true).order('ranking_order')")
+      ua152 = FactoryGirl.create(:user_access, :action => 'index_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::MiscDefinition.
+                     where(:active => true).order('ranking_order')")
+      ua1 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua17 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua18 = FactoryGirl.create(:user_access, :action => 'create_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua19 = FactoryGirl.create(:user_access, :action => 'update_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua20 = FactoryGirl.create(:user_access, :action => 'create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua21 = FactoryGirl.create(:user_access, :action => 'update_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua22 = FactoryGirl.create(:user_access, :action => 'create_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua23 = FactoryGirl.create(:user_access, :action => 'update_customer_comm_record', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua24 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "") 
+      ua25 = FactoryGirl.create(:user_access, :action => 'create_sales_lead', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      ua26 = FactoryGirl.create(:user_access, :action => 'index_sales_lead', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::Log.where('customerx_logs.sales_lead_id > ?', 0)")      
+      ur = FactoryGirl.create(:user_role, :role_definition_id => @role.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
-      @u = FactoryGirl.create(:user, :user_levels => [ul], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
-      #session[:user_id] = u.id
-      #session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-      #@cate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :last_updated_by_id => @u.id)
+      @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
       lsource = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
       @cate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'newnew cate', :last_updated_by_id => @u.id)
       @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => @u.id, :last_updated_by_id => @u.id, :quality_system_id => qs.id, :address => add)
       @slead = FactoryGirl.create(:sales_lead, :provider_id => @u.id, :last_updated_by_id => @u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
       @ccate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category', :active => true, :last_updated_by_id => @u.id)
-      #@ccate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
-      #@ccate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
-      #@ccate3 = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
+      @ccate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
+      @ccate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
+      @ccate3 = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
       visit '/'
       fill_in "login", :with => @u.login
@@ -79,25 +100,24 @@ describe "TestPaths" do
     
     #customer status category
     it "should display customer status category index page" do     
-      visit misc_definitions_path(:for_which => 'customer_status')
-      page.body.should have_content("Customerx")
+      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      page.body.should have_content("Customer Status Category")
     end
 
     it "should display edit page for the customer status category record" do
-      visit edit_misc_definition_path(@cate2, :for_which => 'customer_status')
-      #response.should have_selector("input", :type => "text", :name => "customer_status_category[cate_name]", :value => @cate2.cate_name)
+      visit edit_misc_definition_path(@cate2, :for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should include(@cate2.name)
     end
     
     it "should display new page for customer status category" do
-      visit new_misc_definition_path(:for_which => 'customer_status')
+      visit new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should have_content("New Customer Status Category")
     end
     
     #quality system    
     it "should display quality system index page" do
-      visit misc_definitions_path(:for_which => 'customer_qs')
-      page.body.should have_content("Customerx")
+      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      page.body.should have_content("Quality System")
     end
     
     #customers
@@ -108,10 +128,13 @@ describe "TestPaths" do
     
     it "should work with links on index page" do
       visit customers_path
+      #save_and_open_page
       click_link '输入客户'
+      #save_and_open_page
       visit customers_path
       click_link @cust.id.to_s
       visit customers_path
+      #save_and_open_page
       click_link 'Edit'
       visit customers_path
       click_link 'SalesLeads'
@@ -172,43 +195,51 @@ describe "TestPaths" do
     it "should work with link on show sales lead page" do
       visit customer_sales_leads_path(@cust)
       #visit customer_sales_lead_path(@cust, @slead)
-      click_link @cust.sales_leads.first.id.to_s      
+      click_link @cust.sales_leads.first.id.to_s 
+      #save_and_open_page     
       click_link '新Log'
     end
     
     #comm category
     it "should display index page for comm category" do
-      visit misc_definitions_path(:for_which => 'customer_comm_category')
+      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       page.body.should have_content('Comm Categories')
     end
     
     it "should work with links on comm category index page" do
-      visit misc_definitions_path(:for_which => 'customer_comm_category')
+      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       click_link 'Edit'
       page.body.should have_content('Update Customer Comm Category')
-      visit misc_definitions_path(:for_which => 'customer_comm_category')
+      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       click_link "New Comm Category"
       page.body.should have_content('New Customer Comm Category')
     end
     
     it "should work with links on status category index page" do
-      visit misc_definitions_path(:for_which => 'customer_status')
-      click_link 'Edit'
-      visit misc_definitions_path(:for_which => 'customer_status')
+      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      #save_and_open_page
+      page.all('a')[1].click  #list all a -href and click the first one which is a edit.
+      #page.find("a:eq(2)").click
+      #save_and_open_page
+      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       click_link "New Customer Status Category"
     end
     
     it "should work with links on quality system index page" do
-      visit misc_definitions_path(:for_which => 'customer_qs')
+      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      #save_and_open_page
       click_link 'Edit'
-      visit misc_definitions_path(:for_which => 'customer_qs')
+      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      #save_and_open_page
       click_link "New Quality System"
     end
     
     it "should work with links on sales lead source index page" do
-      visit misc_definitions_path(:for_which => 'sales_lead_source')
-      click_link 'Edit'
-      visit misc_definitions_path(:for_which => 'sales_lead_source')
+      visit misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
+      #save_and_open_page
+      page.all('a')[1].click  #list all a -href and click the first one which is a edit.
+      #save_and_open_page
+      visit misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       click_link "New Lead Source"
     end
     
