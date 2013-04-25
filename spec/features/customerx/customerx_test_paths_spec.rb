@@ -124,6 +124,7 @@ describe "TestPaths" do
     it "should display customer index page" do
       visit customers_path
       page.body.should have_content('Customers')
+      page.body.should_not have_content("SalesLeads")
     end
     
     it "should work with links on index page" do
@@ -136,6 +137,7 @@ describe "TestPaths" do
       visit customers_path
       #save_and_open_page
       click_link 'Edit'
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customers_path
       click_link 'SalesLeads'
       visit customers_path
@@ -157,11 +159,13 @@ describe "TestPaths" do
     
     #sales lead
     it "should display index customer's sales leads page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customer_sales_leads_path(@cust)
       page.body.should have_content('Sales Leads')
     end
     
     it "should work with all links in sales leads index page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customer_sales_leads_path(@cust)
       click_link 'Edit'
       visit customer_sales_leads_path(@cust)
@@ -173,26 +177,31 @@ describe "TestPaths" do
     end
     
     it "should display index for sales lead without customer" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit sales_leads_path
       page.body.should have_content('Sales Leads')
     end
     
     it "should display new sales leads page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit new_customer_sales_lead_path(@cust)
       page.body.should have_content('New Sales Lead')
     end
     
     it "should display edit sales leads page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit edit_customer_sales_lead_path(@cust, @slead)
       page.body.should have_content('Edit Sales Lead')    
     end
     
     it "should show sales leads" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customer_sales_lead_path(@cust, @slead)
       page.body.should have_content('Sales Lead Info')
     end
     
     it "should work with link on show sales lead page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customer_sales_leads_path(@cust)
       #visit customer_sales_lead_path(@cust, @slead)
       click_link @cust.sales_leads.first.id.to_s 
@@ -285,6 +294,7 @@ describe "TestPaths" do
     #end
     
     it "should work with links on show sales lead page" do
+      u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customer_sales_leads_path(@cust)
       click_link @slead.id.to_s
       click_link '新Log'
