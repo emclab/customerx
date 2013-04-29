@@ -12,9 +12,9 @@ module Customerx
       @title= "客户联系记录"
       if @customer
         @customer_comm_records = @customer.customer_comm_records.where(:void => false).where("comm_date > ?", 2.years.ago).
-                                 order("comm_date DESC").page(params[:page]).per_page(30)
+                                 order("comm_date DESC").page(params[:page]).per_page(@max_pagination)
       else
-        @customer_comm_records = params[:customerx_customer_comm_records][:model_ar_r].page(params[:page]).per_page(30)
+        @customer_comm_records = params[:customerx_customer_comm_records][:model_ar_r].page(params[:page]).per_page(@max_pagination)
       end
     end
   

@@ -4,7 +4,7 @@ module Customerx
   describe CustomerCommRecordsController do
     before(:each) do
       controller.should_receive(:require_signin)
-      #controller.should_receive(:require_employee)  #should_receive does not pass in index test. solved by adding session[:employee] = true and comment out should_receive
+      @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
     end
   
     render_views

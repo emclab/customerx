@@ -4,6 +4,7 @@ require 'spec_helper'
 describe "TestPaths" do
   describe "GET /customerx_test_paths" do
     before(:each) do
+      @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
       #z = FactoryGirl.create(:zone, :zone_name => 'hq')
       #type = FactoryGirl.create(:group_type, :name => 'employee')
       qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')

@@ -10,6 +10,7 @@ module Customerx
     render_views
     
     before(:each) do
+      @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
       @cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
       @z = FactoryGirl.create(:zone, :zone_name => 'hq')
       type = FactoryGirl.create(:group_type, :name => 'employee')
