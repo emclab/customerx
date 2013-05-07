@@ -4,7 +4,7 @@
 		<tr>
 			<td width="40%" valign="top">
 				<ul>
-					<li><%= link_to 'Customer Status Category', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.misc_definitions_path(:for_which => 'customer_status')}" %></li>
+					<li><%= link_to 'Customer Status Category', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')}" %></li>
 					<li><%= link_to 'Comm Category', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.misc_definitions_path(:for_which => 'customer_comm_category')}" %></li>
 					<li><%= link_to 'New Customer Status Category', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_misc_definition_path(:for_which => 'customer_status')}" %></li>	
 					<li><%= link_to 'Quality Systems', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.misc_definitions_path(:for_which => 'customer_qs')}" %></li>	
