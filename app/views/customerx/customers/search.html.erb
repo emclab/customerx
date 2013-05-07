@@ -1,5 +1,5 @@
 <div id="main_body">
-<h1>搜索客户</h1>
+<h4>搜索客户</h4>
 
 <%= simple_form_for @customer,  :method => :put, :url => search_results_customers_path  do |f| %>   <!--:url => {:action => 'search_results'} causes error in rpsec. But not in execution -->
   <%= f.input :start_date_s, :label => "开始日期 ：", :as => :string, :input_html => {:size => 40} %>
@@ -12,7 +12,7 @@
   <%= f.input :status_category_s, :collection => Customerx::MiscDefinition.where(:for_which => 'customer_status').where(:active => true).order("ranking_order"), :label => "客户状态：", 
               :prompt => "选客户状态", :include_blank => true, :label_method => :name, :value_method => :id  %>  
  
-  <%= f.button :submit, "搜索" %>  
+  <%= f.button :submit, "搜索", :class =>'btn btn-primary' %>  
 <% end %> 
 <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
 

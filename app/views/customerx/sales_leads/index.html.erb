@@ -1,7 +1,7 @@
 <div id="main_body">
-<h1>Sales Leads</h1>
+<h4>Sales Leads</h4>
 <div class="pigination"><%= will_paginate @sales_leads %></div>
-<table>
+<table class="table table-striped">
   <tr>
     <th>#</th>
     <th>EnterDate</th>
@@ -31,12 +31,18 @@
     <td><%= prt(r, :sale_success) ? '是' : '否' %></td>
     <td><%= number_with_delimiter(prt(r, :initial_order_total)) %></td>
     <td><%= prt(r, 'provider.name') %></td>    
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}" if has_action_right?('update', 'customerx_sales_leads', r) %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_sales_lead_path(r.customer, r)}", :class =>'btn btn-primary' if has_action_right?('update', 'customerx_sales_leads', r) %></td>
 
   </tr>
 <% end %>
 </table>
+<table class="table table-striped">
+  <tr>
+    <th>
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}", :class =>'btn btn-primary' if has_action_right?('create', 'customerx_sales_leads') %>    </th>
+  </tr>
+</table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
-  &nbsp;&nbsp;<%= link_to '输入Leads', SUBURI + "/authentify/view_handler?index=1&url=#{new_sales_lead_path}" if has_action_right?('create', 'customerx_sales_leads') %>
 
 </div>

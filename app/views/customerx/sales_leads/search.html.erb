@@ -1,5 +1,5 @@
 <div id="main_body">
-<h1>Search Sales Leads</h1>
+<h4>Search Sales Leads</h4>
 <%= simple_form_for @sales_lead, :method => :put, :url => { :action => 'search_results' } do |f| %>    
   <%= f.input :start_date_s, :label => "开始日期 ：", :as => :string, :input_html => {:size => 40} %>
   <%= f.input :end_date_s, :label => "结束日期 ：", :as => :string, :input_html => {:size => 40} %>
@@ -11,6 +11,6 @@
   
   <%= f.input :customer_id_s, :collection => Customerx::Customer.active_cust.where("biz_status = ?", '1').order('name'), :label_method => :name, :value_method => :id, :prompt => "选客户", :label => "客户 ："  %>    
   <%= f.input :sales_id_s, :collection => Authentify::User.return_users().(:order => 'name'), :label_method => :name, :value_method => :id, :prompt => "选" + to_chn(:sales), :label => to_chn(:sales) + ":"  %>    
-  <%= f.button :submit, 'Search' %>  
+  <%= f.button :submit, 'Search', :class =>'btn btn-primary' %>  
 <% end %> 
 </div>

@@ -36,7 +36,7 @@
   <%= f.input :sales_name, :label => 'Sales:', :readonly => true, :required => false, :input_html => {:value => @customer.sales.name} if readonly?(@customer, 'sales_id') %>
   <%= f.input :note, :label => 'Note:', :input_html => { :rows => 4}, :readonly => readonly?(@customer, 'note') %>        
   
-  <%= f.button :submit, 'Save' %>  
+  <%= f.button :submit, 'Save', :class =>'btn btn-primary' %>  
 <% end %>  
 
 

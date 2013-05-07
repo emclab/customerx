@@ -1,6 +1,6 @@
 <div id="main_body">
 
-<h1>Sales Lead Info</h1>
+<h4>Sales Lead Info</h4>
 
 <p>
   <b>Customer:</b>
@@ -71,7 +71,14 @@
 <% end %>
 </ul>
 </p>
+
+<table class="table table-striped">
+  <tr>
+    <th>
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%= link_to '新Log', new_sales_lead_log_path(@sales_lead, :which_table => 'sales_lead', :format => :js), 
+                              :remote => true, :id => 'new_log_link', :class =>'btn btn-primary' if has_action_right?('create_sales_lead', 'customerx_logs') %>    </th>
+  </tr>
+</table>
   <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
-  &nbsp;&nbsp; <%= link_to '新Log', new_sales_lead_log_path(@sales_lead, :which_table => 'sales_lead', :format => :js), 
-                              :remote => true, :id => 'new_log_link' if has_action_right?('create_sales_lead', 'customerx_logs') %>
 </div>

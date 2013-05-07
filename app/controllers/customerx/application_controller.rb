@@ -1,6 +1,6 @@
 #encoding: utf-8
 module Customerx
-  class ApplicationController < ActionController::Base
+  class Customerx::ApplicationController < ApplicationController
     include Authentify::SessionsHelper
     include Authentify::AuthentifyUtility
     include Authentify::UserPrivilegeHelper
