@@ -1,5 +1,5 @@
 <div id="main_body">
-<h1>Search Sales Leads</h1>
+<h4>Search Sales Leads</h4>
 <%= simple_form_for @sales_lead, :method => :put, :url => { :action => 'search_results' } do |f| %>    
   <%= f.input :start_date_s, :label => "开始日期 ：", :as => :string, :input_html => {:size => 40} %>
   <%= f.input :end_date_s, :label => "结束日期 ：", :as => :string, :input_html => {:size => 40} %>

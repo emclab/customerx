@@ -1,15 +1,15 @@
 <div id="main_body">
 <% if @for_which == 'customer_status' %>
-  <h1>Update Customer Status Category</h1>
+  <h4>Update Customer Status Category</h4>
   <% name_label = 'StatusCategory' %>  
 <% elsif @for_which == 'customer_comm_category' %>
-  <h1>Update Customer Comm Category</h1>
+  <h4>Update Customer Comm Category</h4>
   <% name_label = 'CommRecordCategory' %>  
 <% elsif @for_which == 'customer_quality_system '%>
-  <h1>Update Quality System</h1>
+  <h4>Update Quality System</h4>
   <% name_label = 'QualitySystem' %> 
 <% elsif @for_which == 'sales_lead_source' %>
-  <h1>Update Sales Lead Source</h1>
+  <h4>Update Sales Lead Source</h4>
   <% name_label = 'SalesLeadSource' %>  
 <% end %>
 <%= simple_form_for @misc_definition do |f| %>     
