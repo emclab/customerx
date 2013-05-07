@@ -11,6 +11,6 @@
   
   <%= f.input :customer_id_s, :collection => Customerx::Customer.active_cust.where("biz_status = ?", '1').order('name'), :label_method => :name, :value_method => :id, :prompt => "选客户", :label => "客户 ："  %>    
   <%= f.input :sales_id_s, :collection => Authentify::User.return_users().(:order => 'name'), :label_method => :name, :value_method => :id, :prompt => "选" + to_chn(:sales), :label => to_chn(:sales) + ":"  %>    
-  <%= f.button :submit, 'Search' %>  
+  <%= f.button :submit, 'Search', :class =>'btn btn-primary' %>  
 <% end %> 
 </div>

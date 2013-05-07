@@ -20,14 +20,22 @@
           <td><%= r.ranking_order %></td>
           <td><%= r.last_updated_by.name %></td>
           <td><%= link_to 'Edit', edit_misc_definition_path(r, :for_which => 'sales_lead_source',:subaction => 'sales_lead_source', :format => :js), 
-                                  :remote => true if has_action_right?('update_sales_lead_source', 'customerx_misc_definitions', r) %></td>
+                                  :remote => true, :class =>'btn btn-primary' if has_action_right?('update_sales_lead_source', 'customerx_misc_definitions', r) %></td>
         </tr>
     <% end %>
 
   </table>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
-  <%= link_to "New Lead Source", new_misc_definition_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source', :format => :js), :remote => true, 
+<table class="table table-striped">
+  <tr>
+    <th>
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%= link_to "New Lead Source", new_misc_definition_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source', :format => :js), :remote => true, 
               :id => 'new_log_link' if has_action_right?('create_sales_lead_source', 'customerx_misc_definitions') %>
+    </th>
+  </tr>
+</table>
+
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
 
 </div>

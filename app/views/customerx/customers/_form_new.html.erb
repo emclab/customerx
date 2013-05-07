@@ -30,7 +30,7 @@
   <%= f.input :sales_id, :label => 'Sales:', :collection => Authentify::UsersHelper.return_users('create', 'customerx_customers') %>        
   <%= f.input :note, :label => 'Note:', :input_html => { :rows => 4} %>        
   
-  <%= f.button :submit, 'Save' %>  
+  <%= f.button :submit, 'Save' , :class =>'btn btn-primary' %>  
 <% end %>  
 
 
