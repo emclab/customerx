@@ -9,7 +9,8 @@ gemspec
 gem "jquery-rails"
 gem "will_paginate"
 
-gem 'authentify', :path => '../authentify'  #for rspec test
+gem 'authentify', :git => 'http://github.com/emclab/authentify.git'
+#gem 'authentify', :path => '../authentify'  #for rspec test
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or

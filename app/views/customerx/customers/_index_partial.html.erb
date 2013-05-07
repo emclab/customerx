@@ -31,7 +31,7 @@
     <td><%= return_last_contact_date(cust.id).strftime("%Y/%m/%d") if return_last_contact_date(cust.id).present? %></td> 
     <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" if has_action_right?('update', 'customerx_customers', cust) %></td>
     <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}" %></td>
-    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" %></td>
+    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}" if find_config_const('sales_lead', 'customerx').present? && find_config_const('sales_lead', 'customerx') == 'true'  %></td>
   </tr>
 <% end %>
 </table>

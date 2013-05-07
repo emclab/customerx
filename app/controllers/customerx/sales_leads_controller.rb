@@ -5,15 +5,16 @@ module Customerx
   class SalesLeadsController < ApplicationController
     before_filter :require_employee
     before_filter :load_customer
+    before_filter :check_availability
     
     helper_method :lead_sources
     
    def index
       @title= "销售线索"
       if @customer
-        @sales_leads = @customer.sales_leads.where("lead_date > ?", 2.year.ago).order("lead_date DESC").page(params[:page]).per_page(30)
+        @sales_leads = @customer.sales_leads.where("lead_date > ?", 2.year.ago).order("lead_date DESC").page(params[:page]).per_page(@max_pagination)
       else
-        @sales_leads = params[:customerx_sales_leads][:model_ar_r].page(params[:page]).per_page(30)
+        @sales_leads = params[:customerx_sales_leads][:model_ar_r].page(params[:page]).per_page(@max_pagination)
       end
     end
   
@@ -87,6 +88,12 @@ module Customerx
     
     def load_customer
       @customer = Customerx::Customer.find_by_id(params[:customer_id]) if params[:customer_id].present?
+    end
+    
+    def check_availability
+      if find_config_const('sales_lead', 'customerx').nil? or find_config_const('sales_lead', 'customerx') == 'false'
+        redirect_to authentify.signin_path, :notice => "退出了!"
+      end
     end
   end
 end

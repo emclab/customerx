@@ -4,7 +4,7 @@ module Customerx
   describe MiscDefinitionsController do
     before(:each) do
       controller.should_receive(:require_signin)
-      #controller.should_receive(:require_employee)
+      @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
     end
   
     render_views
@@ -15,7 +15,7 @@ module Customerx
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         role = FactoryGirl.create(:role_definition)
-        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        user_access = FactoryGirl.create(:user_access, :action => 'index_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
         :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
         ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -24,7 +24,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_comm_category')
-        get 'index' , {:use_route => :customerx, :for_which => 'customer_comm_category'}
+        get 'index' , {:use_route => :customerx, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
         #response.should be_success
         assigns(:misc_definitions).should eq([qs])
       end
@@ -34,7 +34,7 @@ module Customerx
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         role = FactoryGirl.create(:role_definition)
-        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        user_access = FactoryGirl.create(:user_access, :action => 'index_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
         :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
         ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -44,7 +44,7 @@ module Customerx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_quality_system')
         qs1 = FactoryGirl.create(:misc_definition, :name => 'a new', :active => true, :last_updated_by_id => u.id, :for_which => 'customer_quality_system')
-        get 'index' , {:use_route => :customerx, :for_which => 'customer_quality_system'}
+        get 'index' , {:use_route => :customerx, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
         #response.should be_success
         assigns(:misc_definitions).should eq([qs,qs1])
       end
@@ -54,7 +54,7 @@ module Customerx
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         role = FactoryGirl.create(:role_definition)
-        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        user_access = FactoryGirl.create(:user_access, :action => 'index_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
         :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
         ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -63,7 +63,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         cate = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'customer_status')
-        get 'index' , {:use_route => :customerx, :for_which => 'customer_status'}
+        get 'index' , {:use_route => :customerx, :for_which => 'customer_status', :subaction => 'customer_status'}
         response.should be_success
         assigns(:misc_definitions).should eq([cate])
       end
@@ -73,7 +73,7 @@ module Customerx
         type = FactoryGirl.create(:group_type, :name => 'employee')
         ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
         role = FactoryGirl.create(:role_definition)
-        user_access = FactoryGirl.create(:user_access, :action => 'index', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
+        user_access = FactoryGirl.create(:user_access, :action => 'index_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => role.id, :rank => 1,
         :sql_code => "Customerx::MiscDefinition.where(:active => true).order('ranking_order')")
         ur = FactoryGirl.create(:user_role, :role_definition_id => role.id)
         ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
@@ -82,7 +82,7 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         ls = FactoryGirl.create(:misc_definition, :active => true, :last_updated_by_id => u.id, :for_which => 'sales_lead_source')
-        get 'index' , {:use_route => :customerx, :for_which => 'sales_lead_source'}
+        get 'index' , {:use_route => :customerx, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
         response.should be_success
         assigns(:misc_definitions).should eq([ls])
       end

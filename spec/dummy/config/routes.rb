@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  mount Authentify::Engine => "/authentify/", :as => :authentify
-  mount Customerx::Engine => "/customerx/", :as => :customerx
+  mount Authentify::Engine => "/authentify", :as => :authentify
+  mount Customerx::Engine => "/customerx", :as => :customerx
   
   resource :session
   
