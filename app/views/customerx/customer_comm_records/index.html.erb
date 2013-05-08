@@ -1,16 +1,16 @@
 <div id="main_body">
-<h4>Customer Comm Records</h4>
+<h4><%= t('Customer Comm Records') %></h4>
 <div class="pigination"><%= will_paginate @customer_comm_records %></div>
 <table class="table table-striped">
   <tr>
     <th>#</th>
-    <th>CommDate</th>
-    <th>CustomerShortName</th>
-    <th>Subject</th>
-    <th>Content</th>
-    <th>Via</th>
-    <th>CommCategory</th>
-    <th>Reporter</th>
+    <th><%= t('CommDate') %></th>
+    <th><%= t('CustomerShortName') %></th>
+    <th><%= t('Subject') %></th>
+    <th><%= t('Content') %></th>
+    <th><%= t('Via') %></th>
+    <th><%= t('CommCategory') %></th>
+    <th><%= t('Reporter') %></th>
     <th></th>
  
   </tr>

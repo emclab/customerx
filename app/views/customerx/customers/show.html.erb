@@ -1,6 +1,6 @@
 <div id="main_body">
 
-<h4>Customer Info</h4>
+<h4><%=t('Customer Info') %></h4>
 
 <p>
   <b>名称:</b>
@@ -32,7 +32,7 @@
   <%= @customer.address.province %><%= @customer.address.city_county_district%>,<%=@customer.address.add_line%>
 </p>
 <p>
-  <b>Shipping Instruction:</b>
+  <b><%=t('Shipping Instruction:') %></b>
   <%= @customer.shipping_instruction %>
 </p>
 <p>
@@ -60,11 +60,11 @@
   <%= @customer.employee_num %>
 </p>
 <p>
-  <b>CustomerTaste:</b>
+  <b><%=t('CustomerTaste:') %></b>
   <%= @customer.customer_taste %>
 </p>
 <p>
-  <b>CustomerEval:</b>
+  <b><%=t('CustomerEval:') %></b>
   <%= @customer.customer_eval %>
 </p>
 <p>

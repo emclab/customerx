@@ -1,13 +1,13 @@
 
-  <h4>Customer Status Category</h4>
+  <h4><%=t('Customer Status Category') %></h4>
   <table class="table table-striped">
     <tr>
       <th>#</th>
-      <th>Create Date</th>
-      <th>Category Name</th>
-      <th>Brief Note</th>
-      <th>Ranking Order</th>
-      <th>Entered By</th>
+      <th><%=t('Create Date') %></th>
+      <th><%=t('Category Name') %></th>
+      <th><%=t('Brief Note') %></th>
+      <th><%=t('Ranking Order') %></th>
+      <th><%=t('Entered By') %></th>
       <th></th>
     </tr>
 
@@ -30,11 +30,11 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= link_to "New Customer Status Category", new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status', :format => :js), :remote => true, 
+		<%= link_to t("New Customer Status Category"), new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status', :format => :js), :remote => true, 
                :id => 'new_log_link' if has_action_right?('create_customer_status', 'customerx_misc_definitions') %>
     </th>
   </tr>
 </table>
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
 
 

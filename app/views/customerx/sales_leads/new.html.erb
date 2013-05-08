@@ -1,10 +1,10 @@
 <div id="main_body">
-<h4>New Sales Lead</h4>
+<h4><%=t('New Sales Lead') %></h4>
 <% if @customer %>
   <%= render 'form_new' %>
 <% else %>
   <%= render 'form_new_without_customer' %>
 <% end %>
 
-<%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+<%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0" %>
 </div>

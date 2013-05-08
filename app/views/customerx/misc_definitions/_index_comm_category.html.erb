@@ -1,13 +1,13 @@
 
-  <h4>Comm Categories</h4>
+  <h4><%=t('Comm Categories') %></h4>
   <table class="table table-striped">
     <tr>
       <th>#</th>
-      <th>Create Date</th>
-      <th>Comm Category</th>
-      <th>Brief Note</th>
-      <th>Ranking Order</th>
-      <th>Entered By</th>
+      <th><%=t('Create Date') %></th>
+      <th><%=t('Comm Category') %></th>
+      <th><%=t('Brief Note') %></th>
+      <th><%=t('Ranking Order') %></th>
+      <th><%=t('Entered By') %></th>
       <th></th>
     </tr>
 
@@ -19,7 +19,7 @@
           <td><%= r.brief_note %></td>
           <td><%= r.ranking_order %></td>
           <td><%= r.last_updated_by.name %></td>
-          <td><%= link_to 'Edit', edit_misc_definition_path(r, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category', :format => :js), 
+          <td><%= link_to t('Edit'), edit_misc_definition_path(r, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category', :format => :js), 
                    :remote => true,  :class =>'btn btn-primary' if has_action_right?('update_customer_comm_category', 'customerx_misc_definitions', r)  %></td>
         </tr>
     <% end %>
@@ -30,9 +30,9 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= link_to "New Comm Category", new_misc_definition_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category', :format => :js), :remote => true, 
+		<%= link_to t("New Comm Category"), new_misc_definition_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category', :format => :js), :remote => true, 
               :id => 'new_log_link',  :class =>'btn btn-primary'  if has_action_right?('create_customer_comm_category', 'customerx_misc_definitions') %>
     </th>
   </tr>
 </table>
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>

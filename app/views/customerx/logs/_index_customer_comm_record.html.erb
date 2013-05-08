@@ -1,14 +1,14 @@
 
-  <h4>Log for Customer Comm Records</h4>
+  <h4><%=t('Log for Customer Comm Records') %></h4>
   <div class="pigination"><%= will_paginate @logs %></div>
   <table class="table table-striped">
     <tr>
       <th>#</th>
-      <th>CustomerName</th>
-      <th>Date</th>
-      <th>RecordSubject</th>
-      <th>Log</th>
-      <th>Entered By</th>
+      <th><%=t('CustomerName') %></th>
+      <th><%=t('Date') %></th>
+      <th><%=t('RecordSubject') %></th>
+      <th><%=t('Log') %></th>
+      <th><%=t('Entered By') %></th>
     </tr>
 
     <% @logs.each do |r| %>
@@ -25,5 +25,5 @@
 
   </table>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
 

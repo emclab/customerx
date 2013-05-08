@@ -1,14 +1,14 @@
 
-  <h4>Log for Sales Leads</h4>
+  <h4><%= t('Log for Sales Leads') %></h4>
   <div class="pigination"><%= will_paginate @logs %></div>
   <table class="table table-striped">
     <tr>
       <th>#</th>
-      <th>Date</th>
-      <th>CustomerName</th>
-      <th>LeadSubject</th>
-      <th>Log</th>
-      <th>Entered By</th>
+      <th><%= t('Date') %></th>
+      <th><%= t('CustomerName') %></th>
+      <th><%= t('LeadSubject') %></th>
+      <th><%= t('Log') %></th>
+      <th><%= t('Entered By') %></th>
       <th></th>
     </tr>
 
@@ -26,5 +26,5 @@
 
   </table>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
 

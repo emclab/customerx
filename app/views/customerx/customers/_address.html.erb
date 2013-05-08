@@ -1,4 +1,4 @@
-    <%= f.input :province, :label => 'Province:', :collection => list_provinces() unless readonly?(@customer, 'address_province') %>
-    <%= f.input :province_noupdate, :label => 'Province:', :readonly => true, :required => false, :input_html => {:value => @customer.address.province} if readonly?(@customer, 'address_province') %>
+    <%= f.input :province, :label => t('Province:'), :collection => list_provinces() unless readonly?(@customer, 'address_province') %>
+    <%= f.input :province_noupdate, :label => t('Province:'), :readonly => true, :required => false, :input_html => {:value => @customer.address.province} if readonly?(@customer, 'address_province') %>
     <%= f.input :city_county_district, :label => '市县，区：', :readonly => readonly?(@customer, 'address_city_country_disctrict') %>
     <%= f.input :add_line, :label => '地址门牌：', :input_html => {:rows => 2}, :readonly => readonly?(@customer, 'address_add_line') %>

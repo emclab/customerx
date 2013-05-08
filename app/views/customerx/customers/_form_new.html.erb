@@ -1,10 +1,10 @@
 <%= simple_form_for @customer do |f| %>    
  
-  <%= f.input :name, :label => 'CompanyName:' %>  
-  <%= f.input :short_name, :label => 'ShortName', :placeholder => '4-8字' %>
-  <%= f.input :since_date, :label => 'Since:', :as => :string %>
-  <%= f.input :phone, :label => 'CompanyPhone:' %> 
-  <%= f.input :fax, :label => 'CompanyFax:' %> 
+  <%= f.input :name, :label => t('CompanyName:') %>  
+  <%= f.input :short_name, :label => t('ShortName:'), :placeholder => '4-8字' %>
+  <%= f.input :since_date, :label => t('Since:'), :as => :string %>
+  <%= f.input :phone, :label => t('CompanyPhone:') %> 
+  <%= f.input :fax, :label => t('CompanyFax:') %> 
   联系人信息：
   <%= f.fields_for :contacts, @customer.contacts.first do |builder| %>
     <p>
@@ -16,21 +16,21 @@
     <%= render('address', :f => builder)%>
   <% end %>
   <%= f.input :shipping_instruction, :label => '发运要求：', :input_html => {:rows => 4}%>
-  <%= f.input :zone_id, :label => 'Zone:', :collection => return_zone, :label_method => :zone_name, :value_method => :id, 
+  <%= f.input :zone_id, :label => t('Zone:'), :collection => return_zone, :label_method => :zone_name, :value_method => :id, 
                         :include_blank => true  %> 
-  <%= f.input :customer_status_category_id, :label => 'BizStatus:', :collection => return_customer_status_category, :label_method => :name, :value_method => :id %>     
-  <%= f.input :quality_system_id, :collection => return_quality_system, :label => 'QualitySystem:',
+  <%= f.input :customer_status_category_id, :label => t('BizStatus:'), :collection => return_customer_status_category, :label_method => :name, :value_method => :id %>     
+  <%= f.input :quality_system_id, :collection => return_quality_system, :label => t('QualitySystem:'),
                                   :label_method => :name, :value_method => :id, :include_blank => true %>  
-  <%= f.input :web, :label => 'Web:' %>
-  <%= f.input :employee_num, :label => 'EmployeeNum:' %> 
-  <%= f.input :revenue, :label => 'Revenue:', :hint => '注明单位' %> 
-  <%= f.input :main_biz, :label => 'MainBiz：', :input_html => { :rows => 4} %>   
-  <%= f.input :customer_taste, :label => 'CustomerTaste:', :input_html => { :rows => 4} %>   
-  <%= f.input :customer_eval, :label => 'CustomerEval:', :input_html => { :rows => 4} %> 
-  <%= f.input :sales_id, :label => 'Sales:', :collection => Authentify::UsersHelper.return_users('create', 'customerx_customers') %>        
-  <%= f.input :note, :label => 'Note:', :input_html => { :rows => 4} %>        
+  <%= f.input :web, :label => t('Web:') %>
+  <%= f.input :employee_num, :label => t('EmployeeNum:') %> 
+  <%= f.input :revenue, :label => t('Revenue:'), :hint => '注明单位' %> 
+  <%= f.input :main_biz, :label => t('MainBiz：'), :input_html => { :rows => 4} %>   
+  <%= f.input :customer_taste, :label => t('CustomerTaste:'), :input_html => { :rows => 4} %>   
+  <%= f.input :customer_eval, :label => t('CustomerEval:'), :input_html => { :rows => 4} %> 
+  <%= f.input :sales_id, :label => t('Sales:'), :collection => Authentify::UsersHelper.return_users('create', 'customerx_customers') %>        
+  <%= f.input :note, :label => t('Note:'), :input_html => { :rows => 4} %>        
   
-  <%= f.button :submit, 'Save' , :class =>'btn btn-primary' %>  
+  <%= f.button :submit, t('Save') , :class =>'btn btn-primary' %>  
 <% end %>  
 
 

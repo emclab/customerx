@@ -94,9 +94,10 @@ describe "TestPaths" do
       @ccate3 = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
       visit '/'
+      #save_and_open_page
       fill_in "login", :with => @u.login
       fill_in "password", :with => 'password'
-      click_button 'login'
+      click_button 'Login'
     end
     
     #customer status category

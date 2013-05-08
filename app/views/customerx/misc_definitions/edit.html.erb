@@ -1,29 +1,29 @@
 <div id="main_body">
 <% if @for_which == 'customer_status' %>
-  <h4>Update Customer Status Category</h4>
-  <% name_label = 'StatusCategory' %>  
+  <h4><%=t('Update Customer Status Category') %></h4>
+  <% name_label = t('StatusCategory') %>  
 <% elsif @for_which == 'customer_comm_category' %>
-  <h4>Update Customer Comm Category</h4>
-  <% name_label = 'CommRecordCategory' %>  
+  <h4><%=t('Update Customer Comm Category') %></h4>
+  <% name_label = t('CommRecordCategory') %>  
 <% elsif @for_which == 'customer_quality_system '%>
-  <h4>Update Quality System</h4>
-  <% name_label = 'QualitySystem' %> 
+  <h4><%=t('Update Quality System') %></h4>
+  <% name_label = t('QualitySystem') %> 
 <% elsif @for_which == 'sales_lead_source' %>
-  <h4>Update Sales Lead Source</h4>
-  <% name_label = 'SalesLeadSource' %>  
+  <h4><%=t('Update Sales Lead Source') %></h4>
+  <% name_label = t('SalesLeadSource') %>  
 <% end %>
 <%= simple_form_for @misc_definition do |f| %>     
   <%= f.input :name, :label => name_label, :readonly => readonly?(@misc_definition, 'name') %>
-  <%= f.input :brief_note, :label => "Brief Note:", :readonly => readonly?(@misc_definition, 'brief_note') %> 
+  <%= f.input :brief_note, :label => t("Brief Note:"), :readonly => readonly?(@misc_definition, 'brief_note') %> 
   <% if readonly?(@misc_definition, 'active')%>
-    <%= f.input :active_noupdate, :label => 'Active:', :readonly => true, :required => false, :input_html => {:value => @misc_definition.active} %>
+    <%= f.input :active_noupdate, :label => t('Active:'), :readonly => true, :required => false, :input_html => {:value => @misc_definition.active} %>
   <% else %>
-    <%= f.input :active, :label => 'Active:', :collection => [['是', true], ['否', false]]%>
+    <%= f.input :active, :label => t('Active:'), :collection => [['是', true], ['否', false]]%>
   <% end %>
   <%#= f.input :for_which, :as => :hidden %>
-  <%= f.input :ranking_order, :label => 'Ranking Index', :placehoder => '1, 2, 3 ...', :readonly => readonly?(@misc_definition, 'ranking_order') %> 
-  <%= f.button :submit, 'Save' , :class =>'btn btn-primary'%>  
+  <%= f.input :ranking_order, :label => t('Ranking Index:'), :placehoder => '1, 2, 3 ...', :readonly => readonly?(@misc_definition, 'ranking_order') %> 
+  <%= f.button :submit, t('Save') , :class =>'btn btn-primary'%>  
 <% end %> 
 
-<%= link_to 'Back', misc_definitions_path(:for_which => @for_which) %>
+<%= link_to t('Back'), misc_definitions_path(:for_which => @for_which) %>
 </div>
