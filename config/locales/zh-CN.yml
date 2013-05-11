@@ -65,7 +65,7 @@ zh-CN:
   'Note:'               : '注释：'
   Save                  : '保存'
   'Active:'             : '有效:'
-  Active                : '有效'
+  'Active'                : '有效'
   CustomerStatusCategory: '客户状态类型'
   LastContactDate       : '上次联系日期'
   Search                : '搜索'
