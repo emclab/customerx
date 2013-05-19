@@ -36,6 +36,8 @@ module Customerx
       @misc_definition = Customerx::MiscDefinition.new()
       params[:misc_definition][:for_which] = @for_which
       session[:for_which] = @for_which
+      session[:subaction] = params[:subaction]
+
       #else
       #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       #end
@@ -46,6 +48,7 @@ module Customerx
       @misc_definition.for_which = session[:for_which]
       @misc_definition.last_updated_by_id = session[:user_id]
       session.delete(:for_which)
+      session.delete(:subaction)
       if @misc_definition.save
         redirect_to misc_definitions_path(:for_which => @misc_definition.for_which, :subaction => @misc_definition.for_which), :notice => "Definition Saved!"
       else
