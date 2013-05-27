@@ -1,7 +1,7 @@
 module Customerx
   class Contact < ActiveRecord::Base
-    attr_accessible :brief_note, :cell_phone, :email, :name, :phone, :position, :as => :role_new
-    attr_accessible :brief_note, :cell_phone, :email, :name, :phone, :position, :as => :role_update
+    attr_accessible :brief_note, :cell_phone, :email, :name, :phone, :position, :customer_id, :as => :role_new
+    attr_accessible :brief_note, :cell_phone, :email, :name, :phone, :position, :customer_id, :as => :role_update
     
     belongs_to :customer, :class_name => 'Customerx::Customer'
     

@@ -137,7 +137,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id) 
+        add = FactoryGirl.attributes_for(:address)
+        contact = FactoryGirl.attributes_for(:contact)
+        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :address_attributes => add, :contacts_attributes => [contact]) 
         get 'create', {:use_route => :customerx, :customer => cust}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Saved!")        
       end
@@ -148,9 +150,38 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :name => nil) 
+        add = FactoryGirl.attributes_for(:address)
+        contact = FactoryGirl.attributes_for(:contact)
+        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :address_attributes => add, :contacts_attributes => [contact],
+                                          :name => nil) 
         get 'create', {:use_route => :customerx, :customer => cust}
         response.should render_template("new")        
+      end
+      
+      it "should render new if contact data error" do
+        user_access = FactoryGirl.create(:user_access, :action => 'create', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        add = FactoryGirl.attributes_for(:address)
+        contact = FactoryGirl.attributes_for(:contact, :name => nil)
+        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :address_attributes => add, :contacts_attributes => [contact]) 
+        get 'create', {:use_route => :customerx, :customer => cust}
+        response.should render_template("new")        
+      end
+      
+      it "should render new if address data error" do
+        user_access = FactoryGirl.create(:user_access, :action => 'create', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        add = FactoryGirl.attributes_for(:address, :add_line => nil)
+        contact = FactoryGirl.attributes_for(:contact)
+        cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :address_attributes => add, :contacts_attributes => [contact]) 
+        get 'create', {:use_route => :customerx, :customer => cust}
+        response.should render_template("new")  
       end
      
     end
@@ -186,7 +217,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id)
+        add = FactoryGirl.build(:address)
+        contact = FactoryGirl.build(:contact)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :address => add, :contacts => [contact]) 
         get 'update' , {:use_route => :customerx, :id => cust.id, :customer => {:name => 'newnew name', :customer_status_category_id => 2}}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Update Saved!")
       end
@@ -197,8 +230,36 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id)
+        add = FactoryGirl.build(:address)
+        contact = FactoryGirl.build(:contact)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :address => add, :contacts => [contact]) 
         get 'update' , {:use_route => :customerx, :id => cust.id, :customer => {:zone_id => nil, :short_name => 'new short'}}
+        response.should render_template('edit')
+      end
+      
+      it "should render edit if address data error" do
+        user_access = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "", :masked_attrs => ['=name'])
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        add = FactoryGirl.build(:address)
+        contact = FactoryGirl.build(:contact)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :address => add, :contacts => [contact]) 
+        get 'update' , {:use_route => :customerx, :id => cust.id, :customer => {:address_attributes => {:province => nil}}}
+        response.should render_template('edit')
+      end
+      
+      it "should render edit if contact data error" do
+        user_access = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "", :masked_attrs => ['=name'])
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        add = FactoryGirl.build(:address)
+        contact = FactoryGirl.build(:contact)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :address => add, :contacts => [contact]) 
+        get 'update' , {:use_route => :customerx, :id => cust.id, :customer => {:contacts_attributes => {'1' =>{:name => nil}}}}
         response.should render_template('edit')
       end
     end
