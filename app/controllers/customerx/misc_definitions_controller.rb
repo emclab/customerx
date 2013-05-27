@@ -64,7 +64,8 @@ module Customerx
       #   has_action_right?('update_customer_quality_system', 'customerx_misc_definitions') ||
       #   has_action_right?('update_customer_comm_category', 'customerx_misc_definitions') ||
        #  has_action_right?('update_sales_lead_source', 'customerx_misc_definitions')
-         @misc_definition = Customerx::MiscDefinition.find(params[:id])
+      @misc_definition = Customerx::MiscDefinition.find(params[:id])
+      session[:subaction] = params[:subaction]
       #else
       #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
       #end
@@ -77,6 +78,7 @@ module Customerx
       #   has_action_right?('update_sales_lead_source', 'customerx_misc_definitions')
         @misc_definition = Customerx::MiscDefinition.find(params[:id])
         @misc_definition.last_updated_by_id = session[:user_id]
+        session.delete(:subaction)
         if @misc_definition.update_attributes(params[:misc_definition], :as => :role_update)
           redirect_to misc_definitions_path(:for_which => @misc_definition.for_which, :subaction => @misc_definition.for_which), :notice => "Definition Updated!"
         else

@@ -176,6 +176,8 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
+        session[:which_table] = 'sales_lead'
+        session[:subaction] = 'sales_lead'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)
@@ -189,6 +191,8 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
+        session[:which_table] = 'customer_comm_record'
+        session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
@@ -202,6 +206,8 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
+        session[:which_table] = 'customer_comm_record'
+        session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
@@ -215,6 +221,8 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
+        session[:which_table] = 'sales_lead'
+        session[:subaction] = 'sales_lead'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)
@@ -228,6 +236,8 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
+        session[:which_table] = 'customer_comm_record'
+        session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)

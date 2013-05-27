@@ -34,6 +34,8 @@ module Customerx
     end
   
     def new
+      session[:which_table] = @which_table
+      session[:subaction] = @which_table
       if @which_table == 'sales_lead' 
         if  @sales_lead
           @log = @sales_lead.logs.new()
@@ -53,15 +55,18 @@ module Customerx
   
     def create
       #if grant_access?('create_sales_lead', 'customerx_logs') || grant_access?('create_customer_comm_record', 'customerx_logs')
-        if params[:which_table] == 'sales_lead' && @sales_lead
+        session.delete(:subaction) #subaction used in check_access_right in authentify
+        if session[:which_table] == 'sales_lead' && @sales_lead
           @log = @sales_lead.logs.new(params[:log], :as => :role_new)
           data_save = true
-        elsif params[:which_table] == 'customer_comm_record' && @customer_comm_record
+        elsif session[:which_table] == 'customer_comm_record' && @customer_comm_record
           @log = @customer_comm_record.logs.new(params[:log], :as => :role_new)
           data_save = true
         else
+          session.delete(:which_table)
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO parental object selected!")
         end
+        session.delete(:which_table)
         if data_save  #otherwise @log.save will be executed no matter what.
           @log.last_updated_by_id = session[:user_id]
           if @log.save
