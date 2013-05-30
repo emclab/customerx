@@ -29,7 +29,7 @@
     <td><%= prt(r, :via) %></td>
     <td><%= prt(r, 'comm_category.name') %></td>
     <td><%= prt(r, 'reported_by.name') %></td>    
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.edit_customer_customer_comm_record_path(r.customer, r)}", :class =>'btn btn-primary' if has_action_right?('update', 'customerx_customer_comm_records', r) %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.edit_customer_customer_comm_record_path(r.customer, r)}", :class => BUTTONS_CLS['action'] if has_action_right?('update', 'customerx_customer_comm_records', r) %></td>
 
   </tr>
 <% end %>
@@ -38,11 +38,11 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	<%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}" if has_action_right?('new', 'customerx_customer_comm_records') %>
+    	<%= link_to 'New Customer Comm Record', SUBURI + "/authentify/view_handler?index=1&url=#{customerx.new_customer_comm_record_path}", :class => BUTTONS_CLS['action'] if has_action_right?('new', 'customerx_customer_comm_records') %>
     </th>
   </tr>
 </table>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
 
 </div>

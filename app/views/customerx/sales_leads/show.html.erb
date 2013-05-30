@@ -77,8 +77,8 @@
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<%= link_to '新Log', new_sales_lead_log_path(@sales_lead, :which_table => 'sales_lead', :format => :js), 
-                              :remote => true, :id => 'new_log_link', :class =>'btn btn-primary' if has_action_right?('create_sales_lead', 'customerx_logs') %>    </th>
+                              :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_sales_lead', 'customerx_logs') %>    </th>
   </tr>
 </table>
-  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close' %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
 </div>

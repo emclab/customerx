@@ -22,8 +22,8 @@
   <% end %>
   <%#= f.input :for_which, :as => :hidden %>
   <%= f.input :ranking_order, :label => t('Ranking Index:'), :placehoder => '1, 2, 3 ...', :readonly => readonly?(@misc_definition, 'ranking_order') %> 
-  <%= f.button :submit, t('Save') , :class =>'btn btn-primary'%>  
+  <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action']%>  
 <% end %> 
 
-<%= link_to t('Back'), misc_definitions_path(:for_which => @for_which) %>
+<%= link_to t('Back'), misc_definitions_path(:for_which => @for_which), :class => BUTTONS_CLS['action'] %>
 </div>

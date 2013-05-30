@@ -2,9 +2,9 @@
 <h4>新Log</h4>
 <% if @which_table == 'sales_lead' %>
   <%= render 'form_sales_lead_new' %>
-  <%= link_to 'Back', customer_sales_lead_path(@sales_lead.customer, @sales_lead) %>
+  <%= link_to 'Back', customer_sales_lead_path(@sales_lead.customer, @sales_lead), :class => BUTTONS_CLS['action'] %>
 <% else @which_table == 'customer_comm_record' %>
   <%= render 'form_customer_comm_record_new' %>
-  <%= link_to 'Back', customer_customer_comm_record_path(@customer_comm_record.customer, @customer_comm_record) %>
+  <%= link_to 'Back', customer_customer_comm_record_path(@customer_comm_record.customer, @customer_comm_record), :class => BUTTONS_CLS['action'] %>
 <% end %>
 </div>

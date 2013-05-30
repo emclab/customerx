@@ -29,9 +29,9 @@
     <td><%= prt(cust, 'customer_status_category.name') %></td>
     <td><%= prt(cust, 'sales.name') %></td>    
     <td><%= return_last_contact_date(cust.id).strftime("%Y/%m/%d") if return_last_contact_date(cust.id).present? %></td> 
-    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" , :class =>'btn btn-primary' if has_action_right?('update', 'customerx_customers', cust) %></td>
-    <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}", :class => 'btn btn-mini' %></td>
-    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}", :class => 'btn btn-mini' if find_config_const('sales_lead', 'customerx').present? && find_config_const('sales_lead', 'customerx') == 'true'  %></td>
+    <td><%= link_to 'Edit', SUBURI + "/authentify/view_handler?index=1&url=#{edit_customer_path(cust)}" , :class => BUTTONS_CLS['action'] if has_action_right?('update', 'customerx_customers', cust) %></td>
+    <td><%= link_to 'CommRecords', SUBURI + "/authentify/view_handler?index=1&url=#{customer_customer_comm_records_path(cust)}", :class => BUTTONS_CLS['action'] %></td>
+    <td><%= link_to 'SalesLeads', SUBURI + "/authentify/view_handler?index=1&url=#{customer_sales_leads_path(cust)}", :class => BUTTONS_CLS['action'] if find_config_const('sales_lead', 'customerx').present? && find_config_const('sales_lead', 'customerx') == 'true'  %></td>
   </tr>
 <% end %>
 </table>
@@ -40,11 +40,11 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}" if has_action_right?('create', 'customerx_customers') %>
+    	<%= link_to '输入客户', SUBURI + "/authentify/view_handler?index=1&url=#{new_customer_path}", :class => BUTTONS_CLS['action'] if has_action_right?('create', 'customerx_customers') %>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	<%= link_to 'Search', SUBURI + "/authentify/view_handler?index=1&url=#{search_customers_path}" %>
+    	<%= link_to 'Search', SUBURI + "/authentify/view_handler?index=1&url=#{search_customers_path}", :class => BUTTONS_CLS['action'] %>
     </th>
   </tr>
 </table>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0" %>
+  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
