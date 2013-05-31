@@ -13,6 +13,8 @@ module Customerx
     before_filter :load_sales_lead
     before_filter :load_customer_comm_record
     before_filter :require_which_table, :only => [:index, :new, :create]  #which_table holds the table name which the log belongs to
+    before_filter :load_session_variable, :only => [:new, :edit]
+    after_filter :delete_session_variable, :only => [:create, :update] 
     
     def index
       #if @which_table == 'sales_lead' 
@@ -34,8 +36,8 @@ module Customerx
     end
   
     def new
-      session[:which_table] = @which_table
-      session[:subaction] = @which_table
+      #session[:which_table] = @which_table
+      #session[:subaction] = @which_table
       if @which_table == 'sales_lead' 
         if  @sales_lead
           @log = @sales_lead.logs.new()
@@ -55,7 +57,7 @@ module Customerx
   
     def create
       #if grant_access?('create_sales_lead', 'customerx_logs') || grant_access?('create_customer_comm_record', 'customerx_logs')
-        session.delete(:subaction) #subaction used in check_access_right in authentify
+        #session.delete(:subaction) #subaction used in check_access_right in authentify
         if session[:which_table] == 'sales_lead' && @sales_lead
           @log = @sales_lead.logs.new(params[:log], :as => :role_new)
           data_save = true
@@ -63,10 +65,10 @@ module Customerx
           @log = @customer_comm_record.logs.new(params[:log], :as => :role_new)
           data_save = true
         else
-          session.delete(:which_table)
+          #session.delete(:which_table)
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO parental object selected!")
         end
-        session.delete(:which_table)
+        #session.delete(:which_table)
         if data_save  #otherwise @log.save will be executed no matter what.
           @log.last_updated_by_id = session[:user_id]
           if @log.save
@@ -100,5 +102,18 @@ module Customerx
       @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:customer_comm_record_id]) if params[:customer_comm_record_id].present? && 
                                params[:customer_comm_record_id].to_i > 0 
     end
+    
+    def load_session_variable
+      session[:for_which] = @for_which if @for_which.present?
+      session[:which_table] = @which_table if @which_table.present?
+      session[:subaction] = params[:subaction] if params[:subaction].present?
+    end
+    
+    def delete_session_variable
+      session.delete(:which_table) if session[:which_table].present?
+      session.delete(:for_which) if session[:for_which].present?
+      session.delete(:subaction) if session[:subaction].present?
+    end
+    
   end
 end
