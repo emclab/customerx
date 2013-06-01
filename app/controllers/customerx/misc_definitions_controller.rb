@@ -120,7 +120,7 @@ module Customerx
         return "Update Sales Lead Source" if for_which == 'sales_lead_source'
       end
     end
-    
+=begin    
     def load_session_variable
       session[:for_which] = @for_which if @for_which.present?
       session[:which_table] = @which_table if @which_table.present?
@@ -132,6 +132,6 @@ module Customerx
       session.delete(:for_which) if session[:for_which].present?
       session.delete(:subaction) if session[:subaction].present?
     end
-    
+=end  
   end
 end

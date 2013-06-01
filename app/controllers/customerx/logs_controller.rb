@@ -102,7 +102,8 @@ module Customerx
       @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:customer_comm_record_id]) if params[:customer_comm_record_id].present? && 
                                params[:customer_comm_record_id].to_i > 0 
     end
-    
+
+=begin    
     def load_session_variable
       session[:for_which] = @for_which if @for_which.present?
       session[:which_table] = @which_table if @which_table.present?
@@ -114,6 +115,7 @@ module Customerx
       session.delete(:for_which) if session[:for_which].present?
       session.delete(:subaction) if session[:subaction].present?
     end
+=end
     
   end
 end
