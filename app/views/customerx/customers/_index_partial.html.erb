@@ -2,6 +2,7 @@
 <table class="table table-striped">
   <tr>
     <th>#</th>
+    <th><%= t('CustomerName') %></th>
     <th><%= t('ShortName') %></th>
     <th><%= t('SinceDate') %></th>
     <th><%= t('Phone') %></th>
@@ -22,6 +23,7 @@
   	<% else %>
   	  <td><%= cust.id %></td>
   	<% end %>
+  	<td><%= prt(cust, :name) %></td>
     <td><%= prt(cust, :short_name) %></td>
     <td><%= cust.since_date.strftime("%Y/%m/%d") %></td>
     <td><%= prt(cust, :phone) %></td>

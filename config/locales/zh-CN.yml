@@ -30,7 +30,10 @@ zh-CN:
   zone: '区域'
   Zone: '区域'
   'Zone:'               : '区域：'
-  
+  true: '是'
+  True: '是'
+  false: '否'
+  False: '否'
   
 #Customerx
   'Date:'                 : '日期：'
@@ -75,7 +78,8 @@ zh-CN:
   New Customer          : '新客户'
   Back                  : '返回'
   Cusotmer Info         : '客户信息'
-  Category Name         : '客户名称'
+  Category Name         : '分类名称'
+  CustomerName          : '客户名称'
   'Shipping Instruction:' : '运输要求'
   Log for Customer Comm Records: 'Log-客户交流记录'
   RecordSubject         : '交流标题'
