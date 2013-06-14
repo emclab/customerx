@@ -26,7 +26,7 @@
   <% end %>
   <%= f.input :lead_accuracy, :label => t('Accuracy:'), :collection => 1..10, :include_blank => true, :readonly => readonly?(@sales_lead, 'lead_accuracy') %>
   <%= f.input :lead_quality, :label => t('QualityScale:'), :collection => 1..10, :include_blank => true, :readonly => readonly?(@sales_lead, 'lead_quality') %>
-  <%= f.input :provider_name_autocomplete, :input_html => { data: {autocomplete_source: authentify.autocomplete_users_path}}, :placeholder => "输入关键字", 
+  <%= f.input :provider_name_autocomplete, :input_html => { data: {autocomplete_source: SUBURI + authentify.autocomplete_users_path}}, :placeholder => "输入关键字", 
               :label => "线索人：", :required => true  %>        
  <!-- <%= f.input :provider_id, :label => '线索人：', :collection => Authentify::UsersHelper.return_users('create','customerx_sales_leads') %>  -->
   

@@ -1,7 +1,7 @@
 <%= simple_form_for @sales_lead do |f| %>    
  
   <%= f.input :lead_date, :label => t("Date:"), :as => :string%>
-  <%= f.input :customer_name_autocomplete, :input_html => { data: {autocomplete_source: autocomplete_customers_path}}, :placeholder => "输入关键字", 
+  <%= f.input :customer_name_autocomplete, :input_html => { data: {autocomplete_source: SUBURI + autocomplete_customers_path}}, :placeholder => "输入关键字", 
                                            :label => "客户 ：", :required => true %>  
   <%= f.input :subject, :label => t('Subject:'), :placeholder => '一句话说明' %>
   <%= f.input :lead_info, :label => t('LeadInfo:'), :input_html => {:rows => 6} %>
@@ -10,7 +10,7 @@
   <%= f.input :lead_eval, :label => t('LeadEval:'), :input_html => { :rows => 4} %> 
   <%= f.input :lead_accuracy, :label => t('Accuracy:'), :collection => 1..10, :include_blank => true %>
   <%= f.input :lead_quality, :label => t('QualityScale:'), :collection => 1..10, :include_blank => true %>
-  <%= f.input :provider_name_autocomplete, :input_html => { data: {autocomplete_source: authentify.autocomplete_users_path}}, :placeholder => "输入关键字", 
+  <%= f.input :provider_name_autocomplete, :input_html => { data: {autocomplete_source: SUBURI + authentify.autocomplete_users_path}}, :placeholder => "输入关键字", 
                                            :label => "线索人：", :required => true %>   
 
   <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action'] %>  
