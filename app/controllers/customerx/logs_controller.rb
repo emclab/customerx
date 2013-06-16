@@ -87,7 +87,8 @@ module Customerx
     protected
     
     def require_which_table
-      @which_table = params[:which_table]
+      @which_table = session[:which_table] if session[:which_table].present?
+      @which_table = params[:which_table] if params[:which_table].present?
       unless @which_table == 'sales_lead' || @which_table == 'customer_comm_record'
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Initial Params Error!") 
       end
@@ -103,19 +104,6 @@ module Customerx
                                params[:customer_comm_record_id].to_i > 0 
     end
 
-=begin    
-    def load_session_variable
-      session[:for_which] = @for_which if @for_which.present?
-      session[:which_table] = @which_table if @which_table.present?
-      session[:subaction] = params[:subaction] if params[:subaction].present?
-    end
-    
-    def delete_session_variable
-      session.delete(:which_table) if session[:which_table].present?
-      session.delete(:for_which) if session[:for_which].present?
-      session.delete(:subaction) if session[:subaction].present?
-    end
-=end
-    
+   
   end
 end
