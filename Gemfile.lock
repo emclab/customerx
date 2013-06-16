@@ -1,19 +1,6 @@
-PATH
-  remote: .
-  specs:
-    customerx (0.0.1)
-      coffee-rails (~> 3.2.1)
-      database_cleaner
-      execjs
-      jquery-rails
-      rails (= 3.2.12)
-      sass-rails (~> 3.2.3)
-      simple_form
-      uglifier
-      will_paginate
-
-PATH
-  remote: ../authentify
+GIT
+  remote: http://github.com/emclab/authentify.git
+  revision: d0bb9b2d33907d8854bef2d3a590a6a3ebf6d698
   specs:
     authentify (0.0.1)
       bcrypt-ruby
@@ -29,6 +16,20 @@ PATH
       uglifier (>= 1.0.3)
       will_paginate (~> 3.0)
       yajl-ruby
+
+PATH
+  remote: .
+  specs:
+    customerx (0.0.1)
+      coffee-rails (~> 3.2.1)
+      database_cleaner
+      execjs
+      jquery-rails
+      rails (= 3.2.12)
+      sass-rails (~> 3.2.3)
+      simple_form
+      uglifier
+      will_paginate
 
 GEM
   remote: http://rubygems.org/
