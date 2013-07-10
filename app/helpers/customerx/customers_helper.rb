@@ -13,7 +13,7 @@ module Customerx
     end
     
     def return_quality_system
-      Customerx::MiscDefinition.where(:for_which => 'customer_qs').where("active = ?", true).order("ranking_order")
+      Customerx::MiscDefinition.where(:for_which => 'customer_quality_system').where("active = ?", true).order("ranking_order")
     end
     
     def return_customer_status_category
