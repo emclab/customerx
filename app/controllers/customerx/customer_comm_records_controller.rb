@@ -94,7 +94,7 @@ module Customerx
     
     def load_customer
       @customer = Customerx::Customer.find_by_id(params[:customer_id]) if params[:customer_id].present?
-      @customer = nil unless has_action_right?('show', 'customerx_customers', @customer)
+      @customer = nil unless @customer && has_action_right?('show', 'customerx_customers', @customer) 
     end
   end
 end
