@@ -12,15 +12,11 @@ module Customerx
     before_filter :require_employee
     before_filter :load_sales_lead
     before_filter :load_customer_comm_record
-    before_filter :require_which_table, :only => [:index, :new, :create]  #which_table holds the table name which the log belongs to
-    before_filter :load_session_variable, :only => [:new, :edit]
-    after_filter :delete_session_variable, :only => [:create, :update] 
+    before_filter :load_which_table, :only => [:index, :new, :create]  #which_table holds the table name which the log belongs to
+    #before_filter :load_session_variable, :only => [:new, :edit]
+    #after_filter :delete_session_variable, :only => [:create, :update] 
     
     def index
-      #if @which_table == 'sales_lead' 
-        #sales_lead_logs()
-      #elsif @which_table == 'customer_comm_record' 
-        #customer_comm_record_logs()
       if @sales_lead
         @logs = @sales_lead.logs.page(params[:page]).per_page(@max_pagination).order('id DESC')
       elsif @customer_comm_record
@@ -36,8 +32,6 @@ module Customerx
     end
   
     def new
-      #session[:which_table] = @which_table
-      #session[:subaction] = @which_table
       if @which_table == 'sales_lead' 
         if  @sales_lead
           @log = @sales_lead.logs.new()
@@ -56,28 +50,25 @@ module Customerx
     end
   
     def create
-      #if grant_access?('create_sales_lead', 'customerx_logs') || grant_access?('create_customer_comm_record', 'customerx_logs')
-        #session.delete(:subaction) #subaction used in check_access_right in authentify
-        if session[:which_table] == 'sales_lead' && @sales_lead
-          @log = @sales_lead.logs.new(params[:log], :as => :role_new)
-          data_save = true
-        elsif session[:which_table] == 'customer_comm_record' && @customer_comm_record
-          @log = @customer_comm_record.logs.new(params[:log], :as => :role_new)
-          data_save = true
+      if params[:which_table] == 'sales_lead' && @sales_lead
+        @log = @sales_lead.logs.new(params[:log], :as => :role_new)
+        data_save = true
+      elsif params[:which_table] == 'customer_comm_record' && @customer_comm_record
+        @log = @customer_comm_record.logs.new(params[:log], :as => :role_new)
+        data_save = true
+      else
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO parental object selected!")
+      end
+      
+      if data_save  #otherwise @log.save will be executed no matter what.
+        @log.last_updated_by_id = session[:user_id]
+        if @log.save
+          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Log Saved!")
         else
-          #session.delete(:which_table)
-          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO parental object selected!")
+          flash.now[:error] = 'Data Error. Not Saved!'
+          render 'new'
         end
-        #session.delete(:which_table)
-        if data_save  #otherwise @log.save will be executed no matter what.
-          @log.last_updated_by_id = session[:user_id]
-          if @log.save
-            redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Log Saved!")
-          else
-            flash.now[:error] = 'Data Error. Not Saved!'
-            render 'new'
-          end
-        end
+      end
       
     end
   
@@ -86,8 +77,7 @@ module Customerx
     
     protected
     
-    def require_which_table
-      @which_table = session[:which_table] if session[:which_table].present?
+    def load_which_table
       @which_table = params[:which_table] if params[:which_table].present?
       unless @which_table == 'sales_lead' || @which_table == 'customer_comm_record'
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Initial Params Error!") 
