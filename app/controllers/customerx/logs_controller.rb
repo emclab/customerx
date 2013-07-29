@@ -13,8 +13,8 @@ module Customerx
     before_filter :load_sales_lead
     before_filter :load_customer_comm_record
     before_filter :load_which_table, :only => [:index, :new, :create]  #which_table holds the table name which the log belongs to
-    #before_filter :load_session_variable, :only => [:new, :edit]
-    #after_filter :delete_session_variable, :only => [:create, :update] 
+    before_filter :load_session_variable, :only => [:new, :edit]  #for subaction only
+    after_filter :delete_session_variable, :only => [:create, :update] #for subaction only
     
     def index
       if @sales_lead

@@ -208,8 +208,8 @@ module Customerx
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'sales_lead_source')
-        #session[:for_which] = 'sales_lead_source'
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :subaction => 'sales_lead_source'}
+        session[:subaction] = 'sales_lead_source'
+        get 'create', {:use_route => :customerx, :misc_definition => qs} # :subaction => 'sales_lead_source'}
         response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       end
       
@@ -226,9 +226,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        #session[:for_which] = 'customer_comm_category'
+        session[:subaction] = 'customer_comm_category'
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_comm_category')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :subaction => 'customer_comm_category'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs} # :subaction => 'customer_comm_category'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       end
       
@@ -245,9 +245,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        #session[:for_which] = 'customer_status'
+        session[:subaction] = 'customer_status'
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_status')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :subaction => 'customer_status'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs} #, :subaction => 'customer_status'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       end
       
@@ -264,9 +264,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
-        #session[:for_which] = 'customer_quality_system'
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.attributes_for(:misc_definition, :for_which => 'customer_quality_system')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :subaction => 'customer_quality_system'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs} #, :subaction => 'customer_quality_system'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       end
       
@@ -283,8 +283,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.attributes_for(:misc_definition, :name => nil, :for_which => 'cusomer_quality_system')
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system'} #, :subaction => 'customer_quality_system'}
         response.should render_template('new')
       end
       
@@ -301,8 +302,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.attributes_for(:misc_definition)
-        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        get 'create', {:use_route => :customerx, :misc_definition => qs, :for_which => 'customer_quality_system'} # :subaction => 'customer_quality_system'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=create and resource=customerx/misc_definitions")
       end
     end
@@ -413,8 +415,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'sales_lead_source'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'sales_lead_source', :subaction => 'sales_lead_source'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'sales_lead_source'} # :subaction => 'sales_lead_source'}
         response.should redirect_to misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       end
       
@@ -431,8 +434,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_comm_category'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_comm_category', :subaction => 'customer_comm_category'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_comm_category'} # :subaction => 'customer_comm_category'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       end
       
@@ -449,8 +453,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_status'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_status')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_status', :subaction => 'customer_status'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_status'} # :subaction => 'customer_status'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       end
       
@@ -467,8 +472,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => 'newnew name'}, :for_which => 'customer_quality_system'} # :subaction => 'customer_quality_system'}
         response.should redirect_to misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       end
       
@@ -485,8 +491,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system'} # :subaction => 'customer_quality_system'}
         response.should render_template('edit')
       end
       
@@ -503,8 +510,9 @@ module Customerx
         session[:employee] = true
         session[:user_id] = u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(u.id)
+        session[:subaction] = 'customer_quality_system'
         qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system')
-        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system', :subaction => 'customer_quality_system'}
+        get 'update', {:use_route => :customerx, :id => qs.id, :misc_definition => {:name => ''}, :for_which => 'customer_quality_system'} # :subaction => 'customer_quality_system'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Access Right! for action=update and resource=customerx/misc_definitions")
       end
     end

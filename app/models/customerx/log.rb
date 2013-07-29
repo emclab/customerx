@@ -1,7 +1,8 @@
 # encoding: utf-8
 module Customerx
   class Log < ActiveRecord::Base
-    attr_accessible :customer_comm_record_id, :last_updated_by_id, :log, :sales_lead_id, :log,:as => :role_new
+    attr_accessor :which_table  #hidden field
+    attr_accessible :customer_comm_record_id, :last_updated_by_id, :log, :sales_lead_id, :log, :which_table, :as => :role_new
     belongs_to :sales_lead, :class_name => 'Customerx::SalesLead'
     belongs_to :customer_comm_record, :class_name => 'Customerx::CustomerCommRecord'
     belongs_to :last_updated_by, :class_name => 'Authentify::User'

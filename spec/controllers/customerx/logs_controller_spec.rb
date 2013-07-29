@@ -176,13 +176,12 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:which_table] = 'sales_lead'
         session[:subaction] = 'sales_lead'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)
-        log = FactoryGirl.attributes_for(:log, :sales_lead_id => lead.id, :customer_comm_record_id => nil)
-        get 'create', {:use_route => :customerx, :sales_lead_id => lead.id, :log => log, :which_table => 'sales_lead', :subaction => 'sales_lead'}
+        log = FactoryGirl.attributes_for(:log, :sales_lead_id => lead.id, :customer_comm_record_id => nil, :which_table => 'sales_lead')
+        get 'create', {:use_route => :customerx, :sales_lead_id => lead.id, :log => log, :which_table => 'sales_lead'} #, :subaction => 'sales_lead'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Log Saved!")
       end
       
@@ -191,13 +190,12 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:which_table] = 'customer_comm_record'
         session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
-        log = FactoryGirl.attributes_for(:log, :customer_comm_record_id => rec.id, :sales_lead_id => nil)
-        get 'create', {:use_route => :customerx, :customer_comm_record_id => rec.id, :log => log, :which_table => 'customer_comm_record', :subaction => 'customer_comm_record'}
+        log = FactoryGirl.attributes_for(:log, :customer_comm_record_id => rec.id, :sales_lead_id => nil,  :which_table => 'customer_comm_record')
+        get 'create', {:use_route => :customerx, :customer_comm_record_id => rec.id, :log => log, :which_table => 'customer_comm_record'} #, :subaction => 'customer_comm_record'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Log Saved!")        
       end
       
@@ -206,13 +204,12 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:which_table] = 'customer_comm_record'
         session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
         log = FactoryGirl.attributes_for(:log, :customer_comm_record_id => rec.id, :sales_lead_id => nil, :which_table => 'customer_comm_record', :last_updated_by_id => @u.id)
-        get 'create', {:use_route => :customerx, :customer_comm_record_id => nil, :sales_lead_id => nil, :log => log, :which_table => 'customer_comm_record', :subaction => 'customer_comm_record'}
+        get 'create', {:use_route => :customerx, :customer_comm_record_id => nil, :sales_lead_id => nil, :log => log, :which_table => 'customer_comm_record'} # :subaction => 'customer_comm_record'}
         response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO parental object selected!")
       end
       
@@ -221,7 +218,6 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:which_table] = 'sales_lead'
         session[:subaction] = 'sales_lead'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
@@ -236,13 +232,12 @@ module Customerx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:which_table] = 'customer_comm_record'
         session[:subaction] = 'customer_comm_record'
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         cust = FactoryGirl.create(:customer, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :sales_id => @u.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
-        log = FactoryGirl.attributes_for(:log, :customer_comm_record_id => rec.id, :sales_lead_id => nil, :log => nil)
-        get 'create', {:use_route => :customerx, :customer_comm_record_id => rec.id, :log => log, :which_table => 'customer_comm_record', :subaction =>  'customer_comm_record'}
+        log = FactoryGirl.attributes_for(:log, :customer_comm_record_id => rec.id, :sales_lead_id => nil, :log => nil, :which_table => 'customer_comm_record')
+        get 'create', {:use_route => :customerx, :customer_comm_record_id => rec.id, :log => log, :which_table => 'customer_comm_record'} # :subaction =>  'customer_comm_record'}
         response.should render_template('new')
       end
     end

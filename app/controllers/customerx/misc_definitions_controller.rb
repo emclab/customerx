@@ -11,8 +11,8 @@ module Customerx
     #before_filter :require_signin
     before_filter :require_employee
     before_filter :load_for_which, :only => [:index, :new, :edit]  
-    #before_filter :load_session_variable, :only => [:new, :edit]
-    #after_filter :delete_session_variable, :only => [:create, :update] 
+    before_filter :load_session_variable, :only => [:new, :edit]  #for subaction only in check_access_right
+    after_filter :delete_session_variable, :only => [:create, :update] #for subaction in check_access_right
     
     helper_method 
     
@@ -30,9 +30,7 @@ module Customerx
 
     def new
       @title = title('new', @for_which)
-      params[:misc_definition] = {}
       @misc_definition = Customerx::MiscDefinition.new()
-      params[:misc_definition][:for_which] = @for_which
 
     end
     
