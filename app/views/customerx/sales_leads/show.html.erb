@@ -76,7 +76,7 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= link_to '新Log', commonx.new_path(:resource_id => @sales_lead.id, :resource_name => params[:controller], :format => :js), 
+		<%= link_to '新Log', SUBURI + commonx.new_log_path(:resource_id => @sales_lead.id, :resource_name => params[:controller], :subaction => 'sales_lead', :format => :js), 
                               :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_sales_lead', 'commonx_logs') %>    </th>
   </tr>
 </table>
