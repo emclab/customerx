@@ -29,8 +29,10 @@ class CreateCustomerxCustomers < ActiveRecord::Migration
     end
     
     add_index :customerx_customers, :name
+    add_index :customerx_customers, :since_date
     add_index :customerx_customers, :sales_id
     add_index :customerx_customers, :zone_id
     add_index :customerx_customers, :customer_status_category_id
+    add_index :customerx_customers, :active
   end
 end

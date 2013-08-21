@@ -24,5 +24,7 @@ class CreateCustomerxSalesLeads < ActiveRecord::Migration
     
     add_index :customerx_sales_leads, :customer_id
     add_index :customerx_sales_leads, :provider_id
+    add_index :customerx_sales_leads, :subject
+    add_index :customerx_sales_leads, :lead_date
   end
 end

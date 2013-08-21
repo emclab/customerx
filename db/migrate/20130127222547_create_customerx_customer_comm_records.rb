@@ -16,6 +16,8 @@ class CreateCustomerxCustomerCommRecords < ActiveRecord::Migration
     end
     
     add_index :customerx_customer_comm_records, :customer_id
+    add_index :customerx_customer_comm_records, :subject
+    add_index :customerx_customer_comm_records, :comm_date
     add_index :customerx_customer_comm_records, :reported_by_id
   end
 end
