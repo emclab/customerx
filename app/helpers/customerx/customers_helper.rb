@@ -11,15 +11,15 @@ module Customerx
       end
       sales
     end
-    
+   
     def return_quality_system
-      Customerx::MiscDefinition.where(:for_which => 'customer_quality_system').where("active = ?", true).order("ranking_order")
+      Commonx::MiscDefinition.where(:for_which => 'quality_system').where("active = ?", true).order("ranking_index")
     end
     
     def return_customer_status_category
-      Customerx::MiscDefinition.where(:for_which => 'customer_status').where("active = ?", true).order("ranking_order")  
+      Commonx::MiscDefinition.where(:for_which => 'customer_status').where("active = ?", true).order("ranking_index")  
     end 
-    
+
     def list_provinces
       ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省',
         '江苏省','浙江省','安徽省','福建省','台湾省','江西省','山东省','河南省','湖北省',

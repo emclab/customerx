@@ -27,5 +27,10 @@ class CreateCustomerxCustomers < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :customerx_customers, :name
+    add_index :customerx_customers, :sales_id
+    add_index :customerx_customers, :zone_id
+    add_index :customerx_customers, :customer_status_category_id
   end
 end

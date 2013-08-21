@@ -21,5 +21,8 @@ class CreateCustomerxSalesLeads < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :customerx_sales_leads, :customer_id
+    add_index :customerx_sales_leads, :provider_id
   end
 end

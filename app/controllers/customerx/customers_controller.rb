@@ -19,6 +19,7 @@ module Customerx
     def index
       @title = 'Customers'
       @customers = params[:customerx_customers][:model_ar_r].page(params[:page]).per_page(@max_pagination)
+      @erb_code = find_config_const('customer_index_view', 'customerx')
       #has_right = true
       #params[:customer] = {}  #instanciate the params object
       #if grant_access?('index', 'customerx_customers')

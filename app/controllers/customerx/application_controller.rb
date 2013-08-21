@@ -5,6 +5,7 @@ module Customerx
     include Authentify::AuthentifyUtility
     include Authentify::UserPrivilegeHelper
     include Authentify::UsersHelper
+    include Commonx::CommonxHelper
     
     before_filter :require_signin
     before_filter :max_pagination 

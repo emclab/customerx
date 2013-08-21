@@ -16,6 +16,7 @@ module Customerx
       else
         @customer_comm_records = params[:customerx_customer_comm_records][:model_ar_r].page(params[:page]).per_page(@max_pagination)
       end
+      @erb_code = find_config_const('customer_comm_record_index_view', 'customerx')
     end
   
     def new

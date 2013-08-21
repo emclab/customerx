@@ -36,12 +36,12 @@
   <%= @customer.shipping_instruction %>
 </p>
 <p>
-  <b>Zone:</b>
+  <b><%=t('Zone:') %></b>
   <%= @customer.zone.zone_name %>
 </p>
 <p>
-  <b>业务状态分类:</b>
-  <%= @customer.customer_status_category.name %>
+  <b>业务状态:</b>
+  <%= @customer.customer_status_category.try(:name) if @customer.customer_status_category_id.present? %>
 </p>
 <p>
   <b>主营业务:</b>
@@ -76,6 +76,6 @@
   <%= @customer.last_updated_by.name %>
 </p>
 
-  <%= link_to 'Back', SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
 
 </div>

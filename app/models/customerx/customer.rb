@@ -14,8 +14,8 @@ module Customerx
     attr_accessible :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s, 
                     :as => :role_search_stats
                     
-    belongs_to :quality_system, :class_name => 'Customerx::MiscDefinition'
-    belongs_to :customer_status_category, :class_name => 'Customerx::MiscDefinition'
+    belongs_to :quality_system, :class_name => 'Commonx::MiscDefinition'
+    belongs_to :customer_status_category, :class_name => 'Commonx::MiscDefinition'
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
     belongs_to :zone, :class_name => 'Authentify::Zone'
     belongs_to :sales, :class_name => 'Authentify::User'

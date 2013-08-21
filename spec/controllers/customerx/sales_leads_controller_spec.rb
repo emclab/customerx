@@ -11,7 +11,7 @@ module Customerx
     
     before(:each) do
       @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
-      @cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+      @cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'order category')
       @z = FactoryGirl.create(:zone, :zone_name => 'hq')
       type = FactoryGirl.create(:group_type, :name => 'employee')
       ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => @z.id)
@@ -183,7 +183,7 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        ls = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
+        ls = FactoryGirl.create(:commonx_misc_definition, :for_which => 'sales_lead_source')
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id, :lead_source_id => ls.id)  
         get 'show', {:use_route => :customerx, :customer_id => cust.id, :id => lead.id}

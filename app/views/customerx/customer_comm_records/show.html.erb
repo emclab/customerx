@@ -19,7 +19,7 @@
 </p> 
 <p>
   <b>联系分类:</b>
-  <%= @customer_comm_record.comm_category.name %>
+  <%= @customer_comm_record.comm_category.try(:name) if @customer_comm_record.comm_category_id.present? %>
 </p> 
 <p>
   <b>关于:</b>
@@ -50,7 +50,7 @@
 <p>
   <b>Logs:</b>	
     <ul>
-  <% @customer_comm_record.logs.order("created_at DESC").each do |p| %>
+  <% Commonx::Log.where('resource_id = ? AND resource_name = ?', @customer_comm_record.id, params[:controller].sub('/', '_')).order("created_at DESC").each do |p| %>
     <li>
     <%= (p.created_at + 8.hours).strftime("%Y-%m-%d").to_s + ', ' + p.last_updated_by.name + '， ' + p.log %>
     </li>
@@ -62,8 +62,8 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= link_to '新Log', new_customer_comm_record_log_path(@customer_comm_record, :which_table => 'customer_comm_record', :format => :js), 
-               :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_customer_comm_record', 'customerx_logs') %>    </th>
+		<%= link_to '新Log', commonx.new_log_path(:resource_id => @customer_comm_record.id, :resource_name => params[:controller], :format => :js), 
+               :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_customer_comm_record', 'commonx_logs') %>    </th>
   </tr>
 </table>
 <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>

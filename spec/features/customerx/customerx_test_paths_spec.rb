@@ -7,10 +7,10 @@ describe "TestPaths" do
       @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
       #z = FactoryGirl.create(:zone, :zone_name => 'hq')
       #type = FactoryGirl.create(:group_type, :name => 'employee')
-      qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
+      qs = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_qs')
       add = FactoryGirl.create(:address)
       #ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
-      cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+      cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'order category')
       z = FactoryGirl.create(:zone, :zone_name => 'hq')
       type = FactoryGirl.create(:group_type, :name => 'employee')
       ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => z.id)
@@ -77,22 +77,29 @@ describe "TestPaths" do
         :sql_code => "")
       ua24 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "") 
-      ua25 = FactoryGirl.create(:user_access, :action => 'create_sales_lead', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
+      ua25 = FactoryGirl.create(:user_access, :action => 'create_sales_lead', :resource => 'commonx_logs', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua26 = FactoryGirl.create(:user_access, :action => 'index_sales_lead', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "Customerx::Log.where('customerx_logs.sales_lead_id > ?', 0)")      
+      ua26 = FactoryGirl.create(:user_access, :action => 'index_sales_lead', :resource => 'commonx_logs', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Commonx::Log.where('commonx_logs.sales_lead_id > ?', 0)")      
       ur = FactoryGirl.create(:user_role, :role_definition_id => @role.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur], :login => 'thistest', :password => 'password', :password_confirmation => 'password')
-      lsource = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source')
-      @cate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'newnew cate', :last_updated_by_id => @u.id)
+      lsource = FactoryGirl.create(:commonx_misc_definition, :for_which => 'sales_lead_source')
+      @cate2 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'newnew cate', :last_updated_by_id => @u.id)
       @cust = FactoryGirl.create(:customer, :zone_id => z.id, :sales_id => @u.id, :last_updated_by_id => @u.id, :quality_system_id => qs.id, :address => add)
       @slead = FactoryGirl.create(:sales_lead, :provider_id => @u.id, :last_updated_by_id => @u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
-      @ccate = FactoryGirl.create(:misc_definition, :for_which => 'customer_comm_category', :active => true, :last_updated_by_id => @u.id)
-      @ccate1 = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
-      @ccate2 = FactoryGirl.create(:misc_definition, :for_which => 'customer_quality_system', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
-      @ccate3 = FactoryGirl.create(:misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
+      @ccate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_comm_category', :active => true, :last_updated_by_id => @u.id)
+      @ccate1 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
+      @ccate2 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_quality_system', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
+      @ccate3 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_comm_record_index_view', 
+                              :argument_value => "This is a view") 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_index_view', 
+                              :argument_value => "This is a view") 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_index_view', 
+                              :argument_value => "This is a view") 
+                              
       visit '/'
       #save_and_open_page
       fill_in "login", :with => @u.login
@@ -102,23 +109,23 @@ describe "TestPaths" do
     
     #customer status category
     it "should display customer status category index page" do     
-      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      visit commonx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should have_content("Customer Status Category")
     end
 
     it "should display edit page for the customer status category record" do
-      visit edit_misc_definition_path(@cate2, :for_which => 'customer_status', :subaction => 'customer_status')
+      visit edit_commonx.misc_definition_path(@cate2, :for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should include(@cate2.name)
     end
     
     it "should display new page for customer status category" do
-      visit new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      visit commonx.new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should have_content("New Customer Status Category")
     end
     
     #quality system    
     it "should display quality system index page" do
-      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       page.body.should have_content("Quality System")
     end
     
@@ -213,44 +220,44 @@ describe "TestPaths" do
     
     #comm category
     it "should display index page for comm category" do
-      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
+      visit commonx.misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       page.body.should have_content('Comm Categories')
     end
     
     it "should work with links on comm category index page" do
-      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
+      visit commonx.misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       click_link 'Edit'
       page.body.should have_content('Update Customer Comm Category')
-      visit misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
+      visit commonx.misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
       click_link "New Comm Category"
       page.body.should have_content('New Customer Comm Category')
     end
     
     it "should work with links on status category index page" do
-      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      visit commonx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       #save_and_open_page
       page.all('a')[1].click  #list all a -href and click the first one which is a edit.
       #page.find("a:eq(2)").click
       #save_and_open_page
-      visit misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
+      visit commonx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
       click_link "New Customer Status Category"
     end
     
     it "should work with links on quality system index page" do
-      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       #save_and_open_page
       click_link 'Edit'
-      visit misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
       #save_and_open_page
       click_link "New Quality System"
     end
     
     it "should work with links on sales lead source index page" do
-      visit misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
+      visit commonx.misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       #save_and_open_page
       page.all('a')[1].click  #list all a -href and click the first one which is a edit.
       #save_and_open_page
-      visit misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
+      visit commonx.misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
       click_link "New Lead Source"
     end
     

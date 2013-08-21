@@ -1,9 +1,0 @@
-<div id='main_body'>
-
-<% if @which_table == 'sales_lead' %>
-  <%= render 'index_sales_lead' %>
-<% elsif @which_table == 'customer_comm_record' %>
-  <%= render 'index_customer_comm_record' %>
-<% end %>
-  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
-</div>

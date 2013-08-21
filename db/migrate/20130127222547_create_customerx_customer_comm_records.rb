@@ -14,5 +14,8 @@ class CreateCustomerxCustomerCommRecords < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :customerx_customer_comm_records, :customer_id
+    add_index :customerx_customer_comm_records, :reported_by_id
   end
 end

@@ -16,6 +16,7 @@ module Customerx
       else
         @sales_leads = params[:customerx_sales_leads][:model_ar_r].page(params[:page]).per_page(@max_pagination)
       end
+      @erb_code = find_config_const('sales_lead_index_view', 'customerx')
     end
   
     def new
@@ -83,7 +84,7 @@ module Customerx
     protected
         
     def lead_sources
-      Customerx::MiscDefinition.where(:for_which => 'sales_lead_source').where(:active => true).order("ranking_order")
+      Commonx::MiscDefinition.where(:for_which => 'sales_lead_source').where(:active => true).order("ranking_index")
     end
     
     def load_customer

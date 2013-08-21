@@ -9,7 +9,7 @@
     <%= f.input :via, :label => "联系方式： ", :collection => contact_via %>
   <% end %>
   <%= f.input :content, :label => "联系内容 ：", :input_html => {:rows => 4}, :readonly => readonly?(@customer_comm_record, 'content') %>   
-  <%= f.input :comm_category_id, :label => "联系分类： ", :collection => Customerx::MiscDefinition.where(:for_which => 'customer_comm_record').where(:active => true).order("ranking_order") %>  
+  <%= f.input :comm_category_id, :label => "联系分类： ", :collection => Commonx::MiscDefinition.where(:for_which => 'customer_comm_record').where(:active => true).order("ranking_index") %>  
   <% if has_action_right?('void', 'customerx_customer_comm_records') %>
     <%= f.input :void, :label => '删除：', :collection => [['Yes', true],['No',false]] %>
   <% else %>

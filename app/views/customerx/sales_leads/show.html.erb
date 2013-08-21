@@ -64,7 +64,7 @@
 <p>
   <b><%=t('Lead Logs:') %></b>
   <ul>
-<% @sales_lead.logs.order("id DESC").each do |f| %>
+<% Commonx::Log.where('resource_id = ? AND resource_name = ?', @sales_lead.id, params[:controller].sub('/', '_')).order("id DESC").each do |f| %>
   <li>
   <%= (f.created_at + 8.hours).strftime("%Y-%m-%d").to_s + ', ' + f.input_by.name + ', '+ f.log %>
   </li>
@@ -76,8 +76,8 @@
   <tr>
     <th>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<%= link_to '新Log', new_sales_lead_log_path(@sales_lead, :which_table => 'sales_lead', :format => :js), 
-                              :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_sales_lead', 'customerx_logs') %>    </th>
+		<%= link_to '新Log', commonx.new_path(:resource_id => @sales_lead.id, :resource_name => params[:controller], :format => :js), 
+                              :remote => true, :id => 'new_log_link', :class => BUTTONS_CLS['action'] if has_action_right?('create_sales_lead', 'commonx_logs') %>    </th>
   </tr>
 </table>
   <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>

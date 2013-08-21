@@ -11,7 +11,7 @@ module Customerx
     
     before(:each) do
       @pagination_config = FactoryGirl.create(:engine_config, :engine_name => nil, :engine_version => nil, :argument_name => 'pagination', :argument_value => 30)
-      @cate = FactoryGirl.create(:misc_definition, :for_which => 'customer_status', :name => 'order category')
+      @cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'order category')
       @z = FactoryGirl.create(:zone, :zone_name => 'hq')
       type = FactoryGirl.create(:group_type, :name => 'employee')
       ug = FactoryGirl.create(:sys_user_group, :user_group_name => 'ceo', :group_type_id => type.id, :zone_id => @z.id)
@@ -267,7 +267,7 @@ module Customerx
     describe "GET show" do
       it "should show for user with right" do
         add = FactoryGirl.create(:address)
-        qs = FactoryGirl.create(:misc_definition, :for_which => 'customer_qs')
+        qs = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_qs')
         user_access = FactoryGirl.create(:user_access, :action => 'show', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
         session[:employee] = true
