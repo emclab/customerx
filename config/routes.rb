@@ -1,6 +1,6 @@
 Customerx::Engine.routes.draw do
 
-  resources :misc_definitions
+  #resources :misc_definitions
   resources :sales_leads, :only => [:index, :new, :create]
   resources :customer_comm_records, :only => [:index, :new, :create]
   resources :customers do
@@ -15,9 +15,9 @@ Customerx::Engine.routes.draw do
     end
   end
   
-  resources :logs, :only => [:index]  
+  #resources :logs, :only => [:index]  
   resources :sales_leads do
-    resources :logs
+    #resources :logs
     collection do
       get :search
       put :search_results      
@@ -26,7 +26,7 @@ Customerx::Engine.routes.draw do
     end      
   end
   resources :customer_comm_records do
-    resources :logs
+    #resources :logs
     collection do
       get :search
       put :search_results      
