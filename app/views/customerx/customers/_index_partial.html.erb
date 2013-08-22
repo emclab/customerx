@@ -1,5 +1,5 @@
 <div class="pagination"><%= will_paginate @customers %></div>
 
-<%= render inline: ERB.new(@erb_code).result(binding) %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
 
   <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
