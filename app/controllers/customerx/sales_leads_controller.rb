@@ -79,6 +79,7 @@ module Customerx
       @title= "销售线索内容"
       #nested with customer
       @sales_lead = Customerx::SalesLead.find_by_id(params[:id])
+      @erb_code = find_config_const('sales_lead_show_view', 'customerx')
     end
     
     protected

@@ -14,7 +14,7 @@ module Customerx
     #before_filter :require_signin
     before_filter :require_employee
 
-    helper_method :has_comm_record_index_right?, :has_lead_index_right?, :return_last_contact_date, :has_action_on_customer?
+    helper_method :return_last_contact_date
     
     def index
       @title = 'Customers'
@@ -90,6 +90,7 @@ module Customerx
     def show
       @title = 'Customer Info'
       @customer = Customerx::Customer.find(params[:id])
+      @erb_code = find_config_const('customer_show_view', 'customerx')
      # if !has_action_right?('show', 'customerx_customers', @customer)
      #   redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
      # end

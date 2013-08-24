@@ -80,7 +80,8 @@ module Customerx
   
     def show
       #if has_action_right?('show', 'customerx_customer_comm_records', @customer)
-        @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
+      @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
+      @erb_code = find_config_const('customer_comm_record_show_view', 'customerx')
       #else
       # redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient right!")
       #end

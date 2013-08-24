@@ -45,37 +45,37 @@ describe "TestPaths" do
         :sql_code => "")
       ua14 = FactoryGirl.create(:user_access, :action => 'update', :resource => 'customerx_customer_comm_records', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua15 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'customerx_logs', :role_definition_id => @role.id, :rank => 1,
+      ua15 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'commonx_logs', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua151 = FactoryGirl.create(:user_access, :action => 'index_customer_comm_category', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "Customerx::MiscDefinition.
-                     where(:active => true).order('ranking_order')") 
-      ua16 = FactoryGirl.create(:user_access, :action => 'index_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "Customerx::MiscDefinition.
-                     where(:active => true).order('ranking_order')")
-      ua = FactoryGirl.create(:user_access, :action => 'index_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "Customerx::MiscDefinition.
-                     where(:active => true).order('ranking_order')")
-      ua152 = FactoryGirl.create(:user_access, :action => 'index_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "Customerx::MiscDefinition.
-                     where(:active => true).order('ranking_order')")
-      ua1 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua151 = FactoryGirl.create(:user_access, :action => 'index_customer_comm_category', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Commonx::MiscDefinition.
+                     where(:active => true).order('ranking_index')") 
+      ua16 = FactoryGirl.create(:user_access, :action => 'index_sales_lead_source', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Commonx::MiscDefinition.
+                     where(:active => true).order('ranking_index')")
+      ua = FactoryGirl.create(:user_access, :action => 'index_customer_status', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Commonx::MiscDefinition.
+                     where(:active => true).order('ranking_index')")
+      ua152 = FactoryGirl.create(:user_access, :action => 'index_quality_system', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Commonx::MiscDefinition.
+                     where(:active => true).order('ranking_index')")
+      ua1 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua17 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua17 = FactoryGirl.create(:user_access, :action => 'update_customer_status', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua18 = FactoryGirl.create(:user_access, :action => 'create_customer_status', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua18 = FactoryGirl.create(:user_access, :action => 'create_customer_status', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua19 = FactoryGirl.create(:user_access, :action => 'update_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua19 = FactoryGirl.create(:user_access, :action => 'update_quality_system', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua20 = FactoryGirl.create(:user_access, :action => 'create_customer_quality_system', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua20 = FactoryGirl.create(:user_access, :action => 'create_quality_system', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua21 = FactoryGirl.create(:user_access, :action => 'update_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua21 = FactoryGirl.create(:user_access, :action => 'update_sales_lead_source', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua22 = FactoryGirl.create(:user_access, :action => 'create_sales_lead_source', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua22 = FactoryGirl.create(:user_access, :action => 'create_sales_lead_source', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua23 = FactoryGirl.create(:user_access, :action => 'update_customer_comm_record', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua23 = FactoryGirl.create(:user_access, :action => 'update_customer_comm_category', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
-      ua24 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_record', :resource => 'customerx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
+      ua24 = FactoryGirl.create(:user_access, :action => 'create_customer_comm_category', :resource => 'commonx_misc_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "") 
       ua25 = FactoryGirl.create(:user_access, :action => 'create_sales_lead', :resource => 'commonx_logs', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
@@ -90,16 +90,27 @@ describe "TestPaths" do
       @slead = FactoryGirl.create(:sales_lead, :provider_id => @u.id, :last_updated_by_id => @u.id, :customer_id => @cust.id, :lead_source_id => lsource.id)
       @ccate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_comm_category', :active => true, :last_updated_by_id => @u.id)
       @ccate1 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_status', :name => 'new', :active => true, :last_updated_by_id => @u.id)
-      @ccate2 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'customer_quality_system', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
+      @ccate2 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'quality_system', :name => 'nnew', :active => true, :last_updated_by_id => @u.id)
       @ccate3 = FactoryGirl.create(:commonx_misc_definition, :for_which => 'sales_lead_source', :name => 'nnnew', :active => true, :last_updated_by_id => @u.id)
       @crecord = FactoryGirl.create(:customer_comm_record, :customer_id => @cust.id, :comm_category_id => @ccate.id)
-      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_comm_record_index_view', 
-                              :argument_value => "This is a view") 
-      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_index_view', 
-                              :argument_value => "This is a view") 
       @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_index_view', 
-                              :argument_value => "This is a view") 
-                              
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_index_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_comm_record_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('cusotmer_comm_record_index_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('sales_lead_index_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_comm_record_log_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_comm_record_log_index_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_log_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('sales_lead_log_index_view', 'customerx')) 
+      
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_show_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_show_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_comm_record_show_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('cusotmer_comm_record_show_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_show_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('sales_lead_show_view', 'customerx')) 
+                                                                           
       visit '/'
       #save_and_open_page
       fill_in "login", :with => @u.login
@@ -110,28 +121,30 @@ describe "TestPaths" do
     #customer status category
     it "should display customer status category index page" do     
       visit commonx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
-      page.body.should have_content("Customer Status Category")
+      #save_and_open_page
+      page.body.should have_content("Customer Statuses")
     end
 
     it "should display edit page for the customer status category record" do
-      visit edit_commonx.misc_definition_path(@cate2, :for_which => 'customer_status', :subaction => 'customer_status')
+      visit commonx.edit_misc_definition_path(@cate2, :for_which => 'customer_status', :subaction => 'customer_status')
       page.body.should include(@cate2.name)
     end
     
     it "should display new page for customer status category" do
       visit commonx.new_misc_definition_path(:for_which => 'customer_status', :subaction => 'customer_status')
-      page.body.should have_content("New Customer Status Category")
+      page.body.should have_content("New Customer Status")
     end
     
     #quality system    
     it "should display quality system index page" do
-      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'quality_system', :subaction => 'quality_system')
       page.body.should have_content("Quality System")
     end
     
     #customers
     it "should display customer index page" do
       visit customers_path
+      #save_and_open_page
       page.body.should have_content('Customers')
       page.body.should_not have_content("SalesLeads")
     end
@@ -226,10 +239,11 @@ describe "TestPaths" do
     
     it "should work with links on comm category index page" do
       visit commonx.misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
+      #save_and_open_page
       click_link 'Edit'
       page.body.should have_content('Update Customer Comm Category')
       visit commonx.misc_definitions_path(:for_which => 'customer_comm_category', :subaction => 'customer_comm_category')
-      click_link "New Comm Category"
+      click_link "New Customer Comm Category"
       page.body.should have_content('New Customer Comm Category')
     end
     
@@ -240,14 +254,15 @@ describe "TestPaths" do
       #page.find("a:eq(2)").click
       #save_and_open_page
       visit commonx.misc_definitions_path(:for_which => 'customer_status', :subaction => 'customer_status')
-      click_link "New Customer Status Category"
+      #save_and_open_page
+      click_link "New Customer Status"
     end
     
     it "should work with links on quality system index page" do
-      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'quality_system', :subaction => 'quality_system')
       #save_and_open_page
       click_link 'Edit'
-      visit commonx.misc_definitions_path(:for_which => 'customer_quality_system', :subaction => 'customer_quality_system')
+      visit commonx.misc_definitions_path(:for_which => 'quality_system', :subaction => 'quality_system')
       #save_and_open_page
       click_link "New Quality System"
     end
@@ -258,7 +273,8 @@ describe "TestPaths" do
       page.all('a')[1].click  #list all a -href and click the first one which is a edit.
       #save_and_open_page
       visit commonx.misc_definitions_path(:for_which => 'sales_lead_source', :subaction => 'sales_lead_source')
-      click_link "New Lead Source"
+      #save_and_open_page
+      click_link "New Sales Lead Source"
     end
     
     #customer_comm_record

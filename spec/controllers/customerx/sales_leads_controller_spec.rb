@@ -4,7 +4,8 @@ module Customerx
   describe SalesLeadsController do
 
     before(:each) do
-      controller.should_receive(:require_signin)
+      controller.should_receive(:require_signin) 
+      #controller.should_receive(:check_availability)          
     end
   
     render_views
@@ -20,6 +21,10 @@ module Customerx
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
       eng_config = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_show_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('sales_lead_show_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'sales_lead_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('sales_lead_index_view', 'customerx')) 
     end
       
     describe "GET 'index'" do
@@ -31,8 +36,8 @@ module Customerx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
-        lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :sales_id => @u.id, :customer_status_category_id => @cate.id)
+        lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id, :lead_date => Date.today)
         get 'index' , {:use_route => :customerx}
         assigns(:sales_leads).should eq([lead])        
       end

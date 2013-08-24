@@ -20,6 +20,10 @@ module Customerx
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
       eng_config = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_show_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_show_view', 'customerx')) 
+      @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_index_view', 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_index_view', 'customerx')) 
     end
     
     describe "GET 'index'" do
