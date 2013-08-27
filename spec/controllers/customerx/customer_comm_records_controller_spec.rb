@@ -260,7 +260,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id, :name => 'tester')
         rec = FactoryGirl.attributes_for(:customer_comm_record, :customer_id => cust.id)
         get 'create', {:use_route => :customerx, :customer_comm_record => rec, :customer_name_autocomplete => cust.name }
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Communication Record Saved!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       end
       
       it "should create record for user w/ customer_id" do
@@ -280,7 +280,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         rec = FactoryGirl.attributes_for(:customer_comm_record, :customer_id => cust.id)
         get 'create', {:use_route => :customerx, :customer_comm_record => rec, :customer_id => cust.id}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Communication Record Saved!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       end
     end
   
@@ -345,7 +345,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => u.id, :customer_status_category_id => cate.id)
         rec = FactoryGirl.create(:customer_comm_record, :customer_id => cust.id)
         get 'update', {:use_route => :customerx, :customer_id => cust.id, :id => rec.id, :customer_comm_record => {:subject => 'new subject'}}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Comm Record Updated!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
       end
       
       it "should render edit for data error" do

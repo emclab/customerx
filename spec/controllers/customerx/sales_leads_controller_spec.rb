@@ -111,7 +111,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.attributes_for(:sales_lead, :customer_id => cust.id)   
         get 'create', {:use_route => :customerx, :customer_id => cust.id, :sales_lead => lead}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Sales Lead Saved!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       end
       
       it "should render template new if data error" do
@@ -164,7 +164,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
         lead = FactoryGirl.create(:sales_lead, :customer_id => cust.id)  
         get 'update', {:use_route => :customerx, :customer_id => cust.id, :id => lead.id, :sales_lead => {:lead_info => 'there is some changes', :subject => 'a new subject'}}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Sales Lead Updated!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
       end
       
       it "should redirec to edit page with data error" do

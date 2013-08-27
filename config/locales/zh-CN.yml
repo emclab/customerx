@@ -36,6 +36,10 @@ zh-CN:
   False: '否'
   
 #Customerx
+  Successfully Saved! : '已保存！'
+  uccessfully Updated! : '已更新！'
+  'Data Error. Not Saved!' : '数据错误。无法保存！'
+  'Data Error. Not Updated!' : '数据错误。无法更新！'
   'Date:'                 : '日期：'
   Date                  : '日期'
   date                  : '日期'

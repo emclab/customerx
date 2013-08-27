@@ -42,7 +42,7 @@ module Customerx
       @sales_lead.provider_id = provider.id if provider.present?
       @sales_lead.last_updated_by_id = session[:user_id]
       if @sales_lead.save
-        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Sales Lead Saved!")
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       else
         flash.now[:error] = 'Data Error. Not Saved!'
         render 'new'
@@ -68,7 +68,7 @@ module Customerx
       @sales_lead.last_updated_by_id = session[:user_id]
       params[:sales_lead][:initial_order_total] = '' if params[:sales_lead][:sale_success] == 'false'
       if @sales_lead.update_attributes(params[:sales_lead], :as => :role_update)
-        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Sales Lead Updated!")
+        redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
       else
         flash.now[:error] = 'Data Error. Not Updated!'
         render 'edit'

@@ -164,8 +164,8 @@ describe "TestPaths" do
       click_link 'SalesLeads'
       visit customers_path
       click_link "CommRecords"
-      visit customers_path
-      click_link "Back"
+      #visit customers_path
+      #click_link "Back"
     end
     
     it "should display new customer page" do
@@ -192,8 +192,8 @@ describe "TestPaths" do
       click_link 'Edit'
       visit customer_sales_leads_path(@cust)
       click_link @slead.id.to_s
-      visit customer_sales_leads_path(@cust)
-      click_link 'Back'
+      #visit customer_sales_leads_path(@cust)
+      #click_link 'Back'
       visit customer_sales_leads_path(@cust)
       click_link '输入Leads'
     end
@@ -288,8 +288,8 @@ describe "TestPaths" do
       click_link @crecord.id.to_s
       visit customer_comm_records_path
       click_link 'New Customer Comm Record'
-      visit customer_comm_records_path
-      click_link 'Back'
+      #visit customer_comm_records_path
+      #click_link 'Back'
       visit customer_comm_records_path
       click_link 'Edit'
     end

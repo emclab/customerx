@@ -44,7 +44,7 @@ module Customerx
         @customer_comm_record.last_updated_by_id = session[:user_id]
         @customer_comm_record.reported_by_id = session[:user_id]
         if @customer_comm_record.save
-          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Communication Record Saved!")
+          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
         else
           flash.now[:error] = 'Data Error. Not Saved!'
           render 'new'
@@ -68,7 +68,7 @@ module Customerx
         @customer_comm_record = Customerx::CustomerCommRecord.find_by_id(params[:id])
         @customer_comm_record.last_updated_by_id = session[:user_id]
         if @customer_comm_record.update_attributes(params[:customer_comm_record], :as => :role_update)
-          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Comm Record Updated!")
+          redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
         else
           flash.now[:error] = 'Data Error. Not Updated!'
           render 'edit'
@@ -91,7 +91,8 @@ module Customerx
     
     def contact_via
       #phone call, meeting, fax, IM, email, letter (writing), online, other
-      [['电话'],['会面'],['传真'],['电邮'],['即时信息IM'],['信件'],['互联网。如网络视频'],['其他']]
+      #[['电话'],['会面'],['传真'],['电邮'],['即时信息IM'],['信件'],['互联网。如网络视频'],['其他']]
+      find_config_const('contact_via', 'customerx').split(',')
     end
     
     def load_customer

@@ -145,7 +145,7 @@ module Customerx
         contact = FactoryGirl.attributes_for(:contact)
         cust = FactoryGirl.attributes_for(:customer, :active => true, :last_updated_by_id => @u.id, :address_attributes => add, :contacts_attributes => [contact]) 
         get 'create', {:use_route => :customerx, :customer => cust}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Saved!")        
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")        
       end
       
       it "should render new if data error" do
@@ -225,7 +225,7 @@ module Customerx
         contact = FactoryGirl.build(:contact)
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :address => add, :contacts => [contact]) 
         get 'update' , {:use_route => :customerx, :id => cust.id, :customer => {:name => 'newnew name', :customer_status_category_id => 2}}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Customer Update Saved!")
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
       end
       
       it "should render edit if data error" do
