@@ -35,9 +35,9 @@ module Customerx
     #email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     
     validates :name, :presence => true,
-                     :uniqueness => {:case_sensitive => false, :message => 'Duplicate name'}
+                     :uniqueness => {:case_sensitive => false, :message => I18n.t('Duplicate Name!')}
     validates :short_name, :presence => true, 
-                           :uniqueness => {:case_sensitive => false, :message => 'Duplicate name'}
+                           :uniqueness => {:case_sensitive => false, :message => I18n.t('Duplicate Name!')}
     validates_presence_of :phone, :fax, :zone_id, :sales_id, :since_date, :customer_status_category_id
     #validates :email, :format => { :with => email_regex, :message => 'Wrong email address!' , :unless => 'email.blank?' },
                   #    :uniqueness => {:case_sensitive => false, :unless => 'email.blank?', :message => 'Duplicate email address!' }
