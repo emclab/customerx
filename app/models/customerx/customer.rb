@@ -24,9 +24,9 @@ module Customerx
     has_many :users, :class_name => "Authentify::User"
     has_one :address, :class_name => "Customerx::Address"
     has_many :contacts, :class_name => "Customerx::Contact"
-    if defined? Projectx::Project
-      has_many :projects, :class_name => 'Projectx::Project'
-    end
+    #if defined? Projectx::Project
+    #  has_many :projects, :class_name => 'Projectx::Project'
+    #end
     accepts_nested_attributes_for :address  #validates in address.rb works.
     accepts_nested_attributes_for :contacts, :allow_destroy => true
     
