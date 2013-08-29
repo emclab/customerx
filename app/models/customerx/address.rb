@@ -7,8 +7,8 @@ module Customerx
     attr_accessible :add_line, :city_county_district, :province, :customer_id, :as => :role_update
     
     belongs_to :customer, :class_name => "Customerx::Customer"
-    validates_presence_of :add_line , :message => '填地址门牌号码！'
-    validates_presence_of :city_county_district,  :message => '不能为空！'
-    validates_presence_of :province  , :message => '选择省份！'
+    validates_presence_of :add_line , :message => I18n.t('Fill in address!')
+    validates_presence_of :city_county_district,  :message => I18n.t('Can not be empty!')
+    validates_presence_of :province  , :message => I18n.t('Choose province!')
   end
 end

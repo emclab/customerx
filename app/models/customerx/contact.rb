@@ -8,9 +8,9 @@ module Customerx
     email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     
     validates :name, :presence => true,
-                     :uniqueness => {:case_sensitive => false, :scope => :customer_id, :message => 'Duplicate name'}
+                     :uniqueness => {:case_sensitive => false, :scope => :customer_id, :message => I18n.t('Duplicate name')}
     validates :email, :format => { :with => email_regex, :message => 'Wrong email address!' , :unless => 'email.blank?' },
-                      :uniqueness => {:case_sensitive => false, :unless => 'email.blank?', :message => 'Duplicate email address!' }
+                      :uniqueness => {:case_sensitive => false, :unless => 'email.blank?', :message => I18n.t('Duplicate email address!') }
     
   end
 end

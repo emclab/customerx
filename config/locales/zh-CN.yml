@@ -140,4 +140,7 @@ zh-CN:
   CommRecords           : '客户交流记录'
   Brief Note            : '简注'
   Duplicate Name!  : '名字重复！' 
- 
+  'Can not be empty!'  : '不能为空！'
+  Choose province!  : '选择省份！'
+  'Fill in address!'  : '填地址门牌号码！'
+  Duplicate email address!  : '重复电邮地址！'
