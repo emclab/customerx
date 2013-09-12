@@ -6,10 +6,12 @@ module Customerx
     attr_accessible :lead_eval, :contact_instruction, :customer_id, :last_updated_by_id, :lead_accuracy, :lead_quality, 
                     :lead_info, :sale_success, :lead_source_id, :lead_status, :provider_id, :subject, :lead_date, :provider_name_autocomplete,
                     :customer_name_autocomplete, :initial_order_total,
+                    :customer_name, :lead_source_name, :sale_success_value, :close_lead_value,
                     :as => :role_new
     attr_accessible :lead_eval, :contact_instruction, :last_updated_by_id, :lead_accuracy, :lead_quality, :close_lead, :lead_date,
                     :close_lead_date, :close_lead_by_id, :lead_info, :sale_success, :lead_source_id, :provider_id, :subject,
                     :provider_name_autocomplete, :customer_name_autocomplete, :customer_name, :initial_order_total,
+                    :customer_name, :lead_source_name, :sale_success_value, :close_lead_value,
                     :as => :role_update 
                     
     attr_accessor :customer_id_s, :start_date_s, :end_date_s, :zone_id_s, :sales_id_s, :lead_source_id_s

@@ -1,42 +1,6 @@
 <%= simple_form_for @customer do |f| %>    
  
-  <%= f.input :name, :label => t('CompanyName:'), :readonly => readonly?(@customer, 'name') %>  
-  <%= f.input :short_name, :label => t('ShortName'), :placeholder => '4-8字', :readonly => readonly?(@customer, 'short_name') %>
-  <%= f.input :since_date, :label => t('Since:'), :as => :string, :readonly => readonly?(@customer, 'since_date') %>
-  <%= f.input :phone, :label => t('CompanyPhone:'), :readonly => readonly?(@customer, 'phone') %> 
-  <%= f.input :fax, :label => t('CompanyFax:'), :readonly => readonly?(@customer, 'fax') %>  
- 联系人信息：
-  <%= f.fields_for :contacts, @customer.contacts.first do |builder| %>
-    <p><%= render('first_contact', :f => builder)%></p>  
-  <% end %>     
-  <p><%= link_to_add_fields "加联系人", f, :contacts %></p>
-  <%= f.simple_fields_for :address do |builder| %>     
-    <%= render('address', :f => builder)%>
-  <% end %>      
-  <%= f.input :shipping_instruction, :label => '发运要求：', :input_html => {:rows => 4}, :readonly => readonly?(@customer, 'shipping_instruction') %>
-  <%= f.input :zone_name, :label => t('Zone:'), readonly => true, :required => false, :input_html => {:value => @customer.zone.name} if readonly?(@customer, 'zone_id') %>
-  <%= f.input :zone_id, :label => t('Zone:'), :collection => return_zone, :label_method => :zone_name, :value_method => :id unless readonly?(@customer, 'zone_id') %>
-  <%= f.input :customer_status_category_id, :label => t('BizStatus:'), :collection => return_customer_status_category, :label_method => :name, :value_method => :id unless readonly?(@customer, 'customer_status_category_id') %>
-  <%= f.input :customer_status_category_name, :label => t('BizStatus:'), :readonly => true, :required => false, :input_html => {:value => @customer.customer_status_category.name} if readonly?(@customer, 'customer_status_category_id') %>     
-  <%= f.input :quality_system_id, :collection => return_quality_system, :label => t('QualitySystem:'),
-                                  :label_method => :name, :value_method => :id, :include_blank => true unless readonly?(@customer, 'quality_system_id') %>  
-  <%= f.input :quality_system_name, :readonly => true, :required => false, :input_html => {:value => @customer.quality_system_id.present? ? @customer.quality_system.name : '' } if readonly?(@customer, 'quality_system_id') %> 
-  <%= f.input :web, :label => t('Web:'), :readonly => readonly?(@customer, 'web') %>
-  <%= f.input :employee_num, :label => t('EmployeeNum:'), :readonly => readonly?(@customer, 'employee_num') %> 
-  <%= f.input :revenue, :label => t('Revenue:'), :hint => '注明单位', :readonly => readonly?(@customer, 'revenue') %> 
-  <%= f.input :main_biz, :label => t('MainBiz：'), :input_html => { :rows => 4}, :readonly => readonly?(@customer, 'main_biz') %>   
-  <%= f.input :customer_taste, :label => t('CustomerTaste:'), :input_html => { :rows => 4}, :readonly => readonly?(@customer, 'customer_taste') %>   
-  <%= f.input :customer_eval, :label => t('CustomerEval:'), :input_html => { :rows => 4}, :readonly => readonly?(@customer, 'customer_eval') %> 
-  <% if has_action_right?('activate', 'customerx_customers', @customer) %>
-    <%= f.input :active, :label => t('Active:'), :collection => [['Yes', true], ['No', false]] %>
-  <% else %>
-    <%= f.input :active_noupdate, :label => t('Active:'), :readonly => true, :as => :string %>
-  <% end %>
-  <%= f.input :sales_id, :label => t('Sales:'), :collection => Authentify::UsersHelper::return_users('create', 'customerx_customers') unless readonly?(@customer, 'sales_id') %>        
-  <%= f.input :sales_name, :label => t('Sales:'), :readonly => true, :required => false, :input_html => {:value => @customer.sales.name} if readonly?(@customer, 'sales_id') %>
-  <%= f.input :note, :label => t('Note:'), :input_html => { :rows => 4}, :readonly => readonly?(@customer, 'note') %>        
-  
-  <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action'] %>  
+  <%= render inline: @erb_code, locals: {f: f} %>
 <% end %>  
 
 

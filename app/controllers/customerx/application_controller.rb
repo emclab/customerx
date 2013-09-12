@@ -9,7 +9,9 @@ module Customerx
     
     before_filter :require_signin
     before_filter :max_pagination 
-    before_filter :check_access_right  
+    before_filter :check_access_right 
+    before_filter :load_session_variable, :only => [:new, :edit]  #for parent_record_id & parent_resource in check_access_right
+    after_filter :delete_session_variable, :only => [:create, :update]   #for parent_record_id & parent_resource in check_access_right 
     
     helper_method   #:has_action_right?, :print_attribute, :readonly?
     #helper_method :has_action_on_customer_comm_record?, :has_action_on_sales_lead?

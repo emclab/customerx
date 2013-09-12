@@ -46,7 +46,7 @@ module Customerx
         if @customer_comm_record.save
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
         else
-          flash.now[:error] = 'Data Error. Not Saved!'
+          flash.now[:error] = t('Data Error. Not Saved!')
           render 'new'
         end
       #else
@@ -70,7 +70,7 @@ module Customerx
         if @customer_comm_record.update_attributes(params[:customer_comm_record], :as => :role_update)
           redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
         else
-          flash.now[:error] = 'Data Error. Not Updated!'
+          flash.now[:error] = t('Data Error. Not Updated!')
           render 'edit'
         end
       #else
@@ -97,7 +97,7 @@ module Customerx
     
     def load_customer
       @customer = Customerx::Customer.find_by_id(params[:customer_id]) if params[:customer_id].present?
-      @customer = nil unless @customer && has_action_right?('show', 'customerx_customers', @customer) 
+      #@customer = nil unless @customer && has_action_right?('show', 'customerx_customers', @customer) 
     end
   end
 end

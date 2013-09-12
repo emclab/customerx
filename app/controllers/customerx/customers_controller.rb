@@ -28,7 +28,7 @@ module Customerx
       @customer = Customerx::Customer.new
       @customer.build_address
       @customer.contacts.build
-      
+      @erb_code = find_config_const('customer_create_view', 'customerx')
     end
 
     def create
@@ -38,7 +38,7 @@ module Customerx
       if @customer.save
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Saved!")
       else
-        flash[:notice] = 'Data Error. Not Saved!'
+        flash[:notice] = t('Data Error. Not Saved!')
         render 'new'
       end
       
@@ -47,7 +47,7 @@ module Customerx
     def edit
       @title = 'Edit Customer'
       @customer = Customerx::Customer.find(params[:id])
-      
+      @erb_code = find_config_const('customer_update_view', 'customerx')
     end
 
     def update
@@ -56,7 +56,7 @@ module Customerx
       if @customer.update_attributes(params[:customer], :as => :role_update)
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Successfully Updated!")
       else
-        flash[:notice] = 'Data Error. Not Saved!'
+        flash[:notice] = t('Data Error. Not Saved!')
         render 'edit'
       end
      

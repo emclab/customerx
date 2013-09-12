@@ -3,10 +3,12 @@ module Customerx
     attr_accessible :active, :customer_eval, :customer_status_category_id, :customer_taste, :employee_num, :fax, 
                     :last_updated_by_id, :main_biz, :name, :note, :phone, :zone_id, :shipping_instruction, :web,
                     :quality_system_id, :revenue, :sales_id, :short_name, :since_date, :address_attributes, :contacts_attributes,
+                    :zone_name, :customer_status_category_name, :quality_system_name, :active_noupdate, :sales_name,
                     :as => :role_new
     attr_accessible :active, :customer_eval, :customer_status_category_id, :customer_taste, :employee_num, :fax, 
                     :last_updated_by_id, :main_biz, :name, :note, :phone, :zone_id, :shipping_instruction, :web,
                     :quality_system_id, :revenue, :sales_id, :short_name, :since_date, :address_attributes,:contacts_attributes,
+                    :zone_name, :customer_status_category_name, :quality_system_name, :active_noupdate, :sales_name,
                     :as => :role_update
     
     attr_accessor :zone_name, :customer_status_category_name, :quality_system_name, :active_noupdate, :sales_name
