@@ -4,6 +4,7 @@ module Customerx
   describe CustomersController do
     before(:each) do
       controller.should_receive(:require_signin)
+      #ActionView::Template.any_instance.stub(:refresh) #see http://stackoverflow.com/questions/18774400/how-to-set-virtual-path-true-in-refresh-in-actionviewtemplate
       #controller.should_receive(:require_employee)
     end
   

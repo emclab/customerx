@@ -12,8 +12,10 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :customer_id
       t.string  :auth_token
       t.string  :password_reset_token
-      t.datetime :password_reset_sent_at
+      t.datetime :password_reset_sent_at      
       t.timestamps
+      t.string :brief_note
+      
     end
     
     add_index :authentify_users, :name

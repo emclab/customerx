@@ -9,5 +9,7 @@ class CreateAuthentifyRoleDefinitions < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :authentify_role_definitions, :manager_role_id
   end
 end

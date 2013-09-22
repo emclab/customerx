@@ -4,8 +4,9 @@ class CreateSysModuleMappings < ActiveRecord::Migration
     create_table :authentify_sys_module_mappings do |t|
       t.integer :sys_module_id
       t.integer :sys_user_group_id
-
       t.timestamps
+      t.string  :brief_note
+      
     end
     
     add_index :authentify_sys_module_mappings, :sys_module_id

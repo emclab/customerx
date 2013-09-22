@@ -4,8 +4,9 @@ class CreateSysModules < ActiveRecord::Migration
     create_table :authentify_sys_modules do |t|
       t.string :module_name
       t.string :module_group_name
-
       t.timestamps
+      t.string :brief_note
+      
     end
     
     add_index :authentify_sys_modules, :module_group_name

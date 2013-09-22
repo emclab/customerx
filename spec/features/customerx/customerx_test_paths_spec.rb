@@ -161,7 +161,9 @@ describe "TestPaths" do
       click_link 'Edit'
       u = FactoryGirl.create(:engine_config, :argument_name => 'sales_lead', :argument_value => 'true', :engine_name => 'customerx')
       visit customers_path
-      click_link 'SalesLeads'
+      #save_and_open_page
+      click_link('SalesLeads') 
+      #find('SalesLeads').click
       visit customers_path
       click_link "CommRecords"
       #visit customers_path

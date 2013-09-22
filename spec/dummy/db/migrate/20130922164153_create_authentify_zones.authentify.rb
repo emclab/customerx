@@ -9,5 +9,7 @@ class CreateAuthentifyZones < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :authentify_zones, [:id, :active]
   end
 end

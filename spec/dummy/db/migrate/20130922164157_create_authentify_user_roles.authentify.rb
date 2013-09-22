@@ -7,8 +7,9 @@ class CreateAuthentifyUserRoles < ActiveRecord::Migration
       t.integer :last_updated_by_id
       t.integer :role_definition_id
       t.integer :user_id
-
       t.timestamps
+      t.string  :brief_note
+      
     end
     
     add_index :authentify_user_roles, :user_id

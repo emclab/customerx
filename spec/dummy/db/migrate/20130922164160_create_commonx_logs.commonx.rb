@@ -12,5 +12,6 @@ class CreateCommonxLogs < ActiveRecord::Migration
     
     add_index :commonx_logs, :resource_id
     add_index :commonx_logs, :resource_name
+    add_index :commonx_logs, [:resource_id, :resource_name]
   end
 end

@@ -19,6 +19,7 @@ class CreateAuthentifyUserAccesses < ActiveRecord::Migration
     
     add_index :authentify_user_accesses, :action
     add_index :authentify_user_accesses, :resource
+    add_index :authentify_user_accesses, [:action, :resource]
     add_index :authentify_user_accesses, :role_definition_id
     add_index :authentify_user_accesses, :rank
   end

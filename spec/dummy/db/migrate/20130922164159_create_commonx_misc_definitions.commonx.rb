@@ -14,5 +14,6 @@ class CreateCommonxMiscDefinitions < ActiveRecord::Migration
     
     add_index :commonx_misc_definitions, :for_which
     add_index :commonx_misc_definitions, :active
+    add_index :commonx_misc_definitions, [:active, :for_which]
   end
 end

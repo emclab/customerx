@@ -11,7 +11,7 @@ class CreateSysLogs < ActiveRecord::Migration
     end
     
     add_index :authentify_sys_logs, :user_id
-    add_index :authentify_sys_logs, :action_logged
+    #add_index :authentify_sys_logs, :action_logged
     add_index :authentify_sys_logs, :user_name
   end
 end

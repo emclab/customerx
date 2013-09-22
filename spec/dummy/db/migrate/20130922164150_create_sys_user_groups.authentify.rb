@@ -12,5 +12,9 @@ class CreateSysUserGroups < ActiveRecord::Migration
         
       t.timestamps
     end
+    
+    add_index :authentify_sys_user_groups, :zone_id
+    add_index :authentify_sys_user_groups, :group_type_id
+    add_index :authentify_sys_user_groups, :manager_group_id
   end
 end
