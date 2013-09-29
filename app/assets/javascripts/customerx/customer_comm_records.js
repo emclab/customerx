@@ -3,6 +3,8 @@
 //for autocomplete
 $(function() {
    $("#customer_comm_record_comm_date").datepicker({dateFormat: 'yy-mm-dd'});
+   $("#customer_comm_record_start_date_s").datepicker({dateFormat: 'yy-mm-dd'});
+   $("#customer_comm_record_end_date_s").datepicker({dateFormat: 'yy-mm-dd'});
 });
 
 $(function() {

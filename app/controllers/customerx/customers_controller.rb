@@ -76,46 +76,7 @@ module Customerx
       render json: @customers.map(&:name)    
     end  
     
-    def search
-      #here are search right:
-      #search_individual - only for customers who belongs to individual sales
-      #search_zone - allow to search customer which belongs to a zone
-      #search - allow to search all customers
-      #if has_action_right?('search', 'customerx_customers') || 
-      #   has_action_right?('search_zone', 'customerx_customers') ||
-       #  has_action_right?('search_individual', 'customerx_customers') 
-      @customer = Customerx::Customer.new()
-      #else
-      #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
-      #end
-    end
-
-    def search_results
-      @customer = Customerx::Customer.new(params[:customer], :as => :role_search_stats)
-      @customers = @customer.find_customers()
-      #if has_action_right?('search', 'customerx_customers') || 
-       #  has_action_right?('search_zone', 'customerx_customers') ||
-       #  has_action_right?('search_individual', 'customerx_customers') 
-      @customers = sort_customers(@customers)
-        #seach params
-      @search_params = search_params()
-      #else
-      #  redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=Insufficient Right!")
-      #end
-    end
-    
     protected
-    
-    def search_params
-      search_params = "参数："
-      search_params += ' 开始日期：' + params[:customer][:start_date_s] if params[:customer][:start_date_s].present?
-      search_params += ', 结束日期：' + params[:customer][:end_date_s] if params[:customer][:end_date_s].present?
-      search_params += ', 关键词 ：' + params[:customer][:keyword] if params[:customer][:keyword].present?
-      search_params += ', 片区 ：' + Authentify::Zone.find_by_id(params[:customer][:zone_id_s].to_i).zone_name if params[:customer][:zone_id_s].present?
-      search_params += ', 业务员 ：' + Authentify::User.find_by_id(params[:customer][:sales_id_s].to_i).name if params[:customer][:sales_id_s].present?
-      search_params += ', 客户 状态：' + Customerx::MiscDefinition.where(:for_which => 'customer_status').find_by_id(params[:customer][:status_category_s].to_i).cate_name if params[:customer][:status_category_s].present?
-      search_params
-    end
     
     def return_last_contact_date(customer_id)
       log = Customerx::CustomerCommRecord.where("customer_id = ?", customer_id).order("created_at DESC").first

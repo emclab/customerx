@@ -24,7 +24,8 @@ module Customerx
       @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_show_view', 
                               :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_show_view', 'customerx')) 
       @payment_terms_config = FactoryGirl.create(:engine_config, :engine_name => 'customerx', :engine_version => nil, :argument_name => 'customer_index_view', 
-                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_index_view', 'customerx')) 
+                              :argument_value => Authentify::AuthentifyUtility.find_config_const('customer_index_view', 'customerx'))
+      search_stat_info = FactoryGirl.create(:commonx_search_stat_config) 
     end
     
     describe "GET 'index'" do
@@ -281,6 +282,7 @@ module Customerx
         cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id, :quality_system_id => qs.id,
                                              :zone_id => @z.id, :address => add)
         get 'show' , {:use_route => :customerx, :id => cust.id}
+        response.should be_success
       end
     end
     
@@ -288,7 +290,7 @@ module Customerx
             
       it "should search for users with right" do
         user_access = FactoryGirl.create(:user_access, :action => 'search', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "")
+        :sql_code => "Customerx::Customer.scoped")
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
@@ -298,7 +300,19 @@ module Customerx
     end
     
     describe "GET search_results" do
-      
+      it "should return search results" do
+         user_access = FactoryGirl.create(:user_access, :action => 'search', :resource => 'customerx_customers', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "Customerx::Customer.scoped")
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        cust = FactoryGirl.create(:customer, :active => true, :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
+        cust1 = FactoryGirl.create(:customer, :active => false, :name => 'new new name', :short_name => 'shoort name', 
+                                   :last_updated_by_id => @u.id, :customer_status_category_id => @cate.id)
+        get 'search_results', {:use_route => :customerx, :customer => {:zone_id_s => @z.id}}
+        assigns(:s_s_results_details).models.should =~ [cust, cust1]   
+      end
     end
+    
   end
 end

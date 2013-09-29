@@ -3,6 +3,8 @@
 
 $(function() {
    $("#sales_lead_lead_date").datepicker({dateFormat: 'yy-mm-dd'});
+   $("#sales_lead_start_date_s").datepicker({dateFormat: 'yy-mm-dd'});
+   $("#sales_lead_end_date_s").datepicker({dateFormat: 'yy-mm-dd'});
 });
 
 //hide sales_lead_initial_order_total if sale success is false

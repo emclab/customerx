@@ -12,8 +12,8 @@ module Customerx
                     :as => :role_update
     
     attr_accessor :zone_name, :customer_status_category_name, :quality_system_name, :active_noupdate, :sales_name
-    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s
-    attr_accessible :customer_id_s, :start_date_s, :end_date_s, :keyword, :zone_id_s, :sales_id_s, :status_category_s, 
+    attr_accessor :customer_id_s, :start_date_s, :end_date_s, :keyword_s, :zone_id_s, :sales_id_s, :customer_status_category_id_s, :active_s
+    attr_accessible :customer_id_s, :start_date_s, :end_date_s, :keyword_s, :zone_id_s, :sales_id_s, :customer_status_category_id_s, :active_s,
                     :as => :role_search_stats
                     
     belongs_to :quality_system, :class_name => 'Commonx::MiscDefinition'

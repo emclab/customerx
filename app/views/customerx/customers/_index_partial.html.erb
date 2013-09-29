@@ -1,4 +1,4 @@
-<div class="pagination"><%= will_paginate @customers %></div>
+<div class="pagination"><%= will_paginate models %></div>
 
   <%= render inline: ERB.new(@erb_code).result(binding) %>
 

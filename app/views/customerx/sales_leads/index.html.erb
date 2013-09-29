@@ -1,7 +1,5 @@
 <div id="main_body">
-<h4><%=t('Sales Leads') %></h4>
-<div class="pigination"><%= will_paginate @sales_leads %></div>
-  <%= render inline: ERB.new(@erb_code).result(binding) %>
-  <%#= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
-
+<h4><%= t('Sales Leads') %></h4>
+<%= render partial: 'index_partial', locals: {models: @sales_leads} %>
 </div>
+

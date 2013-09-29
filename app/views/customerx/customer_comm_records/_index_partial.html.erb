@@ -1,0 +1,5 @@
+
+  <div class="pigination"><%= will_paginate models %></div>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+
+

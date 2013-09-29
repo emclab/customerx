@@ -5,7 +5,7 @@ module Customerx
   class SalesLeadsController < ApplicationController
     before_filter :require_employee
     before_filter :load_customer
-    before_filter :check_availability
+    before_filter :check_feature_availability
     
     helper_method :lead_sources
     
@@ -92,7 +92,7 @@ module Customerx
       @customer = Customerx::Customer.find_by_id(params[:customer_id]) if params[:customer_id].present?
     end
     
-    def check_availability
+    def check_feature_availability
       if find_config_const('sales_lead', 'customerx').nil? or find_config_const('sales_lead', 'customerx') == 'false'
         redirect_to authentify.signin_path, :notice => "退出了!"
       end
